@@ -1,0 +1,28 @@
+language: java
+before_script:
+  - unset _JAVA_OPTIONS
+  - cd finish
+script:
+  - mvn clean install
+after_script:
+  - build=$(grep "Open Liberty" target/liberty/wlp/usr/servers/defaultServer/logs/console.log | cut -d' ' -f5 | cut -d')' -f1 ); release=$( echo "$build" | cut -d'/' -f1); number=$( echo "$build" | cut -d'/' -f2); echo -e "\n"; mvnOutput=$(mvn install) 2>&1; if ! echo "$mvnOutput" | grep -iq "compilation"; then echo -e  "\033[1;34mOpen Liberty release:\033[0m \033[1;36m$release\033[0m"; echo -e "\033[1;34mOpen Liberty build number:\033[0m \033[1;36m$number\033[0m"; else echo -e "\033[0;31mThere is a compilation error.\033[0m"; fi; echo -e "\033[1;34mJava version:\033[0m"; jv=$(java -version 2>&1); while read -r line; do echo -e "\033[1;36m$line\033[0m"; done <<< "$jv"; 
+  - cd target/liberty/wlp/usr/servers/defaultServer/logs/; slug=$(echo "$TRAVIS_REPO_SLUG" | sed -e "s/\//-/g"); if [ "$TRAVIS_TEST_RESULT" -eq 0 ]; then result="passed"; else result="failed"; fi; zip -r "$slug-$TRAVIS_BUILD_NUMBER-$result.zip" .; curl -H "$VALUE" -T "$slug-$TRAVIS_BUILD_NUMBER-$result.zip" "https://na.artifactory.swg-devops.com/artifactory/hyc-openliberty-guides-files-generic-local/";
+notifications:
+  slack: 
+    template:
+        - "Build: <%{build_url}|#%{build_number}> | Commit (<%{compare_url}|%{commit}>): %{commit_message}"
+        - "Repo@Branch: %{repository_slug}@%{branch}"
+        - "Author: %{author}" 
+        - "Summary: %{result} in %{duration}"
+    rooms:
+      - ibm-cloud:mLiSrsFXTWi8ynBaNsJO4SZj 
+    on_success: never
+    on_failure: always
+  email:
+    recipients:
+      - evelinec@ca.ibm.com
+    on_success: always
+    on_failure: never 
+branches:
+  only: 
+  - master 
