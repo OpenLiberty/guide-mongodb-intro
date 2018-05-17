@@ -1,6 +1,6 @@
 language: java
 before_script:
-  - unset _JAVA_OPTIONS # Prevents running into issues such as printing in travis environment
+  - unset _JAVA_OPTIONS # Prevents issues such as formatting the test outputs
   - cd finish
 script:
   - mvn clean install
