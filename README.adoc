@@ -11,29 +11,31 @@
 //
 :page-layout: guide
 // INSTRUCTION: The project id is the part of the git repository after the guide- and must be specified
-:projectid: github repo name without the guide- prefix
+// :projectid: github repo name without the guide- prefix
+:projectid: outline
 // INSTRUCTION: Provide an estimate of how long the guide will take to go through.
 :page-duration: 15 minutes
 // INSTRUCTION: Provide the date when the guide is published.  Format is YYYY-MM-DD.
-:page-releasedate: 2017-11-17
+:page-releasedate: 2018-05-14
 // INSTRUCTION: Provide a description for the guide index page.
-:page-description: Learn how to create a REST service with JAX-RS, JSON-P, and Open Liberty.
+:page-description: Learn how to create a todo list API as a REST service using JAX-RS, CDI, and Open Liberty.
 // INSTUCTION: Please provide relevant tags, try to avoid inventing new ones, tags where there is 1 guide for the tag isn't useful.
-:page-tags: ['REST', 'Getting Started']
+:page-tags: ['REST', 'Getting Started', 'CDI', 'JAX-RS']
 // INSTRUCTION: Specify the unique name of the guide that is used in the permalink.  For example below, it is rest-service
-:page-related-guides: ['']
+:page-related-guides: ['cdi-intro', 'rest-intro']
 // INSTRUCTION: Specify the slug in the website. This must be unique.
-:page-permalink: /guides/rest-service
+:page-permalink: /guides/{projectid}
 // INSTRUCTION: You should have this to source the common page elements, clone git@github.com:OpenLiberty/guides-common.git
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 // INSTRUCTION: You can't have a new line between the attributes and the title.
 // The details of what to fill in for this template are in the comments. So, read the source for this template to see the comments.
 //
 // Example title: Creating a RESTful web service
-= Title of guide, starting with a gerund (Creating, Administering, and so on)
+// Title of guide, starting with a gerund (Creating, Administering, and so on)
+= Creating a REST API for a todo list application
 
 // Start the introduction with "You'll explore how to..." or something similarly catchy:
-Learn how to...
+Learn how to create a todo list API as a REST service using JAX-RS, CDI, and Open Liberty.
 // Write no more than two sentences, or about fifty words with meaningful information on what the user can accomplish with this guide.
 // Do not start the introduction with "This guide...".
 
@@ -47,17 +49,23 @@ Learn how to...
 // Follow the intro paragraph with more details of what the user will learn, but still keep it brief compared to the overall guide.
 
 // You'll next add the various sections that are needed for a particular guide.
+* Learn to use JAX-RS and CDI
+* Learn how to build a REST service for a todo list application
 
 
 // Add this getting started section to your guide if it is applicable. Use the following include to pull in the git clone instructions from the guides-common repo.
 == Getting started
+
 include::{common-includes}/gitclone.adoc[]
 
 // This is a subsection of the "Getting started" section above. It should briefly walk the user through
 // how to setup everything in the "finish" directory and try out the finished version of what
 // they will be building.
 //=== Try what you’ll build
+
 include::{common-includes}/trywhatyoubuild-intro.adoc[]
+
+* Brief explanation on how to use the finished application and what you should expect to see
 
 // Describe what user expects to see after running the complete version of the application.
 
@@ -65,20 +73,9 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 
 //Write a sentence with the context like "Navigate to the `start` directory to begin." in the section where user starts working with the implementation.
 
-// Add this section to your guide if it is applicable.
-// Put this section in the appropriate order in your guide.
-== Building and running the application
+//Write a sentence with the context like "Now, navigate to the `start` directory to begin." in the section where user starts working with the implementation.
 
-// Use the following include to pull in the Maven build instructions from the guides-common repo.
-include::{common-includes}/mvnbuild.adoc[]
-
-// In between here, you should state where you application can be found now that its running (ie. what urls)
-
-// Use the following include to pull in the Liberty start/stop server instructions from the guides-common repo.
-include::{common-includes}/mvnpackage.adoc[]
-
-
-== Section title for this section, starting with a gerund like Creating, Building, etc
+// == Section title for this section, starting with a gerund like Creating, Building, etc
 // Read the wiki for the general rules of thumb to help you with formatting these next few sections:
 // https://github.com/OpenLiberty/guides-common/wiki/Rules-of-thumb-for-formatting
 
@@ -94,21 +91,111 @@ include::{common-includes}/mvnpackage.adoc[]
 // Use tick marks around directories, files, values, class names, method names, and so on.
 // Example: `this-is-a-file`, `this/is/a/path`, `thisIsAMethod`.
 
+== Building the model
+
+* Navigate to the `start` directory
+* Represent an entry in a todo list
+
+Create the todo model class in the `src/main/java/io/openliberty/guides/todo/models/TodoModel.java` file:
+
+[source, Java]
+----
+include::finish/src/main/java/io/openliberty/guides/todo/models/TodoModel.java[tags=**;!copyright;]
+----
+
+* Getters, setters, and default constructor such that the model can be serialized/deserialized easily
+
+== Creating the service
+
+* Create a service that is injected into the JAX-RS resource
+
+Create the todo service interface in the `src/main/java/io/openliberty/guides/todo/services/TodoService.java` file:
+
+[source, Java]
+----
+include::finish/src/main/java/io/openliberty/guides/todo/services/TodoService.java[tags=**;!copyright;]
+----
+
+
+Next, create the sample todo service class in the `src/main/java/io/openliberty/guides/todo/services/samples/SampleTodoService.java` file:
+
+[source, Java]
+----
+include::finish/src/main/java/io/openliberty/guides/todo/services/samples/SampleTodoService.java[tags=**;!copyright;]
+----
+
+
+* Implemented basic CRUD (Create, Read, Update, and Delete) operations.
+* Service is ApplicationScoped, which essentially means that it is a singleton.
+
+
+== Creating the JAX-RS resource
+
+* Description of the technology, possibly with a link to learn more: https://www.tutorialspoint.com/restful/restful_jax_rs.htm
+* Use CDI to inject the todo service into the resource
+
+Create the todo resource class in the `src/main/java/io/openliberty/guides/todo/resources/TodoResource.java` file:
+
+
+[source, Java]
+----
+include::finish/src/main/java/io/openliberty/guides/todo/resources/TodoResource.java[tags=**;!copyright;]
+----
+
+
+* The resource methods are accessible via HTTP
+* Use GET, POST, PUT, and DELETE verbs to handle reading, creating, updating, and deleting resources respectively
+* Validate data models and send appropriate response accordingly
+
+
+// Add this section to your guide if it is applicable.
+// Put this section in the appropriate order in your guide.
+== Building and running the application
+
+* Instructions to build the application
+* Instructions to start/stop the server
+
+// Use the following include to pull in the Maven build instructions from the guides-common repo.
+include::{common-includes}/mvnbuild.adoc[]
+
+// In between here, you should state where you application can be found now that its running (ie. what urls)
+* Sample usage of the application
+* Suggestions for what changes the reader can make to explore the code
+
+// Use the following include to pull in the Liberty start/stop server instructions from the guides-common repo.
+include::{common-includes}/mvnpackage.adoc[]
+
+* Instructions to rebuild the application
 
 // Include this section if appropriate
 == Running the tests
+
+Create the todo test class in the `finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java` file:
+
+
+[source, Java]
+----
+include::finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java[tags=**;!copyright;]
+----
+
+* Test makes a request to an endpoint and checks that it has an OK status
+* Test uses JUnit
 
 // Include this for info on how to run the tests
 include::{common-includes}/mvnverify.adoc[]
 
 // Including a listing block with test results here
+* Show console output of the test results
 
 // OPTIONAL: after listing the test results, mention a simple change a user can make/introduce that
 // will cause the tests to fail. Be brief and don't give the users all of the instructions. At this
 // point, they should be comfortable enough to figure it out on their own.
+* Introduce a simple change that can be made to make the tests fail, for example check that the status for this test is 400
 
 
 == Great work! You're done!
+
+* Summary of content taught in the guide
 
 // Briefly summarize what the user achieved in this guide (1-2 sentences).
 
