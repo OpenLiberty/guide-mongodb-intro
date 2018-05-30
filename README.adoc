@@ -163,7 +163,7 @@ include::{common-includes}/mvnbuild.adoc[]
 * Suggestions for what changes the reader can make to explore the code
 
 // Use the following include to pull in the Liberty start/stop server instructions from the guides-common repo.
-include::{common-includes}/mvnpackage.adoc[]
+include::{common-includes}/mvncompile.adoc[]
 
 * Instructions to rebuild the application
 
