@@ -1,3 +1,4 @@
+= Contributing a guide
 :template-url: https://github.com/OpenLiberty/guides-template
 
 Welcome to Open Liberty! In order to contribute a guide for Open Liberty, you must follow the steps in this README.
@@ -54,7 +55,7 @@ Take a look at the https://github.com/OpenLiberty/guides-template/wiki/Guideline
 
 
 ## APPENDIX A: A template README.adoc
-
+```
 INSTRUCTION: Please remove all the instructions before APPENDIX A prior to commit. Most comments should be removed, although not the copyright. In order to see all the comments, please open this README.adoc in raw format.
 
 // INSTRUCTION: The copyright statement must appear at the top of the file
@@ -67,6 +68,8 @@ INSTRUCTION: Please remove all the instructions before APPENDIX A prior to commi
 // Contributors:
 //     IBM Corporation
 //
+
+
 :page-layout: guide
 // INSTRUCTION: The project id is the part of the git repository after the guide- and must be specified
 // :projectid: github repo name without the `guide-` prefix
@@ -86,8 +89,10 @@ INSTRUCTION: Please remove all the instructions before APPENDIX A prior to commi
 // INSTRUCTION: You should have this to source the common page elements, clone git@github.com:OpenLiberty/guides-common.git
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 // INSTRUCTION: You can't have a new line between the attributes and the title.
-// The details of what to fill in for this template are in the comments. So, read the source for this template to see the comments.
-//
+
+
+
+
 // Example title: Creating a REST API for a todo list application
 = Title of guide, starting with a gerund (Creating, Administering, and so on) 
 
@@ -103,14 +108,24 @@ Learn how to .... using ... and Open Liberty.
 
 
 
+
+
 == What you'll learn
 * Write about what the user will learn in a meaningful intro paragraph.
 * Follow the intro paragraph with more details of what the user will learn, but still keep it brief compared to the overall guide.
+
+
+
+
+
 
 // Add this getting started section to your guide if it is applicable. Use the following include to pull in the git clone instructions from the guides-common repo.
 == Getting started
 
 include::{common-includes}/gitclone.adoc[]
+
+
+
 
 
 // This is a subsection of the "Getting started" section above. It should briefly walk the user through
@@ -127,6 +142,7 @@ include::{common-includes}/trywhatyoubuild-intro.adoc[]
 include::{common-includes}/trywhatyoubuild-end.adoc[]
 
 //Write a sentence with the context like "Navigate to the `start` directory to begin." in the section where user starts working with the implementation.
+
 
 
 
@@ -151,7 +167,9 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 
 
 
-// The following comments are examples for how different sections should look like.
+
+
+// EXAMPLE: The following block demostrate how different sections should look like for a to do application.
 ////
 == Building the model
 
@@ -196,6 +214,8 @@ include::finish/src/main/java/io/openliberty/guides/todo/resources/TodoResource.
 
 
 
+
+
 // Add this section to your guide if it is applicable.
 // Put this section in the appropriate order in your guide.
 == Building and running the application
@@ -214,6 +234,10 @@ include::{common-includes}/mvnbuild.adoc[]
 include::{common-includes}/mvncompile.adoc[]
 
 * Instructions to rebuild the application
+
+
+
+
 
 // Include this section if appropriate
 == Testing the application
@@ -239,6 +263,9 @@ include::{common-includes}/mvnverify.adoc[]
 * OPTIONAL: after listing the test results, mention a simple change a user can make/introduce that will cause the tests to fail. Be brief and don't give the users all of the instructions. At this point, they should be comfortable enough to figure it out on their own.
 
 
+
+
+
 == Great work! You're done!
 
 * Briefly summarize what the user achieved in this guide (1-2 sentences).
@@ -250,3 +277,4 @@ include::{common-includes}/finish.adoc[]
 
 // DO NO CREATE ANYMORE SECTIONS AT THIS POINT
 // Related guides will be added in automatically here if you included them in ":page-related-guides"
+```
