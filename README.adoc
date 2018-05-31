@@ -1,3 +1,55 @@
+Welcome to Open Liberty! In order to contribute a guide for Open Liberty, you must follow the steps in this README.
+
+# Step 1: Set up your computer.
+
+- Install [Git](https://help.github.com/articles/set-up-git/) and become familiar with the Git triangular workflow.
+- Install and know the basics of [Maven](https://maven.apache.org/index.html).
+- Install a text editor with the [AsciiDoc](https://asciidoctor.org/) compiler plugin and learn the syntax of AsciiDoc.
+
+# Step 2 (Optional): Try some existing guides.
+
+Use the guides on [openliberty.io](https://openliberty.io/guides/) as examples. 
+
+If you're not sure where to start, try the REST Guide [link](https://openliberty.io/guides/rest-intro.html) followed by the MicroProfile tutorial [link](https://openliberty.io/guides/cdi-intro.html).
+
+# Step 3: Know the structure and style.
+
+- Know your audience!
+
+If the guide is introductory, explains the basic concepts of the technology. At the same time, try to avoid overwhelming the reader with too much information. If you're not sure if you've included the correct amount of info, consider asking a new user to try your guide.
+
+- Know the guide structure and the writing styles
+
+Take a look at the [Guidelines for Structure and Styles](https://github.com/OpenLiberty/guides-template/wiki/Guidelines-for-Structure-and-Styles).
+
+
+# Step 4: Create a new guide.
+
+1. Clone the [guides-template](https://github.com/OpenLiberty/guides-template) to your own workspace.
+
+2. Develop your guide in your own workspace.
+
+> A. Develop code and write tests that are based on the project structure in the [guides-template](https://github.com/OpenLiberty/guides-template). To start, create your project in the `finish` directory. Make a simple application that demonstrates how to use your topic.
+
+> B. Copy the code from the `finish` directory to the `start` directory. Then, from the copy in the `start` directory, remove the code that you want the user to focus on.
+
+> C. Write a guide that follows the `README.adoc` template in the [guides-template](https://github.com/OpenLiberty/guides-template) repository. Introduce and explain the parts of code that you removed during Step B and tell the users where to copy and paste the code. Walk through how to build the `finish` directory, run the tests, and perform any other steps that users need to run your project on their own.
+
+3. Before proceeding further, you should review the [checklist](https://github.com/OpenLiberty/guides-template/wiki/Self-Review-Checklist).
+
+4. Open a new issue in the [guides-commons](https://github.com/OpenLiberty/guides-common/issues) repository. Describe the topic you wrote, add a link to the repository that contains the complete draft of your guide, and contact the Open Liberty team.
+
+5. You must sign the [Individual Contributor License Agreement](https://github.com/OpenLiberty/open-liberty/blob/master/cla/open-liberty-cla-individual.pdf) (CLA) in order to contribute. If you are writing the guide as part of your job, you might also want your employer to sign a [Corporate Contributor License Agreement](https://github.com/OpenLiberty/open-liberty/blob/master/cla/open-liberty-cla-corporate.pdf) (CCLA). Instructions for how to sign and submit these agreements are provided in each document.
+
+6. After the Open Liberty team approves your guide, request to create a draft guide repository. Name your new repository `draft-guide-{name}` in the public Open Liberty GitHub repository. After the Open Liberty team obtains the signed CLA, you can open a pull request that contains your commits for the guide, and the team will be notified for review.
+
+# Step 5: The Open Liberty team will review your guide.
+
+- You can see your feedback from the `Issues` section in your `draft-guide-{name}` repository in a few days.
+- Follow up with the team's review discussions.
+- Check the [review](https://github.com/OpenLiberty/guides-common/wiki/Review-Process) page for more details.  
+
+
 // INSTRUCTION: Please remove all comments that start INSTRUCTION prior to commit. Most comments should be removed, although not the copyright.
 // INSTRUCTION: The copyright statement must appear at the top of the file
 //
