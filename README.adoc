@@ -55,7 +55,7 @@ Take a look at the https://github.com/OpenLiberty/guides-template/wiki/Guideline
 
 
 ## APPENDIX A: A template README.adoc
-INSTRUCTION: Please remove all the instructions before APPENDIX A prior to commit. Most comments should be removed, although not the copyright.
+INSTRUCTION: Please remove all the instructions before `APPENDIX A` prior to commit. Most comments should be removed, although not the copyright.
 
 ```
 // INSTRUCTION: The copyright statement must appear at the top of the file
@@ -93,13 +93,15 @@ INSTRUCTION: Please remove all the instructions before APPENDIX A prior to commi
 
 
 
-// Example title: Creating a REST API for a todo list application
-= Title of guide, starting with a gerund (Creating, Administering, and so on) 
+= Title of guide, starting with a gerund (Creating, Administering, and so on)
+
+// EXAMPLE: Creating a REST API for a todo list application
 
 // Start the introduction with "You'll explore how to..." or something similarly catchy.
-// Write no more than two sentences, or about fifty words with meaningful information on what the user can accomplish with this guide.
+// Write no more than two sentences, with meaningful information on what the user can accomplish with this guide.
 // Do not start the introduction with "This guide...".
 // EXAMPLE: Learn how to create a todo list API as a REST service using JAX-RS, CDI, and Open Liberty.
+
 Learn how to .... using ... and Open Liberty.
 
 
@@ -107,6 +109,7 @@ Learn how to .... using ... and Open Liberty.
 
 
 == What you'll learn
+
 * Write about what the user will learn in a meaningful intro paragraph.
 * Follow the intro paragraph with more details of what the user will learn, but still keep it brief compared to the overall guide.
 // See the REST guide at as an exemplar guide.
@@ -117,8 +120,9 @@ Learn how to .... using ... and Open Liberty.
 
 
 
-// Add this getting started section to your guide if it is applicable. Use the following include to pull in the git clone instructions from the guides-common repo.
 == Getting started
+
+* Add this getting started section to your guide if it is applicable. Use the following include to pull in the git clone instructions from the guides-common repo.
 
 include::{common-includes}/gitclone.adoc[]
 
@@ -126,10 +130,11 @@ include::{common-includes}/gitclone.adoc[]
 
 
 
+=== Try what you’ll build
+
 // This is a subsection of the "Getting started" section above. It should briefly walk the user through
 // how to setup everything in the "finish" directory and try out the finished version of what
 // they will be building.
-=== Try what you’ll build
 
 include::{common-includes}/trywhatyoubuild-intro.adoc[]
 
@@ -168,7 +173,7 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 
 
 // EXAMPLE: The following block demostrate how different sections should look like for a to do application.
-////
+==============================================================================================================================
 == Building the model
 
 * Navigate to the `start` directory
@@ -208,14 +213,13 @@ include::finish/src/main/java/io/openliberty/guides/todo/resources/TodoResource.
 * The resource methods are accessible via HTTP
 * Use GET, POST, PUT, and DELETE verbs to handle reading, creating, updating, and deleting resources respectively
 * Validate data models and send appropriate response accordingly
-////
+==============================================================================================================================
 
 
 
 
 
-// Add this section to your guide if it is applicable.
-// Put this section in the appropriate order in your guide.
+
 == Building and running the application
 
 * Instructions to build the application
@@ -237,20 +241,18 @@ include::{common-includes}/mvncompile.adoc[]
 
 
 
-// Include this section if appropriate
+
 == Testing the application
 
 * Show how to test your application.
 
-////
+
 EXAMPLE: Create the todo test class in the `finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java` file:
 [source, Java]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java[tags=**;!copyright;]
 ----
-* Test makes a request to an endpoint and checks that it has an OK status
-* Test uses JUnit
-////
+
 
 // Include this for info on how to run the tests
 include::{common-includes}/mvnverify.adoc[]
@@ -259,6 +261,7 @@ include::{common-includes}/mvnverify.adoc[]
 * Show console output of the test results
 
 * OPTIONAL: after listing the test results, mention a simple change a user can make/introduce that will cause the tests to fail. Be brief and don't give the users all of the instructions. At this point, they should be comfortable enough to figure it out on their own.
+
 
 
 
