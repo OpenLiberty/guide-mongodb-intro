@@ -11,9 +11,9 @@ Welcome to Open Liberty! In order to contribute a guide for Open Liberty, follow
 
 ### Step 2 (Optional): Try some existing guides.
 
-- Use the guides on https://openliberty.io/guides/[openliberty.io] as examples. 
+Use the guides on https://openliberty.io/guides/[openliberty.io] as examples. 
 
-- If you're not sure where to start, try the https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service] guide followed by the  https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices] guide.
+If you're not sure where to start, try the https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service] guide followed by the  https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices] guide.
 
 ### Step 3: Know the structure and style.
 
@@ -32,11 +32,11 @@ Take a look at the https://github.com/OpenLiberty/guides-template/wiki/Guideline
 
 2. Develop your guide in your own workspace.
 
-> A. Develop code and write tests that are based on the project structure in the {template-url}[`guides-template`]. To start, create your project in the `finish` directory. Make a simple application that demonstrates how to use your topic.
+** Develop code and write tests that are based on the project structure in the {template-url}[`guides-template`]. To start, create your project in the `finish` directory. Make a simple application that demonstrates how to use your topic.
 
-> B. Copy the code from the `finish` directory to the `start` directory. Then, from the copy in the `start` directory, remove the code that you want the user to focus on.
+** Copy the code from the `finish` directory to the `start` directory. Then, from the copy in the `start` directory, remove the code that you want the user to focus on.
 
-> C. Write a guide that follows the `README.adoc` template (APPENDIX A) in the {template-url}[`guides-template`] repository. Introduce and explain the parts of code that you removed during Step B and tell the users where to copy and paste the code. Walk through how to build the `finish` directory, run the tests, and perform any other steps that users need to run your project on their own.
+** Write a guide that follows the `README.adoc` template (APPENDIX A) in the {template-url}[`guides-template`] repository. Introduce and explain the parts of code that you removed during Step B and tell the users where to copy and paste the code. Walk through how to build the `finish` directory, run the tests, and perform any other steps that users need to run your project on their own.
 
 3. Before proceeding further, you should review the https://github.com/OpenLiberty/guides-template/wiki/Self-Review-Checklist[checklist].
 
