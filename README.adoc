@@ -170,32 +170,44 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 
 
 
-// EXAMPLE: The following block demostrate how different sections should look like for a to do application.
+// EXAMPLE: The following block demostrates how different sections look like for a to do application.
 ==============================================================================================================================
 == Building the model
 
 * Navigate to the `start` directory
 * Represent an entry in a todo list
+
 Create the todo model class in the `src/main/java/io/openliberty/guides/todo/models/TodoModel.java` file:
+
 [source, Java]
 ----
 include::finish/src/main/java/io/openliberty/guides/todo/models/TodoModel.java[tags=**;!copyright;]
 ----
+
 * Getters, setters, and default constructor such that the model can be serialized/deserialized easily
 
 == Creating the service
+
 * Create a service that is injected into the JAX-RS resource
+
 Create the todo service interface in the 
+
 `src/main/java/io/openliberty/guides/todo/services/TodoService.java` file:
+
 [source, Java]
 ----
 include::finish/src/main/java/io/openliberty/guides/todo/services/TodoService.java[tags=**;!copyright;]
 ----
-Next, create the sample todo service class in the `src/main/java/io/openliberty/guides/todo/services/samples/SampleTodoService.java` file:
+
+Next, create the sample todo service class in the 
+
+`src/main/java/io/openliberty/guides/todo/services/samples/SampleTodoService.java` file:
+
 [source, Java]
 ----
 include::finish/src/main/java/io/openliberty/guides/todo/services/samples/SampleTodoService.java[tags=**;]
 ----
+
 * Implemented basic CRUD (Create, Read, Update, and Delete) operations.
 * Service is ApplicationScoped, which essentially means that it is a singleton.
 
@@ -205,11 +217,14 @@ include::finish/src/main/java/io/openliberty/guides/todo/services/samples/Sample
 * Use CDI to inject the todo service into the resource
 
 Create the todo resource class in the 
+
 `src/main/java/io/openliberty/guides/todo/resources/TodoResource.java` file:
+
 [source, Java]
 ----
 include::finish/src/main/java/io/openliberty/guides/todo/resources/TodoResource.java[tags=**;!copyright;]
 ----
+
 * The resource methods are accessible via HTTP
 * Use GET, POST, PUT, and DELETE verbs to handle reading, creating, updating, and deleting resources
 * Validate data models and send appropriate response accordingly
