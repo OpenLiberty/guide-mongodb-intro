@@ -5,21 +5,21 @@ Welcome to Open Liberty! In order to contribute a guide for Open Liberty, follow
 
 ### Step 1: Set up your computer.
 
-- Install https://help.github.com/articles/set-up-git/[Git] and become familiar with the Git triangular workflow.
+- Install https://help.github.com/articles/set-up-git/[Git] and become familiar with the https://blog.github.com/2015-07-29-git-2-5-including-multiple-worktrees-and-triangular-workflows/#improved-support-for-triangular-workflows[Git triangular workflow].
 - Install and know the basics of https://maven.apache.org/index.html[Maven].
-- Install a text editor with the https://asciidoctor.org/[AsciiDoc] compiler plugin and learn the syntax of AsciiDoc.
+- Install a text editor with the https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[AsciiDoc] compiler plugin and learn the syntax of AsciiDoc.
 
 ### Step 2 (Optional): Try some existing guides.
 
-Use the guides on https://openliberty.io/guides/[openliberty.io] as examples. 
+- Use the guides on https://openliberty.io/guides/[openliberty.io] as examples. 
 
-If you're not sure where to start, try the https://openliberty.io/guides/rest-intro.html[REST Guide] followed by the  https://openliberty.io/guides/cdi-intro.html[MicroProfile tutorial].
+- If you're not sure where to start, try the https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service] guide followed by the  https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices] guide.
 
 ### Step 3: Know the structure and style.
 
 - Know your audience!
 
-If the guide is introductory, explains the basic concepts of the technology. At the same time, try to avoid overwhelming the reader with too much information. If you're not sure if you've included the correct amount of info, consider asking a new user to try your guide.
+If the guide is introductory, explain the basic concepts of the technology. At the same time, try to avoid overwhelming the reader with too much information. If you're not sure if you've included the correct amount of info, consider asking a new user to try your guide.
 
 - Know the guide structure and the writing styles
 
@@ -60,7 +60,7 @@ INSTRUCTION: Please remove all the instructions before `APPENDIX A` prior to com
 ```
 // INSTRUCTION: The copyright statement must appear at the top of the file
 //
-// Copyright (c) 2017 IBM Corporation and others.
+// Copyright (c) 2018 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
