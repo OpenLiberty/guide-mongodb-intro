@@ -254,13 +254,19 @@ include::finish/src/main/java/io/openliberty/guides/todo/resources/TodoResource.
 // Show how to test your application.
 
 
-// EXAMPLE: Create the todo test class in the 
-// `finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java` file:
+// EXAMPLE: 
+======================================================================================================
+Create the todo test class in the 
+
+`finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java` file:
 [source, Java]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java[tags=**;!copyright;]
 ----
 
+* Explain what each test case is testing
+* Explain key methods
+======================================================================================================
 
 // Include this for info on how to run the tests
  include::{common-includes}/mvnverify.adoc[]
