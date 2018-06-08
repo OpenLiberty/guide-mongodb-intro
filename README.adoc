@@ -1,12 +1,13 @@
 = Contributing a guide
 :template-url: https://github.com/OpenLiberty/guides-template
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 
 Welcome to Open Liberty! In order to contribute a guide for Open Liberty, follow the steps in this README.
 
 ### Step 1: Set up your computer.
 
 - Install https://help.github.com/articles/set-up-git/[Git] and become familiar with the https://blog.github.com/2015-07-29-git-2-5-including-multiple-worktrees-and-triangular-workflows/#improved-support-for-triangular-workflows[Git triangular workflow].
-- Install and know the basics of https://maven.apache.org/index.html[Maven].
+- Install and know the basics of https://maven.apache.org/index.html[Maven] or https://gradle.org[Gradle].
 - Install a text editor with the https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[AsciiDoc] compiler plugin and learn the syntax of AsciiDoc.
 
 ### Step 2 (Optional): Try some existing guides.
@@ -18,12 +19,10 @@ If you're not sure where to start, try the https://openliberty.io/guides/rest-in
 ### Step 3: Know the structure and style.
 
 - Know your audience!
+* If the guide is introductory, explain the basic concepts of the technology. At the same time, try to avoid overwhelming the reader with too much information. If you're not sure if you've included the correct amount of info, consider asking a new user to try your guide.
 
-If the guide is introductory, explain the basic concepts of the technology. At the same time, try to avoid overwhelming the reader with too much information. If you're not sure if you've included the correct amount of info, consider asking a new user to try your guide.
-
-- Know the guide structure and the writing styles
-
-Take a look at the https://github.com/OpenLiberty/guides-template/wiki/Guidelines-for-Structure-and-Styles[Guidelines for Structure and Styles].
+- Know the guide structure and the writing styles!
+* Take a look at the https://github.com/OpenLiberty/guides-template/wiki/Guidelines-for-Structure-and-Styles[Guidelines for Structure and Styles].
 
 
 ### Step 4: Create a new guide.
@@ -36,26 +35,24 @@ Take a look at the https://github.com/OpenLiberty/guides-template/wiki/Guideline
 
 ** Copy the code from the `finish` directory to the `start` directory. Then, from the copy in the `start` directory, remove the code that you want the user to focus on.
 
-** Write a guide that follows the `README.adoc` template (APPENDIX A) in the {template-url}[`guides-template`] repository. Introduce and explain the parts of code that you removed during Step B and tell the users where to copy and paste the code. Walk through how to build the `finish` directory, run the tests, and perform any other steps that users need to run your project on their own.
+** Write a guide that follows the `README.adoc` template (APPENDIX A) in the {template-url}[`guides-template`] repository. Introduce and explain the parts of code that you removed during the last step and tell the users where to copy and paste the code. Walk through how to build the `finish` directory, run the tests, and perform any other steps that users need to run your project on their own.
 
 3. Before proceeding further, you should review the https://github.com/OpenLiberty/guides-template/wiki/Self-Review-Checklist[checklist].
 
-4. Open a new issue in the https://github.com/OpenLiberty/guides-common/issues[guides-commons] repository. Describe the topic you wrote, add a link to the repository that contains the complete draft of your guide, and contact the Open Liberty team.
+4. Open a new issue in the https://github.com/OpenLiberty/guides-common/issues[guides-commons] repository. Describe the topic you wrote, add a link to the repository that contains the complete draft of your guide, and the Open Liberty team will be notified.
 
 5. You must sign the https://github.com/OpenLiberty/open-liberty/blob/master/cla/open-liberty-cla-individual.pdf[Individual Contributor License Agreement] (CLA) in order to contribute. If you are writing the guide as part of your job, you might also want your employer to sign a https://github.com/OpenLiberty/open-liberty/blob/master/cla/open-liberty-cla-corporate.pdf[Corporate Contributor License Agreement] (CCLA). Instructions for how to sign and submit these agreements are provided in each document.
 
-6. After the Open Liberty team approves your guide, request to create a draft guide repository. Name your new repository `draft-guide-{name}` in the public Open Liberty GitHub repository. After the Open Liberty team obtains the signed CLA, you can open a pull request that contains your commits for the guide, and the team will be notified for review.
+6. After the Open Liberty team approves your guide and obtains your signed CLA, they will create a draft guide repository in the Open Liberty GitHub for you. Your new repository will be named as `draft-guide-{projectid}`. Then, you can open a pull request that contains your commits for the guide, and the team will be notified for review.
 
 ### Step 5: The Open Liberty team will review your guide.
 
-- You can see your feedback from the `Issues` section in your `draft-guide-{name}` repository in a few days.
+- You can see your feedback from the `Issues` section in your `draft-guide-{projectid}` repository when it's ready.
 - Follow up with the team's review discussions.
 
 
-
-
 ## APPENDIX A: A template README.adoc
-INSTRUCTION: Please remove all the instructions before `APPENDIX A` prior to commit. Most comments should be removed, although not the copyright.
+Please remove all the instructions before `APPENDIX A` prior to commit. Most comments should be removed, although not the copyright.
 
 ```
 // INSTRUCTION: The copyright statement must appear at the top of the file
@@ -122,7 +119,7 @@ INSTRUCTION: Please remove all the instructions before `APPENDIX A` prior to com
 // Add this getting started section to your guide if it is applicable. 
 // Use the following include to pull in the git clone instructions from the guides-common repo.
 
-include::{common-includes}/gitclone.adoc[]
+ include::{common-includes}/gitclone.adoc[]
 
 
 
@@ -134,12 +131,12 @@ include::{common-includes}/gitclone.adoc[]
 // through how to setup everything in the "finish" directory and try out the finished version of 
 // what they will be building.
 
-include::{common-includes}/trywhatyoubuild-intro.adoc[]
+ include::{common-includes}/trywhatyoubuild-intro.adoc[]
 
 // Brief explanation on how to use the finished application.
 // Describe what user expects to see after running the complete version of the application.
 
-include::{common-includes}/trywhatyoubuild-end.adoc[]
+ include::{common-includes}/trywhatyoubuild-end.adoc[]
 
 
 
@@ -170,14 +167,16 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 
 
 
-// EXAMPLE: The following block demostrates how different sections look like for a to do application.
-==============================================================================================================================
+// EXAMPLE: The following block demostrates how different sections look like for a todo application.
+======================================================================================================
 == Building the model
 
 * Navigate to the `start` directory
 * Represent an entry in a todo list
 
-Create the todo model class in the `src/main/java/io/openliberty/guides/todo/models/TodoModel.java` file:
+Create the todo model class in the 
+
+`src/main/java/io/openliberty/guides/todo/models/TodoModel.java` file:
 
 [source, Java]
 ----
@@ -228,7 +227,7 @@ include::finish/src/main/java/io/openliberty/guides/todo/resources/TodoResource.
 * The resource methods are accessible via HTTP
 * Use GET, POST, PUT, and DELETE verbs to handle reading, creating, updating, and deleting resources
 * Validate data models and send appropriate response accordingly
-==============================================================================================================================
+======================================================================================================
 
 
 
@@ -238,20 +237,15 @@ include::finish/src/main/java/io/openliberty/guides/todo/resources/TodoResource.
 == Building and running the application
 
 // Use the following include to pull in the Maven build instructions from the guides-common repo.
-include::{common-includes}/mvnbuild.adoc[]
+ include::{common-includes}/mvnbuild.adoc[]
 
 // In between here, you should state where you application can be found now that its running. ie. urls
 // Sample usage of the application
 // Suggestions for what changes the reader can make to explore the code
 
-// Use the following include to pull in the Liberty start/stop server instructions from the 
+// Use the following include to pull in the Maven rebuild instructions from the 
 // guides-common repo.
-include::{common-includes}/mvncompile.adoc[]
-
-// Instructions to rebuild the application
-
-
-
+ include::{common-includes}/mvncompile.adoc[]
 
 
 
@@ -269,7 +263,7 @@ include::finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java[tags=*
 
 
 // Include this for info on how to run the tests
-include::{common-includes}/mvnverify.adoc[]
+ include::{common-includes}/mvnverify.adoc[]
 
 // Including a listing block with test results here
 // Show console output of the test results
@@ -291,7 +285,7 @@ include::{common-includes}/mvnverify.adoc[]
 // technologies in this guide.
 
 // Include the below from the guides-common repo to tell users how they can contribute to the guide
-include::{common-includes}/finish.adoc[]
+ include::{common-includes}/finish.adoc[]
 
 // DO NO CREATE ANYMORE SECTIONS AT THIS POINT
 // Related guides will be added in automatically here if you included them in ":page-related-guides"
