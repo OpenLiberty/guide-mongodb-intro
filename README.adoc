@@ -174,54 +174,54 @@ Please remove all the instructions before `APPENDIX A` prior to commit. Most com
 * Navigate to the `start` directory
 * Represent an entry in a todo list
 
-Create the todo model class in the 
+Create the todo model class in the
 
-`src/main/java/io/openliberty/guides/todo/models/TodoModel.java` file:
+`src/main/java/io/openliberty/guides/todolistSample/models/TodoModel.java` file:
 
 [source, Java]
 ----
-include::finish/src/main/java/io/openliberty/guides/todo/models/TodoModel.java[tags=**;!copyright;]
+include::finish/src/main/java/io/openliberty/guides/todolistSample/models/TodoModel.java[tags=**;!copyright;]
 ----
 
 * Getters, setters, and default constructor such that the model can be serialized/deserialized easily
 
-== Creating the service
+== Creating the Manager
 
-* Create a service that is injected into the JAX-RS resource
+* Create a manager that is injected into the JAX-RS resource
 
-Create the todo service interface in the 
+Create the todo manager interface in the 
 
-`src/main/java/io/openliberty/guides/todo/services/TodoService.java` file:
-
-[source, Java]
-----
-include::finish/src/main/java/io/openliberty/guides/todo/services/TodoService.java[tags=**;!copyright;]
-----
-
-Next, create the sample todo service class in the 
-
-`src/main/java/io/openliberty/guides/todo/services/samples/SampleTodoService.java` file:
+`src/main/java/io/openliberty/guides/todo/managers/TodoManager.java` file:
 
 [source, Java]
 ----
-include::finish/src/main/java/io/openliberty/guides/todo/services/samples/SampleTodoService.java[tags=**;]
+include::finish/src/main/java/io/openliberty/guides/todolistSample/managers/TodoManager.java[tags=**;!copyright;]
+----
+
+Next, create the sample todo manager class in the 
+
+`src/main/java/io/openliberty/guides/todolistSample/managers/samples/SampleTodoManager.java` file:
+
+[source, Java]
+----
+include::finish/src/main/java/io/openliberty/guides/todo/managers/samples/SampleTodoManager.java[tags=**;]
 ----
 
 * Implemented basic CRUD (Create, Read, Update, and Delete) operations.
-* Service is ApplicationScoped, which essentially means that it is a singleton.
+* Manager is ApplicationScoped, which essentially means that it is a singleton.
 
 == Creating the JAX-RS resource
 
 * Description of the technology, possibly with a link to learn more.
-* Use CDI to inject the todo service into the resource
+* Use CDI to inject the todo manager into the resource
 
 Create the todo resource class in the 
 
-`src/main/java/io/openliberty/guides/todo/resources/TodoResource.java` file:
+`src/main/java/io/openliberty/guides/todolistSample/resources/TodoResource.java` file:
 
 [source, Java]
 ----
-include::finish/src/main/java/io/openliberty/guides/todo/resources/TodoResource.java[tags=**;!copyright;]
+include::finish/src/main/java/io/openliberty/guides/todolistSample/resources/TodoResource.java[tags=**;!copyright;]
 ----
 
 * The resource methods are accessible via HTTP

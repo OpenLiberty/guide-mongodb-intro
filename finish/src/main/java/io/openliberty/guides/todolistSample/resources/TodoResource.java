@@ -1,4 +1,4 @@
-package io.openliberty.guides.todo.resources;
+package io.openliberty.guides.todolistSample.resources;
 
 import java.util.Optional;
 
@@ -15,13 +15,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import io.openliberty.guides.todo.models.TodoModel;
-import io.openliberty.guides.todo.services.TodoService;
+import io.openliberty.guides.todolistSample.managers.TodoManager;
+import io.openliberty.guides.todolistSample.models.*;
+import io.openliberty.guides.todolistSample.managers.*;
 
-@Path("todos")
+@Path("todo")
 public class TodoResource {
     @Inject
-    private TodoService service;
+    private TodoManager service;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

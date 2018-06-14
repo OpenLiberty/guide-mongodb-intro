@@ -1,4 +1,4 @@
-package io.openliberty.guides.todo.models;
+package io.openliberty.guides.todolistSample.models;
 
 import java.util.Optional;
 

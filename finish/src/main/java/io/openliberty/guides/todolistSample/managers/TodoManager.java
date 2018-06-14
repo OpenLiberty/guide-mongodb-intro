@@ -1,10 +1,10 @@
-package io.openliberty.guides.todo.services;
+package io.openliberty.guides.todolistSample.managers;
 
-import io.openliberty.guides.todo.models.*;
+import io.openliberty.guides.todolistSample.models.*;
 import java.util.List;
 import java.util.Optional;
 
-public interface TodoService {
+public interface TodoManager {
     public List<TodoModel> getTodos();
     public Optional<TodoModel> findTodo(Integer id);
     public TodoModel createTodo(TodoModel todo);
