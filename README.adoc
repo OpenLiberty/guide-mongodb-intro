@@ -207,7 +207,7 @@ Next, create the sample todo manager class in the
 
 [source, Java]
 ----
-include::finish/src/main/java/io/openliberty/guides/todo/managers/samples/SampleTodoManager.java[tags=**;]
+include::finish/src/main/java/io/openliberty/guides/todolistSample/managers/samples/SampleTodoManager.java[tags=**;]
 ----
 
 * Implemented basic CRUD (Create, Read, Update, and Delete) operations.
@@ -264,7 +264,7 @@ Create the todo test class in the
 `finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java` file:
 [source, Java]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java[tags=**;!copyright;]
+include::finish/src/test/java/it/io/openliberty/guides/todolistSample/TodoTest.java[tags=**;!copyright;]
 ----
 
 * Explain what each test case is testing
