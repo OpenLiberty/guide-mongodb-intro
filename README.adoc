@@ -96,6 +96,10 @@ Please remove all the instructions before `APPENDIX A` prior to commit. Most com
 :page-permalink: /guides/{projectid}
 // INSTRUCTION: Source the common page elements, clone git@github.com:OpenLiberty/guides-common.git.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+// INSTRUCTION: Update the SEO title for the guide
+:page-seo-title: Creating a REST service
+// INSTRUCTION: Update the SEO desciption for the guide
+:page-seo-description: Find out how to create a REST service on Open Liberty
 // INSTRUCTION: You can't have a new line between the attributes and the title.
 
 
