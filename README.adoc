@@ -1,6 +1,3 @@
-// Delete the following instructions as you start writing your guide
-//----------------------------------------------------------
-
 = Contributing a guide
 :template-url: https://github.com/OpenLiberty/guides-template
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
@@ -62,10 +59,10 @@ Follow the directions in the comments to remove all the instructions before `APP
 Most comments should be removed, although not the copyright.
 
 
-// Remove the three backticks below
 ```
+// As you start writing your guide, keep everything between BEGIN and END in the README.adoc, meaning delete anything else that is above or below the statements 
+// ----------- BEGIN -----------
 // INSTRUCTION: The copyright statement must appear at the top of the file
-//
 // Copyright (c) 2019 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
@@ -375,5 +372,5 @@ EXAMPLE: You have just completed building a simple todo list application using J
 
 // DO NO CREATE ANYMORE SECTIONS AT THIS POINT
 // Related guides will be added in automatically here if you included them in ":page-related-guides"
+// ------------ END ------------
 ```
-//Remove the three backticks above
