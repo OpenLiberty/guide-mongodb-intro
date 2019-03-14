@@ -1,3 +1,6 @@
+// Delete the following instructions as you write your guide
+//----------------------------------------------------------
+
 = Contributing a guide
 :template-url: https://github.com/OpenLiberty/guides-template
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
@@ -50,10 +53,16 @@ If you're not sure where to start, try the https://openliberty.io/guides/rest-in
 - You can see your feedback from the `Issues` section in your `draft-guide-{projectid}` repository when it's ready.
 - Follow up with the team's review discussions.
 
+//----------------------------------------------------------
+// Delete the above instructions as you start writing your guide
 
 ## APPENDIX A: A template README.adoc
-Please remove all the instructions before `APPENDIX A` prior to commit. Most comments should be removed, although not the copyright.
+Please open the README.adoc in a text editor or view it in `raw` form. 
+Follow the directions in the comments to remove all the instructions before `APPENDIX A` prior to commit. 
+Most comments should be removed, although not the copyright.
 
+
+// Remove the three backticks below
 ```
 // INSTRUCTION: The copyright statement must appear at the top of the file
 //
@@ -367,3 +376,4 @@ EXAMPLE: You have just completed building a simple todo list application using J
 // DO NO CREATE ANYMORE SECTIONS AT THIS POINT
 // Related guides will be added in automatically here if you included them in ":page-related-guides"
 ```
+//Remove the three backticks above
