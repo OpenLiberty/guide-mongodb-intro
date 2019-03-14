@@ -53,7 +53,7 @@ If you're not sure where to start, try the https://openliberty.io/guides/rest-in
 ## APPENDIX A: A template README.adoc
 Please open the README.adoc in a text editor or view it in `raw` form. 
 Follow the direction before the `BEGIN` line to remove all the instructions prior to commit. 
-Most instruction comments should be removed, although except the copyright.
+Most instruction comments should be removed except the copyright.
 
 ```
 // As you start writing your guide, keep everything between BEGIN and END in the README.adoc, 
