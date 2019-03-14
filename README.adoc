@@ -1,4 +1,4 @@
-// Delete the following instructions as you write your guide
+// Delete the following instructions as you start writing your guide
 //----------------------------------------------------------
 
 = Contributing a guide
