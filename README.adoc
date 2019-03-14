@@ -57,7 +57,8 @@ Most comments should be removed, although not the copyright.
 
 
 ```
-// As you start writing your guide, keep everything between BEGIN and END in the README.adoc, meaning delete anything else that is above or below the statements 
+// As you start writing your guide, keep everything between BEGIN and END in the README.adoc, 
+// meaning delete anything else that is above or below the BEGIN and END lines inclusively. 
 // ----------- BEGIN -----------
 // INSTRUCTION: The copyright statement must appear at the top of the file
 // Copyright (c) 2019 IBM Corporation and others.
