@@ -58,6 +58,7 @@ Most instruction comments should be removed except the copyright.
 ```
 // As you start writing your guide, keep everything between BEGIN and END in the README.adoc, 
 // meaning delete anything else that is above or below the BEGIN and END lines inclusively. 
+// Also, please delete any instructions that begin with //--**
 // ----------- BEGIN -----------
 // INSTRUCTION: The copyright statement must appear at the top of the file
 // Copyright (c) 2019 IBM Corporation and others.
@@ -69,62 +70,62 @@ Most instruction comments should be removed except the copyright.
 //     IBM Corporation
 //
 :page-layout: guide-multipane
-// INSTRUCTION: The project id is the part of the git repository after the guide- and must be specified
-// :projectid: github repo name without the `guide-` prefix
+//--** INSTRUCTION: The project id is the part of the git repository after the guide- and must be specified
+//--** :projectid: github repo name without the `guide-` prefix
 :projectid: template
-// INSTRUCTION: Provide an estimate of how long the guide will take to go through.
+//--** INSTRUCTION: Provide an estimate of how long the guide will take to go through.
 :page-duration: 15 minutes
-// INSTRUCTION: Provide the date when the guide is published.  Format is YYYY-MM-DD.
+//--** INSTRUCTION: Provide the date when the guide is published.  Format is YYYY-MM-DD.
 :page-releasedate: 2019-03-11
-// INSTRUCTION: Provide a description for the guide index page.
+//--** INSTRUCTION: Provide a description for the guide index page.
 :page-description: Learn how to create a todo list API as a REST service using JAX-RS, and Open Liberty.
 :guide-author: Open Liberty
-// INSTUCTION: Please provide relevant tags, try to avoid inventing new ones.
-// Use some of "MicroProfile, Maven, Docker, Kubernetes, Gradle, Java EE, Security".
+//--** INSTUCTION: Please provide relevant tags, try to avoid inventing new ones.
+//--** Use some of "MicroProfile, Maven, Docker, Kubernetes, Gradle, Java EE, Security".
 :page-tags: ['Java EE']
-// INSTRUCTION: Specify the unique name of the guide that is used in the permalink.
+//--** INSTRUCTION: Specify the unique name of the guide that is used in the permalink.
 :page-related-guides: ['cdi-intro', 'rest-intro']
-// INSTRUCTION: Set 'basic', 'microprofile', 'none'
+//--** INSTRUCTION: Set 'basic', 'microprofile', 'none'
 :page-guide-category: microprofile
-// INSTRUCTION: Places the guide into the essentials section of a category
-// Requirement: Must define :page-guide-category:
+//--** INSTRUCTION: Places the guide into the essentials section of a category
+//--** Requirement: Must define :page-guide-category:
 :page-essential: false
-// INSTRUCTION: Number is used to sort guide from left (lowest number) to right (highest number) in
-// the essentials section of a category
-// Requirement: Must have :page-essential: true
+//--** INSTRUCTION: Number is used to sort guide from left (lowest number) to right (highest number) in
+//--** the essentials section of a category
+//--** Requirement: Must have :page-essential: true
 :page-essential-order: 3
-// INSTRUCTION: Specify the slug in the website. This must be unique.
+//--** INSTRUCTION: Specify the slug in the website. This must be unique.
 :page-permalink: /guides/{projectid}
-// INSTRUCTION: Source the common page elements, clone `git@github.com:OpenLiberty/guides-common.git`.
+//--** INSTRUCTION: Source the common page elements, clone `git@github.com:OpenLiberty/guides-common.git`.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
-// INSTRUCTION: Update the SEO title for the guide
+//--** INSTRUCTION: Update the SEO title for the guide
 :page-seo-title: Creating a REST service
-// INSTRUCTION: Update the SEO description for the guide
+//--** INSTRUCTION: Update the SEO description for the guide
 :page-seo-description: Find out how to create a REST service on Open Liberty
-// INSTRUCTION: You can't have a new line between the attributes and the title.
+//--** INSTRUCTION: You can't have a new line between the attributes and the title.
 = Title of guide, starting with a gerund (Creating, Administering, and so on)
-// EXAMPLE: Creating a REST API for a todo list application
+//--** EXAMPLE: Creating a REST API for a todo list application
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form,
 view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-// Start the introduction with "You'll explore how to..." or something similarly catchy.
-// Write no more than two sentences, with meaningful information on what the user can accomplish
-// with this guide.
-// Do not start the introduction with "This guide...".
-// EXAMPLE: Learn how to create a todo list API as a REST service using JAX-RS, CDI, and Open Liberty.
+//--** Start the introduction with "You'll explore how to..." or something similarly catchy.
+//--** Write no more than two sentences, with meaningful information on what the user can accomplish
+//--** with this guide.
+//--** Do not start the introduction with "This guide...".
+//--** EXAMPLE: Learn how to create a todo list API as a REST service using JAX-RS, CDI, and Open Liberty.
 
 
 
 
 == What you'll learn
 
-// Write about what the user will learn in a meaningful intro paragraph.
-// Follow the intro paragraph with more details of what the user will learn, but still keep it brief.
-// See the REST guide at as an exemplar guide.
-// https://openliberty.io/guides/rest-intro.html
-// https://github.com/OpenLiberty/guide-rest-intro
+//--** Write about what the user will learn in a meaningful intro paragraph.
+//--** Follow the intro paragraph with more details of what the user will learn, but still keep it brief.
+//--** See the REST guide at as an exemplar guide.
+//--** https://openliberty.io/guides/rest-intro.html
+//--** https://github.com/OpenLiberty/guide-rest-intro
 
 // EXAMPLE:
 // =============================================================================
@@ -150,14 +151,14 @@ Brief description of the todo list micrioservice
 // Getting started
 ///////////////////////////
 
-// Add this getting started section to your guide if it is applicable.
-// Use the following include to pull in the git clone instructions from the guides-common repo.
+//--** Add this getting started section to your guide if it is applicable.
+//--** Use the following include to pull in the git clone instructions from the guides-common repo.
 
 [role='command']
 include::{common-includes}/gitclone.adoc[]
-// This include adoc will have the heading "Getting started".
-// If you are not using this command include statement, you'll need to add it as a subheading,
-// ie, "== Getting started".
+//--** This include adoc will have the heading "Getting started".
+//--** If you are not using this command include statement, you'll need to add it as a subheading,
+//--** ie, "== Getting started".
 
 
 
@@ -166,18 +167,18 @@ include::{common-includes}/gitclone.adoc[]
 // Try what you’ll build
 ///////////////////////////
 
-// This is a subsection of the "Getting started" section above. It should briefly walk the user
-// through how to setup everything in the "finish" directory and try out the finished version of
-// what they will be building.
+//--** This is a subsection of the "Getting started" section above. It should briefly walk the user
+//--** through how to setup everything in the "finish" directory and try out the finished version of
+//--** what they will be building.
 
 [role='command']
 include::{common-includes}/trywhatyoubuild-intro.adoc[]
-// This include adoc will have the subheading "Try what you'll build".
-// If you are not using this command include statement, you'll need to add it as a subheading,
-// ie, "=== Try what you'll build".
+//--** This include adoc will have the subheading "Try what you'll build".
+//--** If you are not using this command include statement, you'll need to add it as a subheading,
+//--** ie, "=== Try what you'll build".
 
-// Brief explanation on how to use the finished application.
-// Describe what user expects to see after running the complete version of the application.
+//--** Brief explanation on how to use the finished application.
+//--** Describe what user expects to see after running the complete version of the application.
 
 [role='command']
 include::{common-includes}/trywhatyoubuild-end.adoc[]
@@ -187,11 +188,11 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 
 == Section title for this section, starting with a gerund like Creating, Building, etc
 
-// Add the various sections that are needed for a particular guide.
+//--** Add the various sections that are needed for a particular guide.
 
-// Start each additional section title with a meaningful gerund such as Creating, Building, Testing.
-// Follow the gerund with a meaningful noun phrase. For example: Creating a JAX-RS application
-// Have as many sections and section titles as needed.
+//--** Start each additional section title with a meaningful gerund such as Creating, Building, Testing.
+//--** Follow the gerund with a meaningful noun phrase. For example: Creating a JAX-RS application
+//--** Have as many sections and section titles as needed.
 // EXAMPLES:
 
 * Building a todo list model
@@ -201,16 +202,16 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 * Creating the JAX-RS Resource
 
 
-// Write a sentence with the context like "Navigate to the `start` directory to begin." in the section
-// where user starts working with the implementation.
+//--** Write a sentence with the context like "Navigate to the `start` directory to begin." in the section
+//--** where user starts working with the implementation.
 
 
-// What to add for each section:
-// Start each section with a meaningful description about what the user is doing in the section.
-// Include code snippets.
-// Avoid making all the documentation a series of steps and tasks, bullets, or numbered lists.
-// Use tick marks around directories, files, values, class names, method names, and so on.
-// Example: `this-is-a-file`, `this/is/a/path`, `thisIsAMethod`.
+//--** What to add for each section:
+//--** Start each section with a meaningful description about what the user is doing in the section.
+//--** Include code snippets.
+//--** Avoid making all the documentation a series of steps and tasks, bullets, or numbered lists.
+//--** Use tick marks around directories, files, values, class names, method names, and so on.
+//--** Example: `this-is-a-file`, `this/is/a/path`, `thisIsAMethod`.
 
 
 
@@ -300,19 +301,19 @@ and deleting resources
 // Building and running the application
 //////////////////////////////////////////
 
-// Use the following include to pull in the Maven build instructions from the guides-common repo.
+//--** Use the following include to pull in the Maven build instructions from the guides-common repo.
 [role='command']
 include::{common-includes}/mvnbuild.adoc[]
-// This include adoc will have the subheading "Building and running the application".
-// If you are not using this command include statement, you'll need to add it as a subheading,
-// ie, "== Building and running the application".
+//--** This include adoc will have the subheading "Building and running the application".
+//--** If you are not using this command include statement, you'll need to add it as a subheading,
+//--** ie, "== Building and running the application".
 
-// In between here, you should state where you application can be found now that its running. ie. urls
-// Sample usage of the application
-// Suggestions for what changes the reader can make to explore the code
+//--** In between here, you should state where you application can be found now that its running. ie. urls
+//--** Sample usage of the application
+//--** Suggestions for what changes the reader can make to explore the code
 
-// Use the following include to pull in the Maven rebuild instructions from the
-// guides-common repo.
+//--** Use the following include to pull in the Maven rebuild instructions from the
+//--** guides-common repo.
 [role='command']
 include::{common-includes}/mvncompile.adoc[]
 
@@ -321,7 +322,7 @@ include::{common-includes}/mvncompile.adoc[]
 
 == Testing the application
 
-// Show how to test your application.
+//--** Show how to test your application.
 
 // EXAMPLE:
 // ======================================================================================================
@@ -342,32 +343,32 @@ include::finish/src/test/java/it/io/openliberty/guides/todolistSample/TodoTest.j
 * Explain key methods
 // ======================================================================================================
 
-// Include this for info on how to run the tests
+//--** Include this for info on how to run the tests
 [role='command']
 include::{common-includes}/mvnverify.adoc[]
 
-// Including a listing block with test results here
-// Show console output of the test results
+//--** Including a listing block with test results here
+//--** Show console output of the test results
 
-// OPTIONAL: after listing the test results, mention a simple change a user can make/introduce that
-// will cause the tests to fail. Be brief and don't give the users all of the instructions.
-// At this point, they should be comfortable enough to figure it out on their own.
+//--** OPTIONAL: after listing the test results, mention a simple change a user can make/introduce that
+//--** will cause the tests to fail. Be brief and don't give the users all of the instructions.
+//--** At this point, they should be comfortable enough to figure it out on their own.
 
 
 
 
 == Great work! You're done!
 
-// Briefly summarize what the user achieved in this guide (1-2 sentences).
+//--** Briefly summarize what the user achieved in this guide (1-2 sentences).
 EXAMPLE: You have just completed building a simple todo list application using JAXRS and CDI services in Open Liberty.
 
-// OPTIONAL: briefly state what the user could do next now that they've learned the
-// technologies in this guide.
+//--** OPTIONAL: briefly state what the user could do next now that they've learned the
+//--** technologies in this guide.
 
-// Include the below from the guides-common repo to tell users how they can contribute to the guide
+//--** Include the below from the guides-common repo to tell users how they can contribute to the guide
  include::{common-includes}/attribution.adoc[subs="attributes"]
 
-// DO NO CREATE ANYMORE SECTIONS AT THIS POINT
-// Related guides will be added in automatically here if you included them in ":page-related-guides"
+//--** DO NO CREATE ANYMORE SECTIONS AT THIS POINT
+//--** Related guides will be added in automatically here if you included them in ":page-related-guides"
 // ------------ END ------------
 ```
