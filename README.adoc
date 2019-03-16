@@ -33,7 +33,7 @@ view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty websi
 
 
 == What you'll learn
-
+EXAMPLE WHAT YOU'LL LEARN 
 
 // EXAMPLE:
 // =============================================================================
@@ -222,4 +222,4 @@ include::{common-includes}/mvnverify.adoc[]
 
 EXAMPLE: You have just completed building a simple todo list application using JAXRS and CDI services in Open Liberty.
 
- include::{common-includes}/attribution.adoc[subs="attributes"]
+include::{common-includes}/attribution.adoc[subs="attributes"]
