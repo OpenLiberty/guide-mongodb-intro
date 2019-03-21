@@ -58,9 +58,9 @@ Most instruction comments should be removed except the copyright.
 ```
 // As you start writing your guide, keep everything between BEGIN and END in the README.adoc, 
 // meaning delete anything else that is above or below the BEGIN and END lines inclusively. 
-// Also, please delete any instructions that begin with //--**
+// Also, please delete any instructions that begin with //--** after you read them
 // ----------- BEGIN -----------
-// INSTRUCTION: The copyright statement must appear at the top of the file
+//--** INSTRUCTION: The copyright statement must appear at the top of the file
 // Copyright (c) 2019 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
