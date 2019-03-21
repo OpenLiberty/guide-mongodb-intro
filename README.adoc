@@ -366,7 +366,7 @@ EXAMPLE: You have just completed building a simple todo list application using J
 //--** technologies in this guide.
 
 //--** Include the below from the guides-common repo to tell users how they can contribute to the guide
- include::{common-includes}/attribution.adoc[subs="attributes"]
+include::{common-includes}/attribution.adoc[subs="attributes"]
 
 //--** DO NO CREATE ANYMORE SECTIONS AT THIS POINT
 //--** Related guides will be added in automatically here if you included them in ":page-related-guides"
