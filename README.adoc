@@ -177,8 +177,8 @@ include::{common-includes}/trywhatyoubuild-intro.adoc[]
 //--** If you are not using this command include statement, you'll need to add it as a subheading,
 //--** ie, "=== Try what you'll build".
 
-//--** Brief explanation on how to use the finished application.
-//--** Describe what user expects to see after running the complete version of the application.
+//--** Describe what user should run and expect to see after running the complete version of the application.
+Add a brief explanation on how to use the finished application.
 
 [role='command']
 include::{common-includes}/trywhatyoubuild-end.adoc[]
