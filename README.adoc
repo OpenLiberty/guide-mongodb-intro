@@ -97,7 +97,9 @@ Most instruction comments should be removed except the copyright.
 //--** INSTRUCTION: Specify the slug in the website. This must be unique.
 :page-permalink: /guides/{projectid}
 //--** INSTRUCTION: Source the common page elements, clone `git@github.com:OpenLiberty/guides-common.git`.
-:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:common-includes: ../guides-common/
+//--** INSTRUCTION: Source the image directory to include any images for the guide.
+:imagesdir: /img/guide
 //--** INSTRUCTION: Update the SEO title for the guide
 :page-seo-title: Creating a REST service
 //--** INSTRUCTION: Update the SEO description for the guide
@@ -145,6 +147,9 @@ to run on the Open Liberty application server.
 Brief description of the todo list micrioservice
 // =============================================================================
 
+// If you have an image you want to include in the guide, store the image in the `assets` 
+// folder in your repo, and add the following syntax
+image::image-name.png[Image Caption,width=100%]
 
 
 ///////////////////////////
