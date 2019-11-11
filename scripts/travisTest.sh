@@ -19,10 +19,10 @@ mvn -q clean package liberty:create liberty:install-feature liberty:deploy
 
 
 ## Run the tests
-#       liberty:start             - Start the application in the background.
-#       failsafe:integration-test - Runs the integration tests of an application
+#       liberty:start             - Start a Liberty server in the background.
+#       failsafe:integration-test - Runs the integration tests of an application.
 #       liberty:stop              - Stop a Liberty server.
-#       failsafe:verify           - Verifies that the integration tests of an application passed
+#       failsafe:verify           - Verifies that the integration tests of an application passed.
 
 mvn liberty:start
 mvn failsafe:integration-test liberty:stop
