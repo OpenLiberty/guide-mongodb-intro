@@ -177,7 +177,7 @@ include::{common-includes}/gitclone.adoc[]
 //--** what they will be building.
 
 [role='command']
-include::{common-includes}/trywhatyoubuild-intro.adoc[]
+include::{common-includes}/twyb-intro.adoc[]
 //--** This include adoc will have the subheading "Try what you'll build".
 //--** If you are not using this command include statement, you'll need to add it as a subheading,
 //--** ie, "=== Try what you'll build".
@@ -186,7 +186,7 @@ include::{common-includes}/trywhatyoubuild-intro.adoc[]
 Add a brief explanation on how to use the finished application.
 
 [role='command']
-include::{common-includes}/trywhatyoubuild-end.adoc[]
+include::{common-includes}/twyb-end.adoc[]
 
 
 
@@ -210,6 +210,14 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 //--** Write a sentence with the context like "Navigate to the `start` directory to begin." in the section
 //--** where user starts working with the implementation.
 
+//--** Add the include adoc for starting the Open Liberty server in development mode,
+//--** so that the server automatically picks up any changes that the users make to their application.
+
+//--** You can instruct the user to "Create", "Update", or "Replace" files in their application.
+
+//--** Note: There are classes that depend on each other. If one of the classes is not yet created
+//--** in the `start` directory, but it's being referenced in a different class, development mode might exit with a compilation error.
+//--** So be aware that you might need to predefine a minimal version of that class so that development mode does not exit with an error.
 
 //--** What to add for each section:
 //--** Start each section with a meaningful description about what the user is doing in the section.
@@ -225,6 +233,10 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 == EXAMPLE: Building a todo list model
 
 * Navigate to the `start` directory
+
+[role='command']
+include::{common-includes}/devmode-start.adoc[]
+
 * Represent an entry in a todo list
 
 [role="code_command hotspot", subs="quotes"]
@@ -234,9 +246,9 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 ----
 
 TodoModel.java
-[source, Java, linenums, indent=0, role="code_column"]
+[source, Java, linenums, indent=0, role="code_column hide_tags=copyright"]
 ----
-include::finish/src/main/java/io/openliberty/guides/todolistSample/models/TodoModel.java[tags=**;!copyright;]
+include::finish/src/main/java/io/openliberty/guides/todolistSample/models/TodoModel.java[]
 ----
 
 * Getters, setters, and default constructor such that the model can be serialized/deserialized easily
@@ -252,9 +264,9 @@ include::finish/src/main/java/io/openliberty/guides/todolistSample/models/TodoMo
 ----
 
 TodoManager.java
-[source, Java, linenums, indent=0, role="code_column"]
+[source, Java, linenums, indent=0, role="code_column hide_tags=copyright"]
 ----
-include::finish/src/main/java/io/openliberty/guides/todolistSample/managers/TodoManager.java[tags=**;!copyright;]
+include::finish/src/main/java/io/openliberty/guides/todolistSample/managers/TodoManager.java[]
 ----
 
 * Next, create the sample todo manager class
@@ -266,9 +278,9 @@ include::finish/src/main/java/io/openliberty/guides/todolistSample/managers/Todo
 ----
 
 SampleTodoManager.java
-[source, Java, linenums, indent=0, role="code_column"]
+[source, Java, linenums, indent=0, role="code_column hide_tags=copyright"]
 ----
-include::finish/src/main/java/io/openliberty/guides/todolistSample/managers/samples/SampleTodoManager.java[tags=**;!copyright;]
+include::finish/src/main/java/io/openliberty/guides/todolistSample/managers/samples/SampleTodoManager.java[]
 ----
 
 * Implemented basic CRUD ([hotspot=32-36 file=1]`Create`, [hotspot=39-44 file=1]`Read`,
@@ -287,9 +299,9 @@ include::finish/src/main/java/io/openliberty/guides/todolistSample/managers/samp
 ----
 
 TodoResource.java
-[source, Java, linenums, indent=0, role="code_column"]
+[source, Java, linenums, indent=0, role="code_column hide_tags=copyright"]
 ----
-include::finish/src/main/java/io/openliberty/guides/todolistSample/resources/TodoResource.java[tags=**;!copyright;]
+include::finish/src/main/java/io/openliberty/guides/todolistSample/resources/TodoResource.java[]
 ----
 
 * The resource methods are accessible via HTTP
@@ -303,26 +315,20 @@ and deleting resources
 
 
 //////////////////////////////////////////
-// Building and running the application
+// Running the application
 //////////////////////////////////////////
 
-//--** Use the following include to pull in the Maven build instructions from the guides-common repo.
+//--** Use the following include to pull in the adoc saying that development mode was already run,
+//--** and the changes were automatically picked up.
 [role='command']
-include::{common-includes}/mvnbuild.adoc[]
-//--** This include adoc will have the subheading "Building and running the application".
+include::{common-includes}/devmode-build.adoc[]
+//--** This include adoc will have the subheading "Running the application".
 //--** If you are not using this command include statement, you'll need to add it as a subheading,
-//--** ie, "== Building and running the application".
+//--** ie, "== Running the application".
 
 //--** In between here, you should state where you application can be found now that its running. ie. urls
 //--** Sample usage of the application
 //--** Suggestions for what changes the reader can make to explore the code
-
-//--** Use the following include to pull in the Maven rebuild instructions from the
-//--** guides-common repo.
-[role='command']
-include::{common-includes}/mvncompile.adoc[]
-
-
 
 
 == Testing the application
@@ -334,14 +340,14 @@ include::{common-includes}/mvncompile.adoc[]
 
 [role="code_command hotspot", subs="quotes"]
 ----
-#Create the `TodoTest` class.#
-`finish/src/test/java/it/io/openliberty/guides/todo/TodoTest.java`
+#Create the `TodoIT` class.#
+`finish/src/test/java/it/io/openliberty/guides/todo/TodoIT.java`
 ----
 
-TodoTest.java
-[source, Java, linenums, indent=0, role="code_column"]
+TodoIT.java
+[source, Java, linenums, indent=0, role="code_column hide_tags=copyright"]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/todolistSample/TodoTest.java[tags=**;!copyright;]
+include::finish/src/test/java/it/io/openliberty/guides/todolistSample/TodoIT.java[]
 ----
 
 * Explain what each [hotspot=13-20]`@Test` test case is testing
@@ -350,7 +356,7 @@ include::finish/src/test/java/it/io/openliberty/guides/todolistSample/TodoTest.j
 
 //--** Include this for info on how to run the tests
 [role='command']
-include::{common-includes}/mvnverify.adoc[]
+include::{common-includes}/devmode-test.adoc[]
 
 //--** Including a listing block with test results here
 //--** Show console output of the test results
@@ -359,7 +365,9 @@ include::{common-includes}/mvnverify.adoc[]
 //--** will cause the tests to fail. Be brief and don't give the users all of the instructions.
 //--** At this point, they should be comfortable enough to figure it out on their own.
 
-
+//--** Include this for info on how to quit development mode
+[role='command']
+include::{common-includes}/devmode-quit.adoc[]
 
 
 == Great work! You're done!
