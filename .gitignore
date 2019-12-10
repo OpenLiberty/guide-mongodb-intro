@@ -2,6 +2,11 @@ target/
 finish/target/
 start/target/
 
+.idea/
+*.iml
+.vscode/
+*.DS_Store
+
 .classpath
 .factorypath
 .project

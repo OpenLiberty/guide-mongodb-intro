@@ -1,13 +1,15 @@
+// tag::copyright[]
 /*******************************************************************************
-* Copyright (c) 2018 IBM Corporation and others.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*     IBM Corporation - initial API and implementation
-*******************************************************************************/
+ * Copyright (c) 2018 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
+// end::copyright[]
 package io.openliberty.guides.mongo;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -26,7 +28,7 @@ import com.mongodb.client.MongoDatabase;
 
 @ApplicationScoped
 public class MongoProducer {
-
+    // tag::mongoProducerInjections[]
     @Inject
     @ConfigProperty(name = "mongo.hostname", defaultValue = "localhost")
     String hostname;
@@ -39,17 +41,24 @@ public class MongoProducer {
     @ConfigProperty(name = "mongo.dbname", defaultValue = "testdb")
     String dbName;
 
+    // tag::username[]
     @Inject
     @ConfigProperty(name = "mongo.user")
     String user;
+    // end::username[]
 
+    // tag::encodedPassword[]
     @Inject
     @ConfigProperty(name = "mongo.pass.encoded")
     String encodedPass;
+    // end:encodedPassword[]
+    // end::mongoProducerInjections[]
 
     @Produces
     public MongoClient createMongo() {
-		String password = PasswordUtil.passwordDecode(encodedPass);
+        // tag::passwordUtil[]
+        String password = PasswordUtil.passwordDecode(encodedPass);
+        // end::passwordUtil[]
         MongoCredential creds = MongoCredential.createCredential(user, dbName, password.toCharArray());
         return new MongoClient(new ServerAddress(hostname, port), creds, new MongoClientOptions.Builder().build());
     }

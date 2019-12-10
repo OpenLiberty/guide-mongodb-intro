@@ -1,14 +1,14 @@
 //tag::copyright[]
 /*******************************************************************************
-* Copyright (c) 2017, 2019 IBM Corporation and others.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*     IBM Corporation - initial API and implementation
-*******************************************************************************/
+ * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
 // end::copyright[]
 package it.io.openliberty.guides.application;
 
@@ -35,7 +35,9 @@ public class CrewApplicationEndpointIT {
     private String _RootURL;
     private ArrayList<String> _TestIDs = new ArrayList<>(2);
 
+    // tag::Before[]
     @Before
+    // end::Before[]
     public void setup() {
         _Client = ClientBuilder.newClient();
         _Client.register(JsrJsonpProvider.class);
@@ -59,12 +61,18 @@ public class CrewApplicationEndpointIT {
         _TestData = arrayBuilder.build();
     }
 
+    // tag::After[]
     @After
+    // end::After[]
+    // tag::teardown[]
     public void teardown() {
         _Client.close();
     }
+    // end::teardown[]
 
+    // tag::test[]
     @Test
+    // end::test[]
     public void testSuite() {
         this.testAddCrewMember();
         this.testUpdateCrewMember();
@@ -72,6 +80,7 @@ public class CrewApplicationEndpointIT {
         this.testDeleteCrewMember();
     }
 
+    // tag::testAddCrewMember[]
     private void testAddCrewMember() {
         System.out.println("   === Adding " + _TestData.size() + " testing crew members to the database. ===");
         for (int i = 0; i < _TestData.size(); i ++) {
@@ -87,7 +96,9 @@ public class CrewApplicationEndpointIT {
         }
         System.out.println("      === Done. ===");
     }
+    // end::testAddCrewMember[]
 
+    // tag::testUpdateCrewMember[]
     public void testUpdateCrewMember() {
         System.out.println("   === Updating crew member with id " + _TestIDs.get(0) + ". ===");
 
@@ -105,7 +116,9 @@ public class CrewApplicationEndpointIT {
 
         System.out.println("      === Done. ===");
     }
+    // end::testUpdateCrewMember[]
 
+    // tag::testGetCrewMembers[]
     private void testGetCrewMembers() {
         System.out.println("   === Listing crew members from the database. ===");
 
@@ -133,7 +146,9 @@ public class CrewApplicationEndpointIT {
 
         response.close();
     }
+    // end::testGetCrewMembers[]
 
+    // tag::testDeleteCrewMember[]
     private void testDeleteCrewMember() {
         System.out.println("   === Removing " + _TestIDs.size() + " testing crew members from the database. ===");
         for (String id : _TestIDs) {
@@ -144,6 +159,7 @@ public class CrewApplicationEndpointIT {
         }
         System.out.println("      === Done. ===");
     }
+    // tag::testDeleteCrewMember[]
 
     /**
      * <p>

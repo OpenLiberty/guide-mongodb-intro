@@ -16,20 +16,16 @@ function addCrewMember() {
 	crewMember.rank = rank.options[rank.selectedIndex].text;
 	crewMember.crewID = document.getElementById("crewMemberID").value;
 
-	
 	var request = new XMLHttpRequest();
 
 	request.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			var i = 0;
-			if (this.response != '') {
-                var res = JSON.parse(this.response);
-                if (Array.isArray(res) == true) {
-                    for (m of JSON.parse(this.response)) {
-                        toast(m, i++);
-                    }
-                 }
-			}
+            var res = JSON.parse(this.response);
+            if (Array.isArray(res) == true) {
+                for (m of JSON.parse(this.response)) {
+                    toast(m, i++);
+                }
+            }
 		}
 		refreshDocDisplay();
 	}
@@ -75,7 +71,6 @@ function updateCrewMember() {
 
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var i = 0;
             var res = JSON.parse(this.response);
             if (Array.isArray(res) == true) {
                 for (m of JSON.parse(this.response)) {

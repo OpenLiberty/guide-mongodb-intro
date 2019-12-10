@@ -16,22 +16,22 @@
 <!DOCTYPE html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <html>
-    <head>
+	<head>
 		<title>MongoDB Guide</title>
 		<script type="text/javascript" src="js/mongo.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
 		<link rel="stylesheet" href="css/mongo.css">
 		<link rel="stylesheet" href="css/toast.css">
-    </head>
-    <body>
-        <section id="appIntro" >
-            <div id="titleSection">
-                <h1 id="appTitle">MongoDB Guide</h1>
-                <div class="line"></div>
-                <div class="headerImage"></div>
-                <h2>Congrats on your shiny, new Open Liberty sample app!</h2>
-                <p>This sample app uses REST endpoints and Bean Validation to store data in MongoDB</p>
-            </div>
+	</head>
+	<body>
+		<section id="appIntro" >
+			<div id="titleSection">
+				<h1 id="appTitle">MongoDB Guide</h1>
+				<div class="line"></div>
+				<div class="headerImage"></div>
+				<h2>Congrats on your new Open Liberty web application!</h2>
+				<p>This web application uses REST endpoints and Bean Validation to store data in MongoDB.</p>
+			</div>
 			<div id="usersContainer" class="hFlexContainer">
 				<div id="userCreation" class="vFlexContainer">
 					<strong id="createCrewMember" class="flexSelfCenter">Register Crew Member</strong>
@@ -46,16 +46,16 @@
 					<div id="Rank" class="vFlexContainer inputLine">
 						<span>Rank</span>
 						<select id="crewMemberRank">
-								<option>Captain</option>
-								<option>Officer</option>
-								<option>Engineer</option>
+							<option>Captain</option>
+							<option>Officer</option>
+							<option>Engineer</option>
 						</select>
 					</div>
 					<button id="registerButton" class="buttons" onclick="addCrewMember()">Register Crew Member</button>
 				</div>
 				<div id="userDisplay" class="vFlexContainer">
-					<strong id="createCrewMember" class="flexSelfCenter">Crew Members</strong>
-					<div id="createCrewMember" class="flexSelfCenter">(click to edit)</div>
+					<strong id="crewMembers" class="flexSelfCenter">Crew Members</strong>
+					<div id="clickToEdit" class="flexSelfCenter">(click to edit)</div>
 					<div id="userBoxes" class="flexBox hFlexContainer">
 					</div>
 				</div>
@@ -65,15 +65,15 @@
 						<span>_id</span>
 						<input id="docID" class="textBox" type="text" disabled>
 					</div>
-					<div id="Name" class="vFlexContainer inputLine">
+					<div id="newName" class="vFlexContainer inputLine">
 						<span>Name</span>
 						<input id="updateCrewMemberName" class="textBox" type="text">
 					</div>
-					<div id="ID" class="vFlexContainer inputLine">
+					<div id="newID" class="vFlexContainer inputLine">
 						<span>ID Number</span>
 						<input id="updateCrewMemberID" class="textBox" type="text">
 					</div>
-					<div id="Rank" class="vFlexContainer inputLine">
+					<div id="newRank" class="vFlexContainer inputLine">
 						<span>Rank</span>
 						<select id="updateCrewMemberRank">
 							<option>Captain</option>
@@ -84,25 +84,26 @@
 					<button id="updateButton" class="buttons" onclick="updateCrewMember()">Update Crew Member</button>
 				</div>
 				<div id="docDisplay" class="flexBox vFlexContainer">
-						<strong id="createCrewMember" class="flexSelfCenter">MongoDB Documents</strong>
+					<strong id="docTitle" class="flexSelfCenter">MongoDB Documents</strong>
 					<pre id="docText"></pre>
 				</div>
 			</div>
-        </section>
-    </body>
+		</section>
+	</body>
 
-    <footer class="bodyFooter">
-        <div class="bodyFooterLink">
-          <a id="licenseLink"href="https://github.com/OpenLiberty/open-liberty/blob/master/LICENSE">License</a>
-          <a href="https://twitter.com/OpenLibertyIO">Twitter</a>
-          <a href="https://github.com/OpenLiberty">GitHub</a>
-          <a href="https://openliberty.io/">openliberty.io</a>
-        </div>
-        <p id="footer_text">an IBM open source project</p>
-        <p id="footer_copyright">&copy;Copyright IBM Corp. 2019</p>
+	<footer class="bodyFooter">
+		<div class="bodyFooterLink">
+			<a id="licenseLink"href="https://github.com/OpenLiberty/open-liberty/blob/master/LICENSE">License</a>
+			<a href="https://twitter.com/OpenLibertyIO">Twitter</a>
+			<a href="https://github.com/OpenLiberty">GitHub</a>
+			<a href="https://openliberty.io/">openliberty.io</a>
+		</div>
+		<p id="footer_text">an IBM open source project</p>
+		<p id="footer_copyright">&copy;Copyright IBM Corp. 2019</p>
 	</footer>
-	
+
 	<div id="toast">
+	</div>
 </html>
 <script>
 refreshDocDisplay();
