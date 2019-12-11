@@ -10,32 +10,32 @@
 *******************************************************************************/
 
 function addCrewMember() {
-	var crewMember = {};
-	crewMember.name = document.getElementById("crewMemberName").value;
-	var rank = document.getElementById("crewMemberRank");
-	crewMember.rank = rank.options[rank.selectedIndex].text;
-	crewMember.crewID = document.getElementById("crewMemberID").value;
+    var crewMember = {};
+    crewMember.name = document.getElementById("crewMemberName").value;
+    var rank = document.getElementById("crewMemberRank");
+    crewMember.rank = rank.options[rank.selectedIndex].text;
+    crewMember.crewID = document.getElementById("crewMemberID").value;
 
 
-	var request = new XMLHttpRequest();
+    var request = new XMLHttpRequest();
 
-	request.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			if (this.response != '') {
+    request.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.response != '') {
                 var res = JSON.parse(this.response);
                 if (Array.isArray(res) == true) {
                     for (m of JSON.parse(this.response)) {
                         toast(m, i++);
                     }
-                 }
-			}
-		}
-		refreshDocDisplay();
-	}
+                }
+            }
+        }
+        refreshDocDisplay();
+    }
 
-	request.open("POST", "crew/"+crewMember.crewID, true);
-	request.setRequestHeader("Content-type", "application/json");
-	request.send(JSON.stringify(crewMember));
+    request.open("POST", "crew/" + crewMember.crewID, true);
+    request.setRequestHeader("Content-type", "application/json");
+    request.send(JSON.stringify(crewMember));
 }
 
 function showUpdateForm(id, name, crewID, rank) {
@@ -72,7 +72,7 @@ function updateCrewMember() {
 
     var request = new XMLHttpRequest();
 
-    request.onreadystatechange = function() {
+    request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             if (this.response != '') {
                 var res = JSON.parse(this.response);
@@ -86,7 +86,7 @@ function updateCrewMember() {
         refreshDocDisplay();
     }
 
-    request.open("PUT", "crew/"+id, true);
+    request.open("PUT", "crew/" + id, true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(crewMember));
 
@@ -94,12 +94,12 @@ function updateCrewMember() {
 }
 
 function refreshDocDisplay() {
-	var request = new XMLHttpRequest();
-	
-	request.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-		    if (this.response != '') {
-		        clearDisplay()
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.response != '') {
+                clearDisplay()
                 doc = JSON.parse(this.responseText);
 
                 doc.forEach(addToDisplay);
@@ -111,60 +111,60 @@ function refreshDocDisplay() {
                     document.getElementById("docDisplay").style.display = 'none';
                     clearUpdateForm();
                 }
-                document.getElementById("docText").innerHTML = JSON.stringify(doc,null,2);
-		    }
-		}
-	}
+                document.getElementById("docText").innerHTML = JSON.stringify(doc, null, 2);
+            }
+        }
+    }
 
-	request.open("GET", "crew/", true);
-	request.send();
+    request.open("GET", "crew/", true);
+    request.send();
 }
 
-function addToDisplay(entry){
-	var userHtml =	"<div>Name: " + entry.Name + "</div>" +
-					"<div>ID: " + entry.CrewID + "</div>" +
-					"<div>Rank: " + entry.Rank + "</div>" +
-					"<button class=\"deleteButton\" onclick=\"remove(event,'"+entry._id.$oid+"')\">Delete</button>";
-					
-	var userDiv = document.createElement("div");
-	userDiv.setAttribute("class","user flexbox");
-	userDiv.setAttribute("id",entry._id.$oid);
-	userDiv.setAttribute("onclick","showUpdateForm('"+entry._id.$oid+"','"+entry.Name+"','"+entry.CrewID+"','"+entry.Rank+"')");
-	userDiv.innerHTML=userHtml;
-	document.getElementById("userBoxes").appendChild(userDiv);
+function addToDisplay(entry) {
+    var userHtml = "<div>Name: " + entry.Name + "</div>" +
+        "<div>ID: " + entry.CrewID + "</div>" +
+        "<div>Rank: " + entry.Rank + "</div>" +
+        "<button class=\"deleteButton\" onclick=\"remove(event,'" + entry._id.$oid + "')\">Delete</button>";
+
+    var userDiv = document.createElement("div");
+    userDiv.setAttribute("class", "user flexbox");
+    userDiv.setAttribute("id", entry._id.$oid);
+    userDiv.setAttribute("onclick", "showUpdateForm('" + entry._id.$oid + "','" + entry.Name + "','" + entry.CrewID + "','" + entry.Rank + "')");
+    userDiv.innerHTML = userHtml;
+    document.getElementById("userBoxes").appendChild(userDiv);
 }
 
-function clearDisplay(){
-	var usersDiv = document.getElementById("userBoxes");
-	while (usersDiv.firstChild) {
-		usersDiv.removeChild(usersDiv.firstChild);
-	}
+function clearDisplay() {
+    var usersDiv = document.getElementById("userBoxes");
+    while (usersDiv.firstChild) {
+        usersDiv.removeChild(usersDiv.firstChild);
+    }
 }
 
 function remove(e, id) {
-	var request = new XMLHttpRequest();
-	
-	request.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-		    if (this.response != '') {
-		        if (id === document.getElementById("docID").value) {
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.response != '') {
+                if (id === document.getElementById("docID").value) {
                     clearUpdateForm();
                 }
                 document.getElementById(id).remove();
                 refreshDocDisplay()
-		    }
-		}
-	}
+            }
+        }
+    }
 
-	request.open("DELETE", "crew/"+id, true);
-	request.send();
+    request.open("DELETE", "crew/" + id, true);
+    request.send();
 
-	e.stopPropagation();
+    e.stopPropagation();
 }
 
 function toast(message, index) {
-	var length = 3000;
-	var toast = document.getElementById("toast");
-	setTimeout(function(){ toast.innerText = message; toast.className = "show"; }, length*index);
-	setTimeout(function(){ toast.className = toast.className.replace("show",""); }, length + length*index);
+    var length = 3000;
+    var toast = document.getElementById("toast");
+    setTimeout(function () { toast.innerText = message; toast.className = "show"; }, length * index);
+    setTimeout(function () { toast.className = toast.className.replace("show", ""); }, length + length * index);
 }
