@@ -16,12 +16,11 @@ function addCrewMember() {
 	crewMember.rank = rank.options[rank.selectedIndex].text;
 	crewMember.crewID = document.getElementById("crewMemberID").value;
 
-	
+
 	var request = new XMLHttpRequest();
 
 	request.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			var i = 0;
 			if (this.response != '') {
                 var res = JSON.parse(this.response);
                 if (Array.isArray(res) == true) {
@@ -38,7 +37,7 @@ function addCrewMember() {
 	request.setRequestHeader("Content-type", "application/json");
 	request.send(JSON.stringify(crewMember));
 }
-	
+
 function showUpdateForm(id, name, crewID, rank) {
     if (document.getElementById("docID").value === id) {
         clearUpdateForm();
@@ -75,11 +74,12 @@ function updateCrewMember() {
 
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var i = 0;
-            var res = JSON.parse(this.response);
-            if (Array.isArray(res) == true) {
-                for (m of JSON.parse(this.response)) {
-                    toast(m, i++);
+            if (this.response != '') {
+                var res = JSON.parse(this.response);
+                if (Array.isArray(res) == true) {
+                    for (m of JSON.parse(this.response)) {
+                        toast(m, i++);
+                    }
                 }
             }
         }
@@ -98,19 +98,21 @@ function refreshDocDisplay() {
 	
 	request.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			clearDisplay()		
-			doc = JSON.parse(this.responseText);
-			
-			doc.forEach(addToDisplay);
-			if (doc.length > 0) {
-				document.getElementById("userDisplay").style.display = 'flex';
-				document.getElementById("docDisplay").style.display = 'flex';
-			} else {
-				document.getElementById("userDisplay").style.display = 'none';
-				document.getElementById("docDisplay").style.display = 'none';
-				clearUpdateForm();
-			}
-			document.getElementById("docText").innerHTML = JSON.stringify(doc,null,2);
+		    if (this.response != '') {
+		        clearDisplay()
+                doc = JSON.parse(this.responseText);
+
+                doc.forEach(addToDisplay);
+                if (doc.length > 0) {
+                    document.getElementById("userDisplay").style.display = 'flex';
+                    document.getElementById("docDisplay").style.display = 'flex';
+                } else {
+                    document.getElementById("userDisplay").style.display = 'none';
+                    document.getElementById("docDisplay").style.display = 'none';
+                    clearUpdateForm();
+                }
+                document.getElementById("docText").innerHTML = JSON.stringify(doc,null,2);
+		    }
 		}
 	}
 
@@ -144,11 +146,13 @@ function remove(e, id) {
 	
 	request.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-		    if (id === document.getElementById("docID").value) {
-		        clearUpdateForm();
+		    if (this.response != '') {
+		        if (id === document.getElementById("docID").value) {
+                    clearUpdateForm();
+                }
+                document.getElementById(id).remove();
+                refreshDocDisplay()
 		    }
-			document.getElementById(id).remove();
-			refreshDocDisplay()
 		}
 	}
 

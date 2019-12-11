@@ -13,14 +13,14 @@
 :page-guide-category: ???
 :page-essential: true
 :page-essential-order: 1
-:page-description: Learn how to create an application with MongoDB and Open Liberty.
+:page-description: Learn how to create an microservice with MongoDB and Open Liberty.
 :guide-author: Open Liberty
-:page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE']
+:page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE', MongoDB]
 :page-related-guides: [???]
 :page-permalink: /guides/{projectid}
 :repo-description: Visit the https://openliberty.io/guides/{projectid}.html[website] for the rendered version of the guide.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
-= Building a web application with MongoDB
+= Building a microservice with MongoDB
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
@@ -29,10 +29,10 @@ Learn how to store data with MongoDB using CDI and MicroProfile Config.
 
 == What you'll learn
 
-You will learn how to build and test a simple web application with MongoDB, which will expose
+You will learn how to build and test a simple microservice with MongoDB, which will expose
 the crew member's information. The service will respond to `POST`, `PUT` and `DELETE` requests made to the `\http://localhost:9080/mongo/crew` URL.
 
-The web application also responds to a `GET` request with a JSON representation of the crew members information, where
+The microservice also responds to a `GET` request with a JSON representation of the crew members information, where
 each property is a field in a JSON object like this:
 
 [source,json,role="no_copy"]
@@ -66,7 +66,7 @@ This application uses a CDI producer to inject a MongoDatabase and MicroProfile 
 
 == Additional prerequisites
 
-Before you begin, you must install MongoDB onto your machine and setup a new database for the web application.
+Before you begin, you must install MongoDB onto your machine and setup a new database for the microservice.
 
 === MongoDB installation 
 
@@ -172,10 +172,10 @@ mvn liberty:stop
 ```
 
 // =================================================================================================
-// Creating a web application which stores data to MongoDB
+// Creating a microservice which stores data to MongoDB
 // =================================================================================================
 
-== Creating a web application which stores data to MongoDB
+== Creating a microservice which stores data to MongoDB
 
 Navigate to the `start` directory to begin.
 
@@ -212,7 +212,7 @@ The configuration does the following actions:
 . Configures the server to enable JAX-RS. This is specified in the [hotspot=featureManager file=0]`featureManager` element.
 . Configures the server to resolve the HTTP port numbers from variables, which are then specified in
 the Maven [hotspot=defaultHttpPort hotspot=defaultHttpsPort file=1]`pom.xml` file. This is specified in the [hotspot=httpEndpoint file=0]`<httpEndpoint/>` element. Variables use the `${variableName}` syntax.
-. Configures the server to run the produced web application on a context root specified in the 
+. Configures the server to run the produced microservice on a context root specified in the 
 [hotspot=appContextRoot file=1]`pom.xml` file. This is specified in the [hotspot=webApplication file=0]`<webApplication/>` element.
 
 pom.xml
@@ -270,7 +270,7 @@ One of the advantages of using a CDI producer is that it can be tailored to your
 
 == Basic CRUD operations
 
-You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html]`com.mongodb.client` package is used help to implement these `CRUD` operations for the web application. The [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection(java.lang.String)]`MongoDatabase.getCollection()` method will be used to get the [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html]`MongoCollection` and several methods from [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html]`MongoCollection` will be used to interact with the collection to implement the `CRUD` operations.
+You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html]`com.mongodb.client` package is used help to implement these `CRUD` operations for the microservice. The [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection(java.lang.String)]`MongoDatabase.getCollection()` method will be used to get the [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html]`MongoCollection` and several methods from [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html]`MongoCollection` will be used to interact with the collection to implement the `CRUD` operations.
 
 See [https://openliberty.io/guides/rest-intro.html]`Creating a RESTful web serivce` for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
 
@@ -394,7 +394,7 @@ http://localhost:9080/mongo[^] URL.
 
 == Testing the service
 
-You can test this web application manually by sending HTTP requests to http://localhost:9080/mongo[^] or by starting a server and pointing a web browser at the
+You can test this microservice manually by sending HTTP requests to http://localhost:9080/mongo/crew[^] or by starting a server and pointing a web browser at the
 http://localhost:9080/mongo[^] URL. Automated tests are a much better
 approach because they trigger a failure if a change introduces a bug. JUnit and the JAX-RS Client
 API provide a simple environment to test the application.
@@ -472,7 +472,7 @@ you ran the server and then pressing the `enter/return` key.
 
 == Great work! You're done!
 
-You developed a Web application in Open Liberty by using MongoDB, JAX-RS and JSON-B.
+You developed a microservice in Open Liberty by using MongoDB, JAX-RS and JSON-B.
 
 == Related Links
 

@@ -142,8 +142,6 @@ public class CrewService {
 			MongoCollection<Document> crew = db.getCollection("Crew");
 			sb.append("[");
 			boolean first = true;
-			System.out.println("here1");
-			System.out.println(crew.find());
 			for (Document d : crew.find()) {
 				if (!first) sb.append(",");
 				else first = false;
