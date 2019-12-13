@@ -9,8 +9,7 @@
 :projectid: mongodb-intro
 :page-layout: guide-multipane
 :page-duration: 30 minutes
-:page-releasedate: ????-??-??
-:page-guide-category: ???
+:page-releasedate: 2019-12-12
 :page-essential: true
 :page-essential-order: 1
 :page-description: Learn how to create an microservice with MongoDB and Open Liberty.
