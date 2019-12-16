@@ -159,7 +159,7 @@ public class CrewApplicationEndpointIT {
         }
         System.out.println("      === Done. ===");
     }
-    // tag::testDeleteCrewMember[]
+    // end::testDeleteCrewMember[]
 
     /**
      * <p>

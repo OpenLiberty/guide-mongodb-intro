@@ -12,7 +12,7 @@
 :page-releasedate: 2019-12-12
 :page-essential: true
 :page-essential-order: 1
-:page-description: Learn how to create an microservice with MongoDB and Open Liberty.
+:page-description: Learn how to create a microservice with MongoDB and Open Liberty.
 :guide-author: Open Liberty
 :page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE', MongoDB]
 :page-related-guides: [???]
@@ -99,7 +99,7 @@ use testdb
 db.createUser({user: 'sampleUser', pwd:'openliberty', roles: [{ role: 'readWrite', db:'testdb'}]})
 ```
 
-See [https://docs.mongodb.com/manual/mongo/index.html]`The mongo Shell` for more information about the using their Shell.
+See https://docs.mongodb.com/manual/mongo/index.html[The mongo Shell] for more information about the using their Shell.
 
 Type `exit` to get out of the mongo Shell, and if you are using Docker, type `exit` again to leave the Docker Shell.
 
@@ -246,7 +246,7 @@ include::finish/src/main/java/io/openliberty/guides/mongo/MongoProducer.java[]
 
 Using MicroProfile Config makes configuring the MongoDB driver simple.
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot", subs="quotes"]
 ----
 #Create the configuration file.#
 `src/main/webapp/META-INF/microprofile-config.properties`
@@ -269,9 +269,9 @@ One of the advantages of using a CDI producer is that it can be tailored to your
 
 == Basic CRUD operations
 
-You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html]`com.mongodb.client` package is used help to implement these `CRUD` operations for the microservice. The [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection(java.lang.String)]`MongoDatabase.getCollection()` method will be used to get the [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html]`MongoCollection` and several methods from [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html]`MongoCollection` will be used to interact with the collection to implement the `CRUD` operations.
+You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client] package is used help to implement these `CRUD` operations for the microservice. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection(java.lang.String)[MongoDatabase.getCollection()] method will be used to get the http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection] and several methods from http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection] will be used to interact with the collection to implement the `CRUD` operations.
 
-See [https://openliberty.io/guides/rest-intro.html]`Creating a RESTful web serivce` for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
+See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce] for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -291,7 +291,7 @@ A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember
 The CDI producer is used to inject a `MongoDatabase` into the [hotspot=dbInjection]`CrewService` class.
 
 === Create
-The [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#insertOne(TDocument)]`MongoCollection.insertOne()` method is used to insert a new document into the collection. This method takes in a `Document` which is the configuration of the new crew member to be inserted into the collection and does not return anything. The [hotspot=create]`add()` method handles the implementation of `CREATE`.
+The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#insertOne-TDocument-[MongoCollection.insertOne()] method is used to insert a new document into the collection. This method takes in a `TDocument` which is the configuration of the new crew member to be inserted into the collection and does not return anything. The [hotspot=create]`add()` method handles the implementation of `CREATE`.
 
 Test the `CREATE` endpoint by running the following cURL command:
 [role='command']
@@ -314,7 +314,7 @@ You will receive a response containing the JSON object of the new member.
 
 
 === Read
-The [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#find()]`MongoCollection.find()` method is used to retrieve an iterable of all the crew member documents in the collection. This method does not take in any arguments and returns a [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/FindIterable.html]`FindIterable` object. The [hotspot=read]`retrieve()` method handles the implementation of `READ`.
+The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#find--[MongoCollection.find()] method is used to retrieve an iterable of all the crew member documents in the collection. This method does not take in any arguments and returns a http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/FindIterable.html[FindIterable] object. The [hotspot=read]`retrieve()` method handles the implementation of `READ`.
 
 Test the `READ` endpoint by running the following cURL command:
 [role='command']
@@ -338,7 +338,7 @@ You will receive a response containing an array of all the members currently in 
 ```
 
 === Update
-The [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#replaceOne(org.bson.conversions.Bson,TDocument)]`MongoCollection.replaceOne()` method is used update a specified document. This method takes in a `Document` which contains the `id` of the document to be replaced and another `Document` which is the new configuration of the crew member. The method returns an [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/UpdateResult.html]`UpdateResult` object with a method called `getMatchedCount()` which indicates the number of matches to the query. The [hotspot=update]`update()` method handles the implementation of `UPDATE`
+The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#replaceOne-org.bson.conversions.Bson-TDocument-[MongoCollection.replaceOne()] method is used update a specified document. This method takes in a `Bson` which contains the `id` of the document to be replaced and another `TDocument` which is the new configuration of the crew member. The method returns an http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/UpdateResult.html[UpdateResult] object with a method called `getMatchedCount()` which indicates the number of matches to the query. The [hotspot=update]`update()` method handles the implementation of `UPDATE`.
 
 Test the `UPDATE` endpoint by running the following cURL command:
 [role='command']
@@ -357,7 +357,7 @@ You will receive a reponse containing the JSON object of the updated member.
 ```
 
 === Delete
-The [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#deleteOne(org.bson.conversions.Bson)]`MongoCollection.deleteOne()` method is used to remove a document from the collection. This method takes in a `Document` which contains the `id` of the document to be deleted and returns a [http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/DeleteResult.html]`DeleteResult` object with a method called `getDeletedCount()` to indicate the number of documents deleted from the collection. The [hotspot=delete]`remove()` method handles the implmentation of `DELETE`
+The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#deleteOne-org.bson.conversions.Bson-[MongoCollection.deleteOne()] method is used to remove a document from the collection. This method takes in a `Bson` which contains the `id` of the document to be deleted and returns a http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/DeleteResult.html[DeleteResult] object with a method called `getDeletedCount()` to indicate the number of documents deleted from the collection. The [hotspot=delete]`remove()` method handles the implementation of `DELETE`.
 
 Test the `DELETE` endpoint by running the following cURL command:
 [role='command']

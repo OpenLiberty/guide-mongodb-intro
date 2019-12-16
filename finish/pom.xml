@@ -24,7 +24,9 @@
         <!-- tag::defaultHttpPort[] -->
         <http.port>9080</http.port>
         <!-- end::defaultHttpPort[] -->
+        <!-- tag::defaultHttpsPort[] -->
         <https.port>9443</https.port>
+        <!-- end::defaultHttpsPort[] -->
         <packaging.type>usr</packaging.type>
         <app.name>${project.artifactId}</app.name>
         <!-- tag::appContextRoot[] -->
