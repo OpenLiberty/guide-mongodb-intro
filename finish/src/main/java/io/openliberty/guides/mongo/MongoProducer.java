@@ -51,7 +51,7 @@ public class MongoProducer {
     @Inject
     @ConfigProperty(name = "mongo.pass.encoded")
     String encodedPass;
-    // end:encodedPassword[]
+    // end::encodedPassword[]
     // end::mongoProducerInjections[]
 
     @Produces

@@ -201,7 +201,7 @@ To get the service running, the Liberty server needs to be correctly configured.
 ----
 
 server.xml
-[source,xml,linenums,role="code_column"]
+[source,xml,linenums,role="code_column hide_tags=copyright"]
 ----
 include::finish/src/main/liberty/config/server.xml[]
 ----
@@ -215,7 +215,7 @@ the Maven [hotspot=defaultHttpPort hotspot=defaultHttpsPort file=1]`pom.xml` fil
 [hotspot=appContextRoot file=1]`pom.xml` file. This is specified in the [hotspot=webApplication file=0]`<webApplication/>` element.
 
 pom.xml
-[source,xml,linenums,role="code_column"]
+[source,xml,linenums,role="code_column hide_tags=copyright"]
 ----
 include::finish/pom.xml[]
 ----
@@ -237,7 +237,7 @@ With a CDI producer, you are no longer restricted to MongoDB 2.X versions, and c
 `src/main/java/io/openliberty/guides/mongo/MongoProducer.java`
 ----
 MongoProducer.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
+[source, Java, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/src/main/java/io/openliberty/guides/mongo/MongoProducer.java[]
 ----
@@ -252,7 +252,7 @@ Using MicroProfile Config makes configuring the MongoDB driver simple.
 `src/main/webapp/META-INF/microprofile-config.properties`
 ----
 microprofile-config.properties
-[source, properties, linenums, role='code_column hide_tags=copyright']
+[source, properties, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
@@ -278,10 +278,17 @@ See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce
 #Modify the `CrewService` class.#
 `src/main/java/io/openliberty/guides/application/CrewService.java`
 ----
+
 CrewService.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
+[source, Java, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/src/main/java/io/openliberty/guides/application/CrewService.java[]
+----
+
+CrewMember.java
+[source, Java, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[]
 ----
 
 A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember]`CrewMember` before inserting or updating the database.
@@ -407,7 +414,7 @@ You can write tests to call the application server directly.
 ----
 
 CrewApplicationEndpointIT.java
-[source, Java, linenums, role="code_column hide_tags=comment"]
+[source, Java, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/application/CrewApplicationEndpointIT.java[]
 ----
@@ -416,7 +423,7 @@ This test class has more lines of code than the resource implementation.
 The test method is indicated with the [hotspot=test file=0]`@Test` annotation.
 
 pom.xml
-[source , xml, linenums,role="code_column"]
+[source , xml, linenums,role="code_column hide_tags=copyright"]
 ----
 include::finish/pom.xml[]
 ----

@@ -99,14 +99,14 @@
             <artifactId>mongo-java-driver</artifactId>
             <version>3.8.0</version>
         </dependency>
-        <!-- tag::passwordUtilDependency -->
+        <!-- tag::passwordUtilDependency[] -->
         <dependency>
             <groupId>com.ibm.websphere.appserver.api</groupId>
             <artifactId>com.ibm.websphere.appserver.api.passwordUtil</artifactId>
             <version>[1.0.21,)</version>
             <scope>provided</scope>
         </dependency>
-        <!-- end::passwordUtilDependency -->
+        <!-- end::passwordUtilDependency[] -->
         <!-- For tests -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
