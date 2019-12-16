@@ -82,7 +82,7 @@ public class CrewApplicationEndpointIT {
 
     // tag::testAddCrewMember[]
     private void testAddCrewMember() {
-        System.out.println("   === Adding " + _TestData.size() + " testing crew members to the database. ===");
+        System.out.println("   === Adding " + _TestData.size() + " members to the database. ===");
         for (int i = 0; i < _TestData.size(); i ++) {
             JsonObject member = (JsonObject) _TestData.get(i);
             String url = _RootURL + "/crew" + "/" + member.getString("crewID");
@@ -150,7 +150,7 @@ public class CrewApplicationEndpointIT {
 
     // tag::testDeleteCrewMember[]
     private void testDeleteCrewMember() {
-        System.out.println("   === Removing " + _TestIDs.size() + " testing crew members from the database. ===");
+        System.out.println("   === Removing " + _TestIDs.size() + " members from the database. ===");
         for (String id : _TestIDs) {
             String url = _RootURL + "/crew" + "/" + id;
             Response response = _Client.target(url).request().delete();

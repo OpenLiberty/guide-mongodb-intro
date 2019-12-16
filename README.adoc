@@ -451,15 +451,17 @@ Since you started Open Liberty in development mode at the start of the guide, pr
  T E S T S
 -------------------------------------------------------
 Running it.io.openliberty.guides.application.CrewApplicationEndpointIT
-   === Adding 2 testing crew members to the database. ===
+   === Adding 2 members to the database. ===
       === Done. ===
-   === Updating crew member with id 5de6c3d2b1ecf519ecb9641e. ===
+   === Updating crew member with id 5df7e2711d2a091f901e8c1b. ===
       === Done. ===
    === Listing crew members from the database. ===
       === Done. There are 4 members. ===
-   === Removing 2 testing crew members from the database. ===
+   === Removing 2 members from the database. ===
       === Done. ===
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.585 s - in it.io.openliberty.guides.application.CrewApplicationEndpointIT
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.842 s - in it.io.openliberty.guides.application.CrewApplicationEndpointIT
+Results:
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, add an assertion that you know fails, or change the existing
