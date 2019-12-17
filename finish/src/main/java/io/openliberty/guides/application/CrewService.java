@@ -62,7 +62,10 @@ public class CrewService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String add(CrewMember crewMember) {
 
-		Set<ConstraintViolation<CrewMember>> violations = validator.validate(crewMember);
+		Set<ConstraintViolation<CrewMember>> violations = validator.validate(
+				crewMember
+		);
+
 		if(violations.size() > 0) {
 			JsonArrayBuilder messages = Json.createArrayBuilder();
 			for (ConstraintViolation<CrewMember> v : violations) {
@@ -107,7 +110,10 @@ public class CrewService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String update(@PathParam("id") String id, CrewMember crewMember) {
 
-		Set<ConstraintViolation<CrewMember>> violations = validator.validate(crewMember);
+		Set<ConstraintViolation<CrewMember>> violations = validator.validate(
+				crewMember
+		);
+
 		if(violations.size() > 0) {
 			JsonArrayBuilder messages = Json.createArrayBuilder();
 			for (ConstraintViolation<CrewMember> v : violations) {

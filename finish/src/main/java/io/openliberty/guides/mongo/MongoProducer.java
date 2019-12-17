@@ -60,8 +60,17 @@ public class MongoProducer {
         // tag::passwordUtil[]
         String password = PasswordUtil.passwordDecode(encodedPass);
         // end::passwordUtil[]
-        MongoCredential creds = MongoCredential.createCredential(user, dbName, password.toCharArray());
-        return new MongoClient(new ServerAddress(hostname, port), creds, new MongoClientOptions.Builder().build());
+        MongoCredential creds = MongoCredential.createCredential(
+                user,
+                dbName,
+                password.toCharArray()
+        );
+
+        return new MongoClient(
+                new ServerAddress(hostname, port),
+                creds,
+                new MongoClientOptions.Builder().build()
+        );
     }
     // end::createMongo[]
 

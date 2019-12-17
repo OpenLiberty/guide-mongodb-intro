@@ -21,7 +21,8 @@ public class CrewMember {
 	@NotEmpty(message = "All crew members must have a name!")
 	private String name;
 
-	@Pattern(regexp = "(Captain|Officer|Engineer)", message = "Crew member must be one of the listed ranks!")
+	@Pattern(regexp = "(Captain|Officer|Engineer)",
+			message = "Crew member must be one of the listed ranks!")
 	private String rank;
 
 	@Pattern(regexp = "^\\d+$", message = "ID Number must be a non-negative integer!")

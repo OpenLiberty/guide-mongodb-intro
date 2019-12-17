@@ -82,7 +82,10 @@ public class CrewApplicationEndpointIT {
 
     // tag::testAddCrewMember[]
     private void testAddCrewMember() {
-        System.out.println("   === Adding " + _TestData.size() + " members to the database. ===");
+        System.out.println("   === Adding "
+                + _TestData.size()
+                + " crew members to the database. ===");
+
         for (int i = 0; i < _TestData.size(); i ++) {
             JsonObject member = (JsonObject) _TestData.get(i);
             String url = _RootURL + "/crew" + "/" + member.getString("crewID");
@@ -100,7 +103,8 @@ public class CrewApplicationEndpointIT {
 
     // tag::testUpdateCrewMember[]
     public void testUpdateCrewMember() {
-        System.out.println("   === Updating crew member with id " + _TestIDs.get(0) + ". ===");
+        System.out.println("   === Updating crew member with id "
+                + _TestIDs.get(0) + ". ===");
 
         JsonObject oldMember = (JsonObject) _TestData.get(0);
 
@@ -110,7 +114,9 @@ public class CrewApplicationEndpointIT {
         newMember.add("rank", "Officer");
 
         String url = _RootURL + "/crew" + "/" + _TestIDs.get(0);
-        Response response = _Client.target(url).request().put(Entity.json(newMember.build()));
+        Response response = _Client.target(url).request().put(
+                Entity.json(newMember.build())
+        );
 
         this.assertResponse(url, response);
 
@@ -140,9 +146,12 @@ public class CrewApplicationEndpointIT {
                 testMemberCount ++;
             }
         }
-        assertEquals("Incorrect number of testing members: ", _TestIDs.size(), testMemberCount);
 
-        System.out.println("      === Done. There are " + crew.size() + " members. ===");
+        assertEquals("Incorrect number of testing members: ",
+                _TestIDs.size(), testMemberCount);
+
+        System.out.println("      === Done. There are " + crew.size()
+                + " crew members. ===");
 
         response.close();
     }
@@ -150,13 +159,16 @@ public class CrewApplicationEndpointIT {
 
     // tag::testDeleteCrewMember[]
     private void testDeleteCrewMember() {
-        System.out.println("   === Removing " + _TestIDs.size() + " members from the database. ===");
+        System.out.println("   === Removing " + _TestIDs.size()
+                + " crew members from the database. ===");
+
         for (String id : _TestIDs) {
             String url = _RootURL + "/crew" + "/" + id;
             Response response = _Client.target(url).request().delete();
             this.assertResponse(url, response);
             response.close();
         }
+
         System.out.println("      === Done. ===");
     }
     // end::testDeleteCrewMember[]
