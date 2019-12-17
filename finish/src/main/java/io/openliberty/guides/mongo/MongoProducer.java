@@ -54,6 +54,7 @@ public class MongoProducer {
     // end::encodedPassword[]
     // end::mongoProducerInjections[]
 
+    // tag::createMongo[]
     @Produces
     public MongoClient createMongo() {
         // tag::passwordUtil[]
@@ -62,6 +63,7 @@ public class MongoProducer {
         MongoCredential creds = MongoCredential.createCredential(user, dbName, password.toCharArray());
         return new MongoClient(new ServerAddress(hostname, port), creds, new MongoClientOptions.Builder().build());
     }
+    // end::createMongo[]
 
     @Produces
     public MongoDatabase createDB(MongoClient client) {

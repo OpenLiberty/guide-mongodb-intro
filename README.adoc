@@ -236,6 +236,7 @@ With a CDI producer, you are no longer restricted to MongoDB 2.X versions, and c
 #Create the `MongoProducer` class.#
 `src/main/java/io/openliberty/guides/mongo/MongoProducer.java`
 ----
+
 MongoProducer.java
 [source, Java, linenums, role="code_column hide_tags=copyright"]
 ----
@@ -251,17 +252,38 @@ Using MicroProfile Config makes configuring the MongoDB driver simple.
 #Create the configuration file.#
 `src/main/webapp/META-INF/microprofile-config.properties`
 ----
+
 microprofile-config.properties
 [source, properties, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-The values in the `microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections]`MongoProducer` class.
+MongoProducer.java
+[source, Java, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/src/main/java/io/openliberty/guides/mongo/MongoProducer.java[]
+----
+
+pom.xml
+[source,xml,linenums,role="code_column hide_tags=copyright"]
+----
+include::finish/pom.xml[]
+----
+
+server.xml
+[source,xml,linenums,role="code_column hide_tags=copyright"]
+----
+include::finish/src/main/liberty/config/server.xml[]
+----
+
+The values in the [hotspot file=0]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=1]`MongoProducer` class.
 
 === Using an encoded password with passwordUtilities-1.0
 
-One of the advantages of using a CDI producer is that it can be tailored to your needs. For improved security, the `createMongo` method includes authentication with a [hotspot=username]`user name` and an [hotspot=encodedPassword]`encoded password` which is decoded using [hotspot=passwordUtil]`passwordUtilities-1.0`. This tool is specified in `pom.xml` as a [hotspot=passwordUtilDependency]`dependency` and in `server.xml` as a [hotspot=passwordUtilFeature]`feature`.
+One of the advantages of using a CDI producer is that it can be tailored to your needs. For improved security, the [hotspot=createMongo file=1]`createMongo` method includes authentication with a [hotspot=username file=1]`user name` and an [hotspot=encodedPassword file=1]`encoded password` which is decoded using [hotspot=passwordUtil file=1]`passwordUtilities-1.0`. 
+
+This tool is included in `pom.xml` as a [hotspot=passwordUtilDependency file=2]`dependency` and added to `server.xml` as a [hotspot=passwordUtilFeature file=3]`feature`.
 
 // =================================================================================================
 // Basic CRUD operations
@@ -291,11 +313,11 @@ CrewMember.java
 include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[]
 ----
 
-A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember]`CrewMember` before inserting or updating the database.
+A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember file=1]`CrewMember` before inserting or updating the database.
 
 === Injecting the database
 
-The CDI producer is used to inject a `MongoDatabase` into the [hotspot=dbInjection]`CrewService` class.
+The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the [hotspot file=0]`CrewService` class.
 
 === Create
 The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#insertOne-TDocument-[MongoCollection.insertOne()] method is used to insert a new document into the collection. This method takes in a `TDocument` which is the configuration of the new crew member to be inserted into the collection and does not return anything. The [hotspot=create]`add()` method handles the implementation of `CREATE`.
