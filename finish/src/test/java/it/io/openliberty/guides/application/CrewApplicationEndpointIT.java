@@ -104,7 +104,8 @@ public class CrewApplicationEndpointIT {
     // tag::testUpdateCrewMember[]
     public void testUpdateCrewMember() {
         System.out.println("   === Updating crew member with id "
-                + _TestIDs.get(0) + ". ===");
+                + _TestIDs.get(0)
+                + ". ===");
 
         JsonObject oldMember = (JsonObject) _TestData.get(0);
 
@@ -150,7 +151,8 @@ public class CrewApplicationEndpointIT {
         assertEquals("Incorrect number of testing members: ",
                 _TestIDs.size(), testMemberCount);
 
-        System.out.println("      === Done. There are " + crew.size()
+        System.out.println("      === Done. There are "
+                + crew.size()
                 + " crew members. ===");
 
         response.close();
@@ -159,7 +161,8 @@ public class CrewApplicationEndpointIT {
 
     // tag::testDeleteCrewMember[]
     private void testDeleteCrewMember() {
-        System.out.println("   === Removing " + _TestIDs.size()
+        System.out.println("   === Removing "
+                + _TestIDs.size()
                 + " crew members from the database. ===");
 
         for (String id : _TestIDs) {
