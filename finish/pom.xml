@@ -107,6 +107,13 @@
             <scope>provided</scope>
         </dependency>
         <!-- end::passwordUtilDependency[] -->
+        <!-- tag::sslDependency[] -->
+        <dependency>
+            <groupId>com.ibm.websphere.appserver.api</groupId>
+            <artifactId>com.ibm.websphere.appserver.api.ssl</artifactId>
+            <version>1.3.35</version>
+        </dependency>
+        <!-- end::sslDependency[] -->
         <!-- For tests -->
         <dependency>
             <groupId>org.apache.cxf</groupId>

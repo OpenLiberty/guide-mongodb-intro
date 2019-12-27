@@ -8,6 +8,9 @@
 		<!-- end::passwordUtilFeature[] -->
 		<feature>jaxrs-2.1</feature>
 		<feature>cdi-2.0</feature>
+		<!-- tag::sslFeature[] -->
+		<feature>ssl-1.0</feature>
+		<!-- end::sslFeature[] -->
 	</featureManager>
 	<!-- end::featureManager[] -->
 
@@ -18,4 +21,9 @@
 	<!-- tag::webApplication[] -->
 	<webApplication location="guide-mongodb-intro.war" contextRoot="${app.context.root}"/>
 	<!-- end::webApplication[] -->
+	<!-- tag::trustStore[] -->
+	<ssl id="outboundSSLContext" keyStoreRef="defaultKeyStore" trustStoreRef="outboundTrustStore"  sslProtocol="TLS" />
+	<keyStore id="outboundTrustStore" location="${server.output.dir}resources/security/truststore.p12" password="password" type="PKCS12" />
+	<sslDefault outboundSSLRef="outboundSSLContext" />
+	<!-- end::trustStore[] -->
 </server>

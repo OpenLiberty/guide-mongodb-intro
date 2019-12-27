@@ -21,11 +21,17 @@
         <version.maven-failsafe-plugin>2.22.2</version.maven-failsafe-plugin>
         <!-- OpenLiberty runtime -->
         <version.openliberty-runtime>RELEASE</version.openliberty-runtime>
+        <!-- tag::defaultHttpPort[] -->
         <http.port>9080</http.port>
+        <!-- end::defaultHttpPort[] -->
+        <!-- tag::defaultHttpsPort[] -->
         <https.port>9443</https.port>
+        <!-- end::defaultHttpsPort[] -->
         <packaging.type>usr</packaging.type>
         <app.name>${project.artifactId}</app.name>
+        <!-- tag::appContextRoot[] -->
         <default.app.context.root>/mongo</default.app.context.root>
+        <!-- end::appContextRoot[] -->
         <package.file>${project.build.directory}/${app.name}.zip</package.file>
     </properties>
 
@@ -82,23 +88,32 @@
             <scope>provided</scope>
             <type>pom</type>
         </dependency>
-		 <dependency>
+        <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>2.0.0.Final</version>
             <scope>provided</scope>
-		</dependency>
-		<dependency>
-    		<groupId>org.mongodb</groupId>
-    		<artifactId>mongo-java-driver</artifactId>
-    		<version>3.8.0</version>
-		</dependency>
-		<dependency>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.8.0</version>
+        </dependency>
+        <!-- tag::passwordUtilDependency[] -->
+        <dependency>
             <groupId>com.ibm.websphere.appserver.api</groupId>
             <artifactId>com.ibm.websphere.appserver.api.passwordUtil</artifactId>
             <version>[1.0.21,)</version>
             <scope>provided</scope>
         </dependency>
+        <!-- end::passwordUtilDependency[] -->
+        <!-- tag::sslDependency[] -->
+        <dependency>
+            <groupId>com.ibm.websphere.appserver.api</groupId>
+            <artifactId>com.ibm.websphere.appserver.api.ssl</artifactId>
+            <version>1.3.35</version>
+        </dependency>
+        <!-- end::sslDependency[] -->
         <!-- For tests -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -127,7 +142,7 @@
     </dependencies>
 
     <build>
-		<defaultGoal>clean package liberty:run-server</defaultGoal>
+        <defaultGoal>clean package liberty:run-server</defaultGoal>
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
@@ -177,10 +192,12 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${version.maven-failsafe-plugin}</version>
                 <configuration>
+                    <!-- tag::testsysprops[] -->
                     <systemPropertyVariables>
                         <app.http.port>${http.port}</app.http.port>
                         <app.context.root>${default.app.context.root}</app.context.root>
                     </systemPropertyVariables>
+                    <!-- end::testsysprops[] -->
                 </configuration>
             </plugin>
         </plugins>
