@@ -33,7 +33,7 @@ function addCrewMember() {
         refreshDocDisplay();
     }
 
-    request.open("POST", "crew/" + crewMember.crewID, true);
+    request.open("POST", "crew/add", true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(crewMember));
 }
@@ -116,7 +116,7 @@ function refreshDocDisplay() {
         }
     }
 
-    request.open("GET", "crew/", true);
+    request.open("GET", "crew/members", true);
     request.send();
 }
 

@@ -12,7 +12,7 @@
 // end::copyright[]
 package it.io.openliberty.guides.application;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.json.*;
 import javax.ws.rs.client.Client;
@@ -21,24 +21,24 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.StringReader;
 import java.util.ArrayList;
 
 public class CrewApplicationEndpointIT {
 
-    private Client _Client;
-    private JsonArray _TestData;
-    private String _RootURL;
+    private static Client _Client;
+    private static JsonArray _TestData;
+    private static String _RootURL;
     private ArrayList<String> _TestIDs = new ArrayList<>(2);
 
     // tag::Before[]
-    @Before
+    @BeforeAll
     // end::Before[]
-    public void setup() {
+    public static void setup() {
         _Client = ClientBuilder.newClient();
         _Client.register(JsrJsonpProvider.class);
 
@@ -62,10 +62,10 @@ public class CrewApplicationEndpointIT {
     }
 
     // tag::After[]
-    @After
+    @AfterAll
     // end::After[]
     // tag::teardown[]
-    public void teardown() {
+    public static void teardown() {
         _Client.close();
     }
     // end::teardown[]
@@ -88,7 +88,7 @@ public class CrewApplicationEndpointIT {
 
         for (int i = 0; i < _TestData.size(); i ++) {
             JsonObject member = (JsonObject) _TestData.get(i);
-            String url = _RootURL + "/crew" + "/" + member.getString("crewID");
+            String url = _RootURL + "/crew/add";
             Response response = _Client.target(url).request().post(Entity.json(member));
             this.assertResponse(url, response);
 
@@ -129,7 +129,7 @@ public class CrewApplicationEndpointIT {
     private void testGetCrewMembers() {
         System.out.println("   === Listing crew members from the database. ===");
 
-        String url = _RootURL + "/crew";
+        String url = _RootURL + "/crew/members";
         Response response = _Client.target(url).request().get();
 
         this.assertResponse(url, response);
@@ -148,8 +148,8 @@ public class CrewApplicationEndpointIT {
             }
         }
 
-        assertEquals("Incorrect number of testing members: ",
-                _TestIDs.size(), testMemberCount);
+        assertEquals(_TestIDs.size(), testMemberCount,
+                "Incorrect number of testing members.");
 
         System.out.println("      === Done. There are "
                 + crew.size()
@@ -187,6 +187,6 @@ public class CrewApplicationEndpointIT {
      *          - response received from the target URL.
      */
     private void assertResponse(String url, Response response) {
-        assertEquals("Incorrect response code from " + url, 200, response.getStatus());
+        assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
     }
 }
