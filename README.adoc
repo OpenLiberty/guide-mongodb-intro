@@ -89,7 +89,7 @@ Use the Java `keytool` to add the certificate to the truststore and replace `\<<
 
 [role='command']
 ```
-keytool -import -trustcacert -keystore assets/security/truststore.p12 -storepass <<PASSWORD>> -storetype PKCS12 -alias mongo -file assets/security/cert.pem
+keytool -import -trustcacerts -keystore assets/security/truststore.p12 -storepass <<PASSWORD>> -storetype PKCS12 -alias mongo -file assets/security/cert.pem
 cp assets/security/truststore.p12 start/src/main/liberty/config/resources/security/
 cp assets/security/truststore.p12 finish/src/main/liberty/config/resources/security/
 rm assets/security/truststore.p12
