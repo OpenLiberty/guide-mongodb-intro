@@ -113,7 +113,7 @@ The `mongodb.conf` file specifies the configuration to use when starting a `mong
 `mongodb.conf`
 ---- 
 [role="edit_command_text"]
-If you will be using MongoDB on Docker, replace `assets` in `storage.dbPath` and `net.certificateKeyFile` with `/etc/mongodb`. Otherwise, no change is needed.
+If you will be using MongoDB on Docker, replace `assets` in `storage.dbPath` and `net.tls.certificateKeyFile` with `/etc/mongodb`. Otherwise, no change is needed.
 
 === MongoDB installation and setup
 
