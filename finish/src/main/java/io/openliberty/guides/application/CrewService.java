@@ -68,7 +68,7 @@ public class CrewService {
 	@APIResponses({
 		@APIResponse(
 			responseCode = "200",
-			description = "Crew member successfully added to the database."),
+			description = "Crew member was added to the database."),
 		@APIResponse(
 			responseCode = "400",
 			description = "Invalid crew member configuration.") })
@@ -113,7 +113,7 @@ public class CrewService {
 	@APIResponses({
 		@APIResponse(
 			responseCode = "200",
-			description = "Crew member successfully removed from the database."),
+			description = "Crew member was removed from the database."),
 		@APIResponse(
 			responseCode = "400",
 			description = "Invalid object id."),
@@ -165,7 +165,7 @@ public class CrewService {
 	@APIResponses({
 		@APIResponse(
 			responseCode = "200",
-			description = "Crew member successfully updated in the database."),
+			description = "Crew member was updated in the database."),
 		@APIResponse(
 			responseCode = "400",
 			description = "Invalid object id or crew member configuration."),
@@ -241,10 +241,10 @@ public class CrewService {
 	@APIResponses({
 		@APIResponse(
 			responseCode = "200",
-			description = "Successfully retrieved crew members from the database."),
+			description = "Crew members were retrieved from the database."),
 		@APIResponse(
 			responseCode = "500",
-			description = "Failed to retrieve crew members from the database.") })
+			description = "Crew members could not be retrieved from the database.") })
 	@Operation(summary = "List the crew members.")
 	public Response retrieve() {
 		StringWriter sb = new StringWriter();
