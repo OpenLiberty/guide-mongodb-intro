@@ -68,11 +68,11 @@ public class CrewService {
 	@APIResponses({
 		@APIResponse(
 			responseCode = "200",
-			description = "Crew member was added to the database."),
+			description = "Successfully added crew member."),
 		@APIResponse(
 			responseCode = "400",
 			description = "Invalid crew member configuration.") })
-	@Operation(summary = "Add a new crew member.")
+	@Operation(summary = "Add a new crew member to the database.")
 	public Response add(CrewMember crewMember) {
 
 		Set<ConstraintViolation<CrewMember>> violations = validator.validate(
@@ -85,9 +85,9 @@ public class CrewService {
 				messages.add(v.getMessage());
 			}
 			return Response
-					.status(Response.Status.BAD_REQUEST)
-					.entity(messages.build().toString())
-					.build();
+				.status(Response.Status.BAD_REQUEST)
+				.entity(messages.build().toString())
+				.build();
 		}
 
 		MongoCollection<Document> crew = db.getCollection("Crew");
@@ -100,9 +100,9 @@ public class CrewService {
 		crew.insertOne(newCrewMember);
 
 		return Response
-				.status(Response.Status.OK)
-				.entity(newCrewMember.toJson())
-				.build();
+			.status(Response.Status.OK)
+			.entity(newCrewMember.toJson())
+			.build();
 	}
 	// end::create[]
 
@@ -113,14 +113,14 @@ public class CrewService {
 	@APIResponses({
 		@APIResponse(
 			responseCode = "200",
-			description = "Crew member was removed from the database."),
+			description = "Successfully deleted crew member."),
 		@APIResponse(
 			responseCode = "400",
 			description = "Invalid object id."),
 		@APIResponse(
 			responseCode = "404",
 			description = "Crew member object id was not found.") })
-	@Operation(summary = "Delete a crew member.")
+	@Operation(summary = "Delete a crew member from the database.")
 	public Response remove(
 			@Parameter(
 				description = "Object id of the crew member to delete.",
@@ -136,24 +136,24 @@ public class CrewService {
 			docId = new Document("_id", new ObjectId(id));
 		} catch (Exception e) {
 			return Response
-					.status(Response.Status.BAD_REQUEST)
-					.entity("[\"Invalid object id!\"]")
-					.build();
+				.status(Response.Status.BAD_REQUEST)
+				.entity("[\"Invalid object id!\"]")
+				.build();
 		}
 
 		DeleteResult deleteResult = crew.deleteOne(docId);
 		
 		if (deleteResult.getDeletedCount() == 0) {
 			return Response
-					.status(Response.Status.NOT_FOUND)
-					.entity("[\"_id was not found!\"]")
-					.build();
+				.status(Response.Status.NOT_FOUND)
+				.entity("[\"_id was not found!\"]")
+				.build();
 		}
 
 		return Response
-				.status(Response.Status.OK)
-				.entity(docId.toJson())
-				.build();
+			.status(Response.Status.OK)
+			.entity(docId.toJson())
+			.build();
 	}
 	// end::delete[]
 
@@ -165,14 +165,14 @@ public class CrewService {
 	@APIResponses({
 		@APIResponse(
 			responseCode = "200",
-			description = "Crew member was updated in the database."),
+			description = "Successfully updated crew member."),
 		@APIResponse(
 			responseCode = "400",
 			description = "Invalid object id or crew member configuration."),
 		@APIResponse(
 			responseCode = "404",
 			description = "Crew member object id was not found.") })
-	@Operation(summary = "Update a crew member.")
+	@Operation(summary = "Update a crew member in the database.")
 	public Response update(CrewMember crewMember,
 			@Parameter(
 				description = "Object id of the crew member to update.",
@@ -190,9 +190,9 @@ public class CrewService {
 				messages.add(v.getMessage());
 			}
 			return Response
-					.status(Response.Status.BAD_REQUEST)
-					.entity(messages.build().toString())
-					.build();
+				.status(Response.Status.BAD_REQUEST)
+				.entity(messages.build().toString())
+				.build();
 		}
 
 		MongoCollection<Document> crew = db.getCollection("Crew");
@@ -203,9 +203,9 @@ public class CrewService {
 			oid = new ObjectId(id);
 		} catch (Exception e) {
 			return Response
-					.status(Response.Status.BAD_REQUEST)
-					.entity("[\"Invalid object id!\"]")
-					.build();
+				.status(Response.Status.BAD_REQUEST)
+				.entity("[\"Invalid object id!\"]")
+				.build();
 		}
 
 		Document query = new Document("_id", oid);
@@ -219,17 +219,17 @@ public class CrewService {
 
 		if (updateResult.getMatchedCount() == 0) {
 			return Response
-					.status(Response.Status.NOT_FOUND)
-					.entity("[\"_id was not found!\"]")
-					.build();
+				.status(Response.Status.NOT_FOUND)
+				.entity("[\"_id was not found!\"]")
+				.build();
 		}
 
-        newCrewMember.put("_id", oid);
+		newCrewMember.put("_id", oid);
 
 		return Response
-				.status(Response.Status.OK)
-				.entity(newCrewMember.toJson())
-				.build();
+			.status(Response.Status.OK)
+			.entity(newCrewMember.toJson())
+			.build();
 	}
 	// end::update[]
 
@@ -241,11 +241,11 @@ public class CrewService {
 	@APIResponses({
 		@APIResponse(
 			responseCode = "200",
-			description = "Crew members were retrieved from the database."),
+			description = "Successfully listed the crew members."),
 		@APIResponse(
 			responseCode = "500",
-			description = "Crew members could not be retrieved from the database.") })
-	@Operation(summary = "List the crew members.")
+			description = "Failed to list the crew members.") })
+	@Operation(summary = "List the crew members from the database.")
 	public Response retrieve() {
 		StringWriter sb = new StringWriter();
 
@@ -262,13 +262,13 @@ public class CrewService {
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 			return Response
-					.serverError()
-					.build();
+				.serverError()
+				.build();
 		}
 
 		return Response
-				.status(Response.Status.OK)
-				.entity(sb.toString())
-				.build();
+			.status(Response.Status.OK)
+			.entity(sb.toString())
+			.build();
 	}
 }
