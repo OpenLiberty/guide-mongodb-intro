@@ -73,7 +73,7 @@ Before you begin, you must generate a self-signed certificate, add it to the tru
 
 === Generating a self-signed certificate
 
-We will be generating our own self-signed certificate `cert.pem` and a private key `private.key`. We will use these files to generate our `mongodb_tls.pem` file which contains both the certificate and private key to start `mongo` using TLS.
+You will be generating a self-signed certificate `cert.pem` and a private key `private.key`. You will use these files to generate your `mongodb_tls.pem` file which contains both the certificate and private key to start `mongo` using TLS.
 
 Issue the following commands to generate the required files and set the Common Name (CN) as `localhost` when prompted.
 
@@ -90,12 +90,11 @@ Use the Java `keytool` to add the certificate to the truststore and replace `\<<
 [role='command']
 ```
 keytool -import -trustcacerts -keystore assets/security/truststore.p12 -storepass <<PASSWORD>> -storetype PKCS12 -alias mongo -file assets/security/cert.pem
-cp assets/security/truststore.p12 start/src/main/liberty/config/resources/security/
-cp assets/security/truststore.p12 finish/src/main/liberty/config/resources/security/
-rm assets/security/truststore.p12
 ```
 
-Replace the `keystore.password` field in `start/src/main/liberty/config/server.xml` and `finish/src/main/liberty/config/server.xml` with your `\<<PASSWORD>>`. 
+Copy the `truststore.p12` file into `start/src/main/liberty/config/resources/security/` and `finish/src/main/liberty/config/resources/security/`. Then, remove it from `assets/security/`.
+
+Next, replace the `keystore.password` field in `start/src/main/liberty/config/server.xml` and `finish/src/main/liberty/config/server.xml` with your `\<<PASSWORD>>`. 
 
 === Setting up the MongoDB configuration
 
@@ -211,7 +210,7 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-The configuration does the following actions:
+The Open Liberty server configuration does the following actions:
 
 . Configures the server to enable JAX-RS. This is specified in the [hotspot=featureManager file=0]`featureManager` element.
 . Configures the server to resolve the HTTP port numbers from variables, which are then specified in
@@ -242,24 +241,6 @@ The MongoDB driver should be bundled in your microservice. To do this with Maven
     <version>X.X.X</version>
 </dependency>
 ----
-
-If you have multiple microservices accessing MongoDB, instead of bundling the MongoDB driver, you can configure a shared library in your `server.xml` like this:
-
-[source,role="no_copy"]
-----
-<library id="MongoLib">
-    <file name="${shared.resource.dir}/mongo-java-driver-3.8.0.jar" />
-</library>
-
-<webApplication location="MongoDBSample1.war">
-    <classloader commonLibraryRef="MongoLib" />
-</webApplication>
-
-<webApplication location="MongoDBSample2.war">
-    <classloader commonLibraryRef="MongoLib" />
-</webApplication>
-----
-
 
 // =================================================================================================
 // Creating a CDI Producer for Mongo
@@ -325,7 +306,7 @@ This tool is included in `pom.xml` as a [hotspot=passwordUtilDependency file=2]`
 
 === Using TLS
 
-Since we started our `MongoDB` server using the TLS, we must setup the SSL context in our Open Liberty server accordingly. The `ssl` dependency is imported in the [hotspot=sslDependency file=2]`pom.xml` and enabled in the [hotspot=sslFeature file=3]`server.xml`. Additionally, the SSL context is setup in the [hotspot=sslContext file=3]`server.xml` to use the `TLS` protocol, the default keystore and our truststore which contains the public key. In our [hotspot file=1]`MongoProducer`, the [hotspot=sslContext file=1]`SSL context` is retrieved using the `JSSEHelper` and it is included in the [hotspot=sslEnable file=1]`MongoClientOptions`.
+Since you started your `MongoDB` server using the TLS, you must setup the SSL context in your Open Liberty server accordingly. The `ssl` dependency is imported in the [hotspot=sslDependency file=2]`pom.xml` and enabled in the [hotspot=sslFeature file=3]`server.xml`. Additionally, the SSL context is setup in the [hotspot=sslContext file=3]`server.xml` to use the `TLS` protocol, the default keystore and your truststore which contains the public key. In your [hotspot file=1]`MongoProducer`, the [hotspot=sslContext file=1]`SSL context` is retrieved using the `JSSEHelper` and it is included in the [hotspot=sslEnable file=1]`MongoClientOptions`.
 
 // =================================================================================================
 // Basic CRUD operations
@@ -333,7 +314,7 @@ Since we started our `MongoDB` server using the TLS, we must setup the SSL conte
 
 == Basic CRUD operations
 
-You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client] package is used help to implement these `CRUD` operations for the microservice. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection(java.lang.String)[MongoDatabase.getCollection()] method will be used to return http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection<TDocument>], a generic with a `TDocument` type parameter. For this guide, we will be using http://mongodb.github.io/mongo-java-driver/3.6/javadoc/?org/bson/BsonDocument.html[Document] as the type. Furthermore, several methods from http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection] will be used to interact with the collection to implement the `CRUD` operations.
+You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client] package is used help to implement these `CRUD` operations for the microservice. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection(java.lang.String)[MongoDatabase.getCollection()] method will be used to return http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection<TDocument>], a generic with a `TDocument` type parameter. For this guide, you will be using http://mongodb.github.io/mongo-java-driver/3.6/javadoc/?org/bson/BsonDocument.html[Document] as the type. Furthermore, several methods from http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection] will be used to interact with the collection to implement the `CRUD` operations.
 
 See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce] for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
 
@@ -361,7 +342,7 @@ A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember
 
 The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the [hotspot file=0]`CrewService` class.
 
-Visit `\http://localhost:9080/openapi/ui` to test and see the API documentation for the next sections.
+Visit http://localhost:9080/openapi/ui[^] to test and see the API documentation for the next sections.
 
 === Create
 The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#insertOne-TDocument-[MongoCollection.insertOne()] method is used to insert a new document into the collection. This method takes in a `TDocument` which contains the configuration of the new crew member to be inserted into the collection and does not return anything. The [hotspot=create]`add()` method handles the implementation of `CREATE`.
@@ -413,7 +394,7 @@ You will receive a response containing an array of all the members currently in 
 === Update
 The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#replaceOne-org.bson.conversions.Bson-TDocument-[MongoCollection.replaceOne()] method is used update a specified document. This method takes in a http://mongodb.github.io/mongo-java-driver/3.6/javadoc/org/bson/conversions/Bson.html[Bson] which contains the object id of the document to be replaced and another `TDocument` which contains the new configuration of the crew member. The method returns an http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/UpdateResult.html[UpdateResult] object with a method called `getMatchedCount()` which indicates the number of matches to the query. The [hotspot=update]`update()` method handles the implementation of `UPDATE`.
 
-Test the `UPDATE` endpoint from the OpenAPI UI by specifying the <<ID>> you saved from the `CREATE` section in the id parameter and setting the request body as:
+Test the `UPDATE` endpoint from the OpenAPI UI by specifying the `\<<ID>>` you saved from the `CREATE` section in the id parameter and setting the request body as:
 ```
 {
   "Name": "Member1",

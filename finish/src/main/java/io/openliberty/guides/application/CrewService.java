@@ -66,17 +66,17 @@ public class CrewService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@APIResponses({
-			@APIResponse(
-					responseCode = "200",
-					description = "Crew member successfully added to the database."),
-			@APIResponse(
-					responseCode = "400",
-					description = "Invalid crew member configuration.") })
-    @Operation(summary = "Add a new crew member.")
+		@APIResponse(
+			responseCode = "200",
+			description = "Crew member successfully added to the database."),
+		@APIResponse(
+			responseCode = "400",
+			description = "Invalid crew member configuration.") })
+	@Operation(summary = "Add a new crew member.")
 	public Response add(CrewMember crewMember) {
 
 		Set<ConstraintViolation<CrewMember>> violations = validator.validate(
-				crewMember
+			crewMember
 		);
 
 		if(violations.size() > 0) {
@@ -111,22 +111,23 @@ public class CrewService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@APIResponses({
-			@APIResponse(
-					responseCode = "200",
-					description = "Crew member successfully removed from the database."),
-			@APIResponse(
-					responseCode = "400",
-					description = "Invalid object id."),
-			@APIResponse(
-					responseCode = "404",
-					description = "Crew member object id was not found.") })
-    @Operation(summary = "Delete a crew member.")
+		@APIResponse(
+			responseCode = "200",
+			description = "Crew member successfully removed from the database."),
+		@APIResponse(
+			responseCode = "400",
+			description = "Invalid object id."),
+		@APIResponse(
+			responseCode = "404",
+			description = "Crew member object id was not found.") })
+	@Operation(summary = "Delete a crew member.")
 	public Response remove(
 			@Parameter(
-					description = "Object id of the crew member to delete.",
-					required = true
+				description = "Object id of the crew member to delete.",
+				required = true
 			)
 			@PathParam("id") String id) {
+
 		MongoCollection<Document> crew = db.getCollection("Crew");
 
 		Document docId;
@@ -162,20 +163,20 @@ public class CrewService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@APIResponses({
-			@APIResponse(
-					responseCode = "200",
-					description = "Crew member successfully updated in the database."),
-			@APIResponse(
-					responseCode = "400",
-					description = "Invalid object id or crew member configuration."),
-			@APIResponse(
-					responseCode = "404",
-					description = "Crew member object id was not found.") })
-    @Operation(summary = "Update a crew member.")
+		@APIResponse(
+			responseCode = "200",
+			description = "Crew member successfully updated in the database."),
+		@APIResponse(
+			responseCode = "400",
+			description = "Invalid object id or crew member configuration."),
+		@APIResponse(
+			responseCode = "404",
+			description = "Crew member object id was not found.") })
+	@Operation(summary = "Update a crew member.")
 	public Response update(CrewMember crewMember,
 			@Parameter(
-					description = "Object id of the crew member to update.",
-					required = true
+				description = "Object id of the crew member to update.",
+				required = true
 			)
 			@PathParam("id") String id) {
 
@@ -238,12 +239,12 @@ public class CrewService {
 	@Path("/members")
 	@Produces(MediaType.APPLICATION_JSON)
 	@APIResponses({
-			@APIResponse(
-					responseCode = "200",
-					description = "Successfully retrieved crew members from the database."),
-			@APIResponse(
-					responseCode = "500",
-					description = "Failed to retrieve crew members from the database.") })
+		@APIResponse(
+			responseCode = "200",
+			description = "Successfully retrieved crew members from the database."),
+		@APIResponse(
+			responseCode = "500",
+			description = "Failed to retrieve crew members from the database.") })
 	@Operation(summary = "List the crew members.")
 	public Response retrieve() {
 		StringWriter sb = new StringWriter();

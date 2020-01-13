@@ -16,7 +16,6 @@
         <!-- Plugins -->
         <version.liberty-maven-plugin>3.1</version.liberty-maven-plugin>
         <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
-        <version.dockerfile-maven-plugin>1.4.3</version.dockerfile-maven-plugin>
         <version.maven-surefire-plugin>2.22.2</version.maven-surefire-plugin>
         <version.maven-failsafe-plugin>2.22.2</version.maven-failsafe-plugin>
         <!-- OpenLiberty runtime -->
@@ -27,7 +26,6 @@
         <!-- tag::defaultHttpsPort[] -->
         <liberty.var.default.https.port>9443</liberty.var.default.https.port>
         <!-- end::defaultHttpsPort[] -->
-        <packaging.type>usr</packaging.type>
         <app.name>${project.artifactId}</app.name>
         <!-- tag::appContextRoot[] -->
         <liberty.var.app.context.root>/mongo</liberty.var.app.context.root>
@@ -35,63 +33,6 @@
         <package.file>${project.build.directory}/${app.name}.zip</package.file>
     </properties>
 
-    <!-- Profiles for temporarily switching packaging types -->
-    <profiles>
-        <!-- tag::profile-runnable-package[] -->
-        <profile>
-            <id>runnable-package</id>
-            <properties>
-                <packaging.type>runnable</packaging.type>
-            </properties>
-        </profile>
-        <!-- end::profile-runnable-package[] -->
-        <profile>
-            <id>minify-runnable-package</id>
-            <properties>
-                <packaging.type>minify,runnable</packaging.type>
-            </properties>
-        </profile>
-        <!-- tag::profile-docker-image[] -->
-        <profile>
-            <id>docker-image</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>dockerfile-maven-plugin</artifactId>
-                        <version>${version.dockerfile-maven-plugin}</version>
-                        <executions>
-                            <execution>
-                                <id>build-docker-image</id>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <repository>openliberty-${project.artifactId}</repository>
-                            <tag>${project.version}</tag>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <!-- end::profile-docker-image[] -->
-    </profiles>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.openliberty.features</groupId>
-                <artifactId>features-bom</artifactId>
-                <version>RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <!-- Clean these up later -->
     <dependencies>
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
@@ -106,11 +47,13 @@
             <version>2.0.0.Final</version>
             <scope>provided</scope>
         </dependency>
+        <!-- tag::mongoDriver[] -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>3.8.0</version>
         </dependency>
+        <!-- end::mongoDriver[] -->
         <!-- tag::passwordUtilDependency[] -->
         <dependency>
             <groupId>com.ibm.websphere.appserver.api</groupId>
@@ -126,12 +69,6 @@
             <version>1.3.35</version>
         </dependency>
         <!-- end::sslDependency[] -->
-        <dependency>
-            <groupId>io.openliberty.features</groupId>
-            <artifactId>mpOpenAPI-1.1</artifactId>
-            <type>esa</type>
-            <scope>provided</scope>
-        </dependency>
         <!-- For tests -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -160,7 +97,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
+            <version>5.5.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -191,12 +128,6 @@
                         <type>zip</type>
                     </assemblyArtifact>
                     <serverName>MongoServer</serverName>
-                    <stripVersion>true</stripVersion>
-                    <configFile>src/main/liberty/config/server.xml</configFile>
-                    <!-- tag::loose-app[] -->
-                    <looseApplication>true</looseApplication>
-                    <!-- end::loose-app[] -->
-                    <include>${packaging.type}</include>
                 </configuration>
             </plugin>
             <!-- Plugin to run unit tests -->
