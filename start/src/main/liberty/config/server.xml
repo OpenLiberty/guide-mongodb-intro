@@ -44,7 +44,7 @@
 	<keyStore 
 		id="outboundTrustStore" 
 		location="${server.output.dir}resources/security/truststore.p12"
-		password="<<PASSWORD>>"
+		password="openliberty"
 		type="PKCS12" 
 	/>
 	<sslDefault 

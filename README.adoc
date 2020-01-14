@@ -75,7 +75,7 @@ Before you begin, you must generate a self-signed certificate, add it to the tru
 
 You will be generating a self-signed certificate `cert.pem` and a private key `private.key`. You will use these files to generate your `mongodb_tls.pem` file which contains both the certificate and private key to start `mongo` using TLS.
 
-Issue the following commands to generate the required files and set the Common Name (CN) as `localhost` when prompted.
+Issue the following commands to generate the required files. You will be prompted to enter information pertinent to the certificate. Ensure that you set the Common Name (CN) as `localhost` the prompt appears.
 
 [role='command']
 ```
@@ -85,16 +85,14 @@ cat assets/security/private.key assets/security/cert.pem > assets/security/mongo
 
 === Add the certificate to the truststore
 
-Use the Java `keytool` to add the certificate to the truststore and replace `\<<PASSWORD>>` with your own password.
+Use the Java `keytool` to add the certificate to the truststore. The password for the truststore is `openliberty`.
 
 [role='command']
 ```
-keytool -import -trustcacerts -keystore assets/security/truststore.p12 -storepass <<PASSWORD>> -storetype PKCS12 -alias mongo -file assets/security/cert.pem
+keytool -import -trustcacerts -keystore assets/security/truststore.p12 -storepass openliberty -storetype PKCS12 -alias mongo -file assets/security/cert.pem
 ```
 
 Copy the `truststore.p12` file into `start/src/main/liberty/config/resources/security/` and `finish/src/main/liberty/config/resources/security/`. Then, remove it from `assets/security/`.
-
-Next, replace the `keystore.password` field in `start/src/main/liberty/config/server.xml` and `finish/src/main/liberty/config/server.xml` with your `\<<PASSWORD>>`. 
 
 === Setting up the MongoDB configuration
 
@@ -126,7 +124,7 @@ docker run --name mongo-sample -v $(pwd)/assets:/etc/mongodb -p 127.0.0.1:27017:
 
 If you do not have Docker or want to run `MongoDB` locally, you can install `MongoDB` manually for your operating system from the official https://docs.mongodb.com/manual/administration/install-community/[MongoDB website].
 
-After installing `MongoDB`, run the following command to start `mongo` using the provided `MongoDB` config:
+After installing `MongoDB` locally, run the following command to start `mongo` using the provided `MongoDB` config:
 
 [role='command']
 ```
@@ -135,18 +133,18 @@ mongod --config assets/mongodb.conf
 
 === Database setup
 
-You will need to create a new database and a user for authentication. If you are using Docker, access the container's command line by running the following command:
+You will need to create a new database and a user for authentication through the `mongo` Shell. If you are using Docker, you will need to access the container's command line by running the following command:
 
 [role='command']
 ```
 docker exec -it mongo-sample bash
 ```
 
-Issue the following commands to enter the `mongo` Shell, create a new database, and create a new user for the database (replace `\<<PATH_TO_PEM_FILE>>` with the path to the mongodb_tls.pem file):`
+Issue the following commands to enter the `mongo` Shell, create a new database, and create a new user for the database (replace `\<<PATH_TO_CERT_FILE>>` with the path to the `cert.pem` file):
 
 [role='command']
 ```
-mongo --tls --tlsCAFile <<PATH_TO_PEM_FILE>>/mongodb_tls.pem --host localhost
+mongo --tls --tlsCAFile <<PATH_TO_CERT_FILE>>/cert.pem --host localhost
 use testdb
 db.createUser({user: 'sampleUser', pwd:'openliberty', roles: [{ role: 'readWrite', db:'testdb'}]})
 ```
