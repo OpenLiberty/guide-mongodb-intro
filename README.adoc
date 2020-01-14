@@ -28,7 +28,7 @@ Learn how to store data with `MongoDB` using CDI and MicroProfile Config.
 
 == What you'll learn
 
-You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The service will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the `\http://localhost:9080/mongo/crew` URL.
+You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The service will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the http://localhost:9080/mongo/crew/[^] URL.
 
 The microservice's response to a `GET` request is with an array containing the JSON representation of the crew members' information like this:
 
@@ -109,7 +109,7 @@ The `mongodb.conf` file specifies the configuration to use when starting a `mong
 [role="code_command hotspot file=0", subs="quotes"] 
 ---- 
 #Update the `mongodb.conf` file.#
-`mongodb.conf`
+`assets/mongodb.conf`
 ---- 
 [role="edit_command_text"]
 If you will be using MongoDB on Docker, replace `assets` in `storage.dbPath` and `net.tls.certificateKeyFile` with `/etc/mongodb`. Otherwise, no change is needed.
@@ -170,8 +170,7 @@ goal to build the application and deploy it to Open Liberty:
 mvn liberty:run
 ```
 
-Check out the microservice at the
-http://localhost:9080/mongo[^] URL.
+If you see `The MongoServer server is ready to run a smarter planet. The MongoServer server started in 4.300 seconds.` in the console, then it is ready for you check out the microservice through the web interface at the http://localhost:9080/mongo/[^] URL.
 
 After you are done checking out the microservice, stop the Open Liberty server by pressing `CTRL+C`
 in the shell session where you ran the server. Alternatively, you can run the `liberty:stop` goal 
@@ -266,12 +265,6 @@ include::finish/src/main/java/io/openliberty/guides/mongo/MongoProducer.java[]
 
 Using MicroProfile Config makes configuring the `MongoDB` driver simple.
 
-[role="code_command hotspot", subs="quotes"]
-----
-#Create the configuration file.#
-`src/main/webapp/META-INF/microprofile-config.properties`
-----
-
 microprofile-config.properties
 [source, properties, linenums, role="code_column hide_tags=copyright"]
 ----
@@ -314,7 +307,7 @@ Since you started your `MongoDB` server using the TLS, you must setup the SSL co
 
 == Basic CRUD operations
 
-You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client] package is used help to implement these `CRUD` operations for the microservice. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection(java.lang.String)[MongoDatabase.getCollection()] method will be used to return http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection<TDocument>], a generic with a `TDocument` type parameter. For this guide, you will be using http://mongodb.github.io/mongo-java-driver/3.6/javadoc/?org/bson/BsonDocument.html[Document] as the type. Furthermore, several methods from http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection] will be used to interact with the collection to implement the `CRUD` operations.
+You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client] package is used to help implement these `CRUD` operations for the microservice. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection(java.lang.String)[MongoDatabase.getCollection()] method will be used to return http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection<TDocument>], a generic with a `TDocument` type parameter. For this guide, you will be using http://mongodb.github.io/mongo-java-driver/3.6/javadoc/?org/bson/BsonDocument.html[Document] as the type. Furthermore, several methods from http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection] will be used to interact with the collection to implement the `CRUD` operations.
 
 See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce] for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
 
@@ -342,7 +335,7 @@ A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember
 
 The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the [hotspot file=0]`CrewService` class.
 
-Visit http://localhost:9080/openapi/ui[^] to test and see the API documentation for the next sections.
+Visit http://localhost:9080/openapi/ui/[^] to test and see the API documentation for the next sections.
 
 === Create
 The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#insertOne-TDocument-[MongoCollection.insertOne()] method is used to insert a new document into the collection. This method takes in a `TDocument` which contains the configuration of the new crew member to be inserted into the collection and does not return anything. The [hotspot=create]`add()` method handles the implementation of `CREATE`.
@@ -440,8 +433,7 @@ You will receive a response containing the object id of the deleted crew member.
 The Open Liberty server was started in development mode at the beginning of the guide and all the 
 changes were automatically picked up.
 
-Check out the service that you created at the
-http://localhost:9080/mongo[^] URL. 
+If you see `The MongoServer server is ready to run a smarter planet. The MongoServer server started in 4.300 seconds.` in the console, then it is ready for you to check out the microservice that you created at the http://localhost:9080/mongo/[^] URL. 
 
 // =================================================================================================
 // Testing the service
@@ -449,9 +441,8 @@ http://localhost:9080/mongo[^] URL.
 
 == Testing the service
 
-You can test this microservice manually by sending HTTP requests to http://localhost:9080/mongo/crew[^] or by starting a server and pointing a web browser at the
-http://localhost:9080/mongo[^] URL. Automated tests are a much better
-approach because they trigger a failure if a change introduces a bug. JUnit and the JAX-RS Client
+You can test this microservice manually by starting a server and sending HTTP requests to http://localhost:9080/mongo/crew/[^] or by using the web interface at the http://localhost:9080/mongo/[^] URL. Automated tests are a much better
+approach because they trigger a failure if a change introduces a bug. The JUnit and the JAX-RS Client
 API provide a simple environment to test the microservice.
 
 You can write tests to call the microservice server directly.
@@ -468,8 +459,7 @@ CrewApplicationEndpointIT.java
 include::finish/src/test/java/it/io/openliberty/guides/application/CrewApplicationEndpointIT.java[]
 ----
 
-This test class has more lines of code than the resource implementation.
-The test method is indicated with the [hotspot=test file=0]`@Test` annotation.
+The test method is annotated with the [hotspot=test file=0]`@Test` annotation.
 
 pom.xml
 [source , xml, linenums,role="code_column hide_tags=copyright"]

@@ -122,11 +122,11 @@ public class CrewService {
 			description = "Crew member object id was not found.") })
 	@Operation(summary = "Delete a crew member from the database.")
 	public Response remove(
-			@Parameter(
-				description = "Object id of the crew member to delete.",
-				required = true
-			)
-			@PathParam("id") String id) {
+		@Parameter(
+			description = "Object id of the crew member to delete.",
+			required = true
+		)
+		@PathParam("id") String id) {
 
 		MongoCollection<Document> crew = db.getCollection("Crew");
 
@@ -174,11 +174,11 @@ public class CrewService {
 			description = "Crew member object id was not found.") })
 	@Operation(summary = "Update a crew member in the database.")
 	public Response update(CrewMember crewMember,
-			@Parameter(
-				description = "Object id of the crew member to update.",
-				required = true
-			)
-			@PathParam("id") String id) {
+		@Parameter(
+			description = "Object id of the crew member to update.",
+			required = true
+		)
+		@PathParam("id") String id) {
 
 		Set<ConstraintViolation<CrewMember>> violations = validator.validate(
 				crewMember
@@ -234,7 +234,6 @@ public class CrewService {
 	// end::update[]
 
 	// tag::read[]
-	// end::read[]
 	@GET
 	@Path("/members")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -271,4 +270,5 @@ public class CrewService {
 			.entity(sb.toString())
 			.build();
 	}
+	// end::read[]
 }
