@@ -114,12 +114,12 @@ If you will be using MongoDB on Docker, replace `assets` in `storage.dbPath` and
 
 === MongoDB installation and setup
 
-If you have Docker, you can execute the following commands to run a `mongo` image in a Docker container using the provided `MongoDB` config (the assets folder will be mounted onto `/etc/mongodb` in the Docker container):
+If you have Docker, you can execute the following commands to build an image `FROM mongo` and run it in a Docker container using the provided `MongoDB` config (the assets folder will be copied into `/etc/mongodb` in the Docker container):
 
 [role='command']
 ```
-docker pull mongo
-docker run --name mongo-sample -v $(pwd)/assets:/etc/mongodb -p 127.0.0.1:27017:27017 -d mongo --config /etc/mongodb/mongodb.conf
+docker build -t mongo-sample .
+docker run --name mongo-guide -p 127.0.0.1:27017:27017 -d mongo-sample --config /etc/mongodb/mongodb.conf
 ```
 
 If you do not have Docker or want to run `MongoDB` locally, you can install `MongoDB` manually for your operating system from the official https://docs.mongodb.com/manual/administration/install-community/[MongoDB website].
@@ -137,7 +137,7 @@ You will need to create a new database and a user for authentication through the
 
 [role='command']
 ```
-docker exec -it mongo-sample bash
+docker exec -it mongo-guide bash
 ```
 
 Issue the following commands to enter the `mongo` Shell, create a new database, and create a new user for the database (replace `\<<PATH_TO_CERT_FILE>>` with the path to the `cert.pem` file):
