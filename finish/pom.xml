@@ -15,7 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- Plugins -->
         <version.liberty-maven-plugin>3.1</version.liberty-maven-plugin>
-        <version.maven-war-plugin>3.2.3</version.maven-war-plugin>
+        <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
         <version.maven-surefire-plugin>2.22.2</version.maven-surefire-plugin>
         <version.maven-failsafe-plugin>2.22.2</version.maven-failsafe-plugin>
         <!-- OpenLiberty runtime -->
@@ -30,28 +30,23 @@
         <!-- tag::appContextRoot[] -->
         <liberty.var.app.context.root>/mongo</liberty.var.app.context.root>
         <!-- end::appContextRoot[] -->
+        <package.file>${project.build.directory}/${app.name}.zip</package.file>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-web-api</artifactId>
-            <version>8.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
-            <version>3.2</version>
+            <version>3.0</version>
+            <scope>provided</scope>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.0.Final</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>javax.validation</groupId>-->
-<!--            <artifactId>validation-api</artifactId>-->
-<!--            <version>2.0.0.Final</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
         <!-- tag::mongoDriver[] -->
         <dependency>
             <groupId>org.mongodb</groupId>
@@ -60,19 +55,19 @@
         </dependency>
         <!-- end::mongoDriver[] -->
         <!-- tag::passwordUtilDependency[] -->
-<!--        <dependency>-->
-<!--            <groupId>com.ibm.websphere.appserver.api</groupId>-->
-<!--            <artifactId>com.ibm.websphere.appserver.api.passwordUtil</artifactId>-->
-<!--            <version>[1.0.21,)</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.ibm.websphere.appserver.api</groupId>
+            <artifactId>com.ibm.websphere.appserver.api.passwordUtil</artifactId>
+            <version>[1.0.21,)</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- end::passwordUtilDependency[] -->
         <!-- tag::sslDependency[] -->
-<!--        <dependency>-->
-<!--            <groupId>com.ibm.websphere.appserver.api</groupId>-->
-<!--            <artifactId>com.ibm.websphere.appserver.api.ssl</artifactId>-->
-<!--            <version>1.3.35</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.ibm.websphere.appserver.api</groupId>
+            <artifactId>com.ibm.websphere.appserver.api.ssl</artifactId>
+            <version>1.3.35</version>
+        </dependency>
         <!-- end::sslDependency[] -->
         <!-- For tests -->
         <dependency>
@@ -100,16 +95,16 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.5.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.openliberty.features</groupId>
-            <artifactId>passwordUtilities-1.0</artifactId>
-            <version>20.0.0.1</version>
-            <type>esa</type>
         </dependency>
     </dependencies>
 
@@ -121,12 +116,25 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.maven-war-plugin}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <packagingExcludes>pom.xml</packagingExcludes>
+                </configuration>
             </plugin>
             <!-- Enable liberty-maven plugin -->
             <plugin>
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>${version.liberty-maven-plugin}</version>
+                <configuration>
+                    <assemblyArtifact>
+                        <groupId>io.openliberty</groupId>
+                        <artifactId>openliberty-runtime</artifactId>
+                        <version>${version.openliberty-runtime}</version>
+                        <type>zip</type>
+                    </assemblyArtifact>
+                    <serverName>MongoServer</serverName>
+                </configuration>
             </plugin>
             <!-- Plugin to run unit tests -->
             <plugin>
