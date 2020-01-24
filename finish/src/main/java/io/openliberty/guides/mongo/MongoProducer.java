@@ -18,11 +18,11 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.net.ssl.SSLContext;
 
+import com.ibm.websphere.crypto.PasswordUtil;
 import com.ibm.websphere.ssl.JSSEHelper;
 import com.ibm.websphere.ssl.SSLException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import com.ibm.websphere.crypto.PasswordUtil;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
