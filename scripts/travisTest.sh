@@ -7,6 +7,50 @@ set -euxo pipefail
 ##
 ##############################################################################
 
+## Set up certificate and trust store
+# This setup can be done from the assets/security folder
+cd ../assets/security
+
+# Generate certificate
+openssl req -x509 \
+    -newkey rsa:2048 \
+    -nodes \
+    -days 365 \
+    -keyout private.key \
+    -out cert.pem \
+    -subj "/C=CA/CN=localhost"
+cat private.key cert.pem > mongodb_tls.pem
+
+# Add certificate to trust store
+keytool -import -trustcacerts \
+    -keystore truststore.p12 \
+    -storepass openliberty \
+    -storetype PKCS12 \
+    -alias mongo \
+    -file cert.pem \
+    -noprompt
+mv truststore.p12 ../../finish/src/main/liberty/config/resources/security/truststore.p12
+
+## Create mongo docker image
+# Run the commands from project root directory
+cd ../../
+
+# Build mongo docker image and run it
+docker build -t mongo-sample .
+docker run --name mongo-guide -p 127.0.0.1:27017:27017 -d mongo-sample --config /etc/mongodb/mongodb.conf
+
+## Wait for mongo to be ready
+sleep 10
+
+# Set up database
+USE_TEST_DB="use testdb"
+CREATE_USER="db.createUser({user: 'sampleUser', pwd: 'openliberty', roles: [{ role: 'readWrite', db: 'testdb' }]})"
+
+(echo "${USE_TEST_DB}"; echo "${CREATE_USER}") | docker exec -i mongo-guide bash -c "mongo --tls --tlsCAFile /etc/mongodb/security/cert.pem --host localhost"
+
+## Move back to the finish folder
+cd finish
+
 # LMP 3.0+ goals are listed here: https://github.com/OpenLiberty/ci.maven#goals
 
 ## Rebuild the application
@@ -15,7 +59,6 @@ set -euxo pipefail
 #       liberty:install-feature   - Install a feature packaged as a Subsystem Archive (esa) to the Liberty runtime.
 #       liberty:deploy            - Copy applications to the Liberty server's dropins or apps directory. 
 mvn -q clean package liberty:create liberty:install-feature liberty:deploy
-
 
 ## Run the tests
 # These commands are separated because if one of the commands fail, the test script will fail and exit. 
