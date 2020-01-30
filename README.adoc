@@ -54,7 +54,9 @@ The microservice's response to a `GET` request is with an array containing the J
 ]
 ----
 
-This microservice connects to `MongoDB` using TLS by using a CDI producer to inject a `MongoDatabase` and MicroProfile Config to make configuring `MongoDB` driver simple.
+This microservice connects to `MongoDB` using TLS by using a CDI producer to inject a `MongoDatabase` and MicroProfile Config to make configuring the `MongoDB` driver simple. 
+
+For more information about using a CDI producer and MicroProfile Config, see https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices] and https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices].
 
 // =================================================================================================
 // Getting Started
@@ -73,23 +75,29 @@ Before you begin, you must generate a self-signed certificate, add it to the tru
 
 === Generating a self-signed certificate
 
-You will be generating a self-signed certificate `cert.pem` and a private key `private.key`. You will use these files to generate your `mongodb_tls.pem` file which contains both the certificate and private key to start `mongo` using TLS.
+You will be generating a self-signed certificate `cert.pem` and a private key `private.key`. You will use these files to generate your `mongodb_tls.pem` file which contains both the certificate and private key to start `MongoDB` using TLS.
 
-Issue the following commands to generate the required files. You will be prompted to enter information pertinent to the certificate. Ensure that you set the Common Name (CN) as `localhost` the prompt appears.
+Issue the following commands to generate the self-signed certificate and private key. You will be prompted to enter information pertinent to the certificate. Ensure that you set the Common Name (CN) as `localhost` the prompt appears.
 
 [role='command']
 ```
 openssl req -x509 -newkey rsa:2048 -nodes -days 365 -keyout assets/security/private.key -out assets/security/cert.pem 
+```
+
+Next, run the following command to concatenate the self-signed certificate and private key to create a single `.pem` file to start `MongoDB` using TLS.
+
+[role='command']
+```
 cat assets/security/private.key assets/security/cert.pem > assets/security/mongodb_tls.pem
 ```
 
 === Add the certificate to the truststore
 
-Use the Java `keytool` to add the certificate to the truststore. The password for the truststore is `openliberty`.
+Use the Java `keytool` to add the certificate to the truststore. The password for the truststore is `mongodb`.
 
 [role='command']
 ```
-keytool -import -trustcacerts -keystore assets/security/truststore.p12 -storepass openliberty -storetype PKCS12 -alias mongo -file assets/security/cert.pem
+keytool -import -trustcacerts -keystore assets/security/truststore.p12 -storepass mongodb -storetype PKCS12 -alias mongo -file assets/security/cert.pem
 ```
 
 Copy the `truststore.p12` file into `start/src/main/liberty/config/resources/security/` and `finish/src/main/liberty/config/resources/security/`. Then, remove it from `assets/security/`.
@@ -111,25 +119,46 @@ Execute the following commands to build an image `FROM mongo` and run it in a Do
 [role='command']
 ```
 docker build -t mongo-sample .
-docker run --name mongo-guide -p 127.0.0.1:27017:27017 -d mongo-sample --config /etc/mongodb/mongodb.conf
+docker run --name mongo-guide -p 127.0.0.1:27017:27017 -d mongo-sample --config etc/mongodb/mongodb.conf
 ```
 
 === Database setup
 
-You will need to create a new database and a user for authentication through the `mongo` Shell.
+You will need to create a new database and a new user for authentication through the `mongo` Shell.
 
 Access the Docker container's command line by running the following command:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.linux_section]
+--
 [role='command']
 ```
 docker exec -it mongo-guide bash
 ```
+--
 
-Issue the following commands to enter the `mongo` Shell, create a new database, and create a new user for the database (replace `\<<PATH_TO_CERT_FILE>>` with the path to the `cert.pem` file):
+[.tab_content.mac_section]
+--
+[role='command']
+```
+docker exec -it mongo-guide bash
+```
+--
+
+[.tab_content.windows_section] 
+--
+[role='command']
+```
+winpty docker exec -it mongo-guide bash
+```
+--
+
+Issue the following commands to enter the `mongo` Shell, create a new database, and create a new user for the database:
 
 [role='command']
 ```
-mongo --tls --tlsCAFile <<PATH_TO_CERT_FILE>>/cert.pem --host localhost
+mongo --tls --tlsCAFile /etc/mongodb/security/cert.pem --host localhost
 use testdb
 db.createUser({user: 'sampleUser', pwd:'openliberty', roles: [{ role: 'readWrite', db:'testdb'}]})
 ```
@@ -153,7 +182,7 @@ goal to build the application and deploy it to Open Liberty:
 mvn liberty:run
 ```
 
-If you see `The MongoServer server is ready to run a smarter planet. The MongoServer server started in 4.300 seconds.` in the console, then it is ready for you check out the microservice through the web interface at the http://localhost:9080/mongo/[^] URL.
+If you see `The MongoServer server is ready to run a smarter planet. The MongoServer server started in 4.300 seconds.` in the console, then it is ready for you to check out the microservice through the web interface at the http://localhost:9080/mongo/[^] URL.
 
 After you are done checking out the microservice, stop the Open Liberty server by pressing `CTRL+C`
 in the shell session where you ran the server. Alternatively, you can run the `liberty:stop` goal 
@@ -211,18 +240,9 @@ The variables that are being used in the [hotspot=httpEndpoint hotspot=webApplic
 
 === No need for a MongoDB feature
 
-In the past, using MongoDB required enabling the `mongodb-2.0` feature, which was limited to certain MongoDB 2.X versions. By using a CDI producer, any version of MongoDB can be used, with no need for a specific MongoDB feature. Even if the MongoDB Java Driver API changes, simple updates to your CDI producer will allow it to continue to work. 
+In the past, using `MongoDB` required enabling the `mongodb-2.0` feature, which was limited to certain MongoDB 2.X versions. By using a CDI producer, any version of MongoDB can be used, with no need for a specific MongoDB feature. Even if the MongoDB Java Driver API changes, simple updates to your CDI producer will allow it to continue to work. 
 
-The MongoDB driver should be bundled in your microservice. To do this with Maven you can use a dependency:
-
-[source,role="no_copy"]
-----
-<dependency>
-    <groupId>org.mongodb</groupId>
-    <artifactId>mongo-java-driver</artifactId>
-    <version>X.X.X</version>
-</dependency>
-----
+The `MongoDB` driver should be bundled in your microservice in your [hotspot=mongoDriver file=1]`pom.xml`.
 
 // =================================================================================================
 // Creating a CDI Producer for Mongo
@@ -282,7 +302,7 @@ This tool is included in `pom.xml` as a [hotspot=passwordUtilDependency file=2]`
 
 === Using TLS
 
-Since you started your `MongoDB` server using the TLS, you must setup the SSL context in your Open Liberty server accordingly. The `ssl` dependency is imported in the [hotspot=sslDependency file=2]`pom.xml` and enabled in the [hotspot=sslFeature file=3]`server.xml`. Additionally, the SSL context is setup in the [hotspot=sslContext file=3]`server.xml` to use the `TLS` protocol, the default keystore and your truststore which contains the public key. In your [hotspot file=1]`MongoProducer`, the [hotspot=sslContext file=1]`SSL context` is retrieved using the `JSSEHelper` and it is included in the [hotspot=sslEnable file=1]`MongoClientOptions`.
+Since you started your `MongoDB` server using TLS, you must setup the SSL context in your Open Liberty server accordingly. The `ssl` dependency is imported in the [hotspot=sslDependency file=2]`pom.xml` and enabled in the [hotspot=sslFeature file=3]`server.xml`. Additionally, the SSL context is setup in the [hotspot=sslContext file=3]`server.xml` to use the `TLS` protocol, the default keystore and your truststore which contains the public key. In your [hotspot file=1]`MongoProducer`, the [hotspot=sslContext file=1]`SSL context` is retrieved using the `JSSEHelper` and it is included in the [hotspot=sslEnable file=1]`MongoClientOptions`.
 
 // =================================================================================================
 // Basic CRUD operations
@@ -290,7 +310,7 @@ Since you started your `MongoDB` server using the TLS, you must setup the SSL co
 
 == Basic CRUD operations
 
-You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client] package is used to help implement these `CRUD` operations for the microservice. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection(java.lang.String)[MongoDatabase.getCollection()] method will be used to return http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection<TDocument>], a generic with a `TDocument` type parameter. For this guide, you will be using http://mongodb.github.io/mongo-java-driver/3.6/javadoc/?org/bson/BsonDocument.html[Document] as the type. Furthermore, several methods from http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection] will be used to interact with the collection to implement the `CRUD` operations.
+You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client] package is used to help implement these `CRUD` operations for the microservice. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection-java.lang.String-[MongoDatabase.getCollection()] method will be used to return http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection<TDocument>], a generic with a `TDocument` type parameter. For this guide, you will be using http://mongodb.github.io/mongo-java-driver/3.6/javadoc/?org/bson/Document.html[Document] as the type. Furthermore, several methods from http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection] will be used to interact with the collection to implement the `CRUD` operations.
 
 See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce] for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
 
@@ -323,7 +343,7 @@ Visit http://localhost:9080/openapi/ui/[^] to test and see the API documentation
 === Create
 The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#insertOne-TDocument-[MongoCollection.insertOne()] method is used to insert a new document into the collection. This method takes in a `TDocument` which contains the configuration of the new crew member to be inserted into the collection and does not return anything. The [hotspot=create]`add()` method handles the implementation of `CREATE`.
 
-Test the `CREATE` endpoint through the OpenAPI UI with the following as the request body:
+Test the `CREATE` operation through the OpenAPI UI at the `POST /crew` endpoint with the following as the request body:
 ```
 {
   "name": "Member1",
@@ -331,6 +351,8 @@ Test the `CREATE` endpoint through the OpenAPI UI with the following as the requ
   "crewID": "000001"
 }
 ```
+
+This will create a new document in the collection with a name of Member1, rank of Officer, and crewID of 000001.
 
 You will receive a response containing the JSON object of the new member.
 
@@ -348,9 +370,11 @@ You will receive a response containing the JSON object of the new member.
 The `\<<ID>>` is a unique identifier in the database. Save this value for future commands.
 
 === Read
-The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#find--[MongoCollection.find()] method is used to retrieve an iterable of all the crew member documents in the collection. This method does not take in any arguments and returns a http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/FindIterable.html[FindIterable] object. The [hotspot=read]`retrieve()` method handles the implementation of `READ`.
+The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#find--[MongoCollection.find()] method is used to retrieve an iterable of all the crew member documents in the collection. This method does not take in any arguments and returns a http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/FindIterable.html[FindIterable]. The [hotspot=read]`retrieve()` method handles the implementation of `READ`.
 
-Test the `READ` endpoint from the OpenAPI UI.
+Test the `READ` operation from the OpenAPI UI at the `GET /crew` enpoint.
+
+This will retrieve all crew member documents from the collection.
 
 You will receive a response containing an array of all the members currently in your crew.
 
@@ -368,16 +392,18 @@ You will receive a response containing an array of all the members currently in 
 ```
 
 === Update
-The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#replaceOne-org.bson.conversions.Bson-TDocument-[MongoCollection.replaceOne()] method is used update a specified document. This method takes in a http://mongodb.github.io/mongo-java-driver/3.6/javadoc/org/bson/conversions/Bson.html[Bson] which contains the object id of the document to be replaced and another `TDocument` which contains the new configuration of the crew member. The method returns an http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/UpdateResult.html[UpdateResult] object with a method called `getMatchedCount()` which indicates the number of matches to the query. The [hotspot=update]`update()` method handles the implementation of `UPDATE`.
+The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#replaceOne-org.bson.conversions.Bson-TDocument-[MongoCollection.replaceOne()] method is used to update a specified document. This method takes in a http://mongodb.github.io/mongo-java-driver/3.6/javadoc/org/bson/conversions/Bson.html[Bson] which contains the object id of the document to be replaced and another `TDocument` which contains the new configuration of the crew member. The method returns an http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/UpdateResult.html[UpdateResult] object with a method called `getMatchedCount()` which indicates the number of matches to the query. The [hotspot=update]`update()` method handles the implementation of `UPDATE`.
 
-Test the `UPDATE` endpoint from the OpenAPI UI by specifying the `\<<ID>>` you saved from the `CREATE` section in the id parameter and setting the request body as:
+Test the `UPDATE` operation from the OpenAPI UI at the `PUT /crew/\{id\}` endpoint by specifying the `\<<ID>>` you saved from the `CREATE` section in the id parameter and setting the request body as:
 ```
 {
-  "Name": "Member1",
-  "Rank": "Captain",
-  "CrewID": "000001"
+  "name": "Member1",
+  "rank": "Captain",
+  "crewID": "000001"
 }
 ```
+
+This will update the rank of the crew member you created in the `CREATE` step from Officer to Captain.
 
 You will receive a reponse containing the JSON object of the updated member.
 
@@ -395,7 +421,9 @@ You will receive a reponse containing the JSON object of the updated member.
 === Delete
 The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#deleteOne-org.bson.conversions.Bson-[MongoCollection.deleteOne()] method is used to remove a document from the collection. This method takes in a http://mongodb.github.io/mongo-java-driver/3.6/javadoc/org/bson/conversions/Bson.html[Bson] which contains the object id of the document to be deleted and returns a http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/DeleteResult.html[DeleteResult] object with a method called `getDeletedCount()` to indicate the number of documents deleted from the collection. The [hotspot=delete]`remove()` method handles the implementation of `DELETE`.
 
-Test the `DELETE` endpoint from the OpenAPI UI by specifying the `\<<ID>>` you saved from `CREATE` section in the id parameter.
+Test the `DELETE` operation from the OpenAPI UI at the `DELETE /crew/\{id\}` endpoint by specifying the `\<<ID>>` you saved from `CREATE` section in the id parameter.
+
+This will remove the document containing the specified crew member from the collection.
 
 You will receive a response containing the object id of the deleted crew member.
 
@@ -455,7 +483,7 @@ The test code needs to know some information about the microservice to make requ
 
 These Maven properties are then passed to the Java test program as the [hotspot=testsysprops file=1]`<systemPropertyVariables/>` element in the [hotspot file=1]`pom.xml` file.
 
-The [hotspot=Before file=0]`@BeforeAll` annotation is placed on a method that runs before any of the test cases. In this case, the method creates a JAX-RS client, which makes HTTP requests to the crew service, it also retrieves the port number and microservice context for the Open Liberty server, creates testing crew member data and builds a base URL string that is used throughout the tests.
+The [hotspot=Before file=0]`@BeforeAll` annotation is placed on a method that runs before any of the test cases. In this case, the method first creates a JAX-RS client, which will be used to make HTTP requests to the crew service. Then, it retrieves the port number and microservice context for the Open Liberty server to build a base URL string that is used throughout the tests. Lastly, it creates test data for the crew members.
 
 The [hotspot=After file=0]`@AfterAll` with [hotspot=teardown file=0]`teardown()` method simply destroys the client instance.
 
@@ -494,7 +522,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, add an assertion that you know fails, or change the existing
-assertion to an unexpected constant value.
+[hotspot=assertEquals file=0]`assertEquals` method to expect `301` instead of `200`.
 
 When you are done checking out the application, exit development mode by typing `q` in the shell session where
 you ran the server and then pressing the `enter/return` key.

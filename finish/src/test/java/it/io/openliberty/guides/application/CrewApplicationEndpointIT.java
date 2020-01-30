@@ -187,6 +187,8 @@ public class CrewApplicationEndpointIT {
      *          - response received from the target URL.
      */
     private void assertResponse(String url, Response response) {
+        // tag::assertEquals[]
         assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
+        // end::assertEquals[]
     }
 }

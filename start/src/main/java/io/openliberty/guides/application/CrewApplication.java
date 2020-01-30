@@ -14,6 +14,6 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 
-@ApplicationPath("/crew")
+@ApplicationPath("/")
 public class CrewApplication extends Application { 	
 }
