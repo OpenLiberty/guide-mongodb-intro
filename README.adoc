@@ -323,7 +323,7 @@ Visit http://localhost:9080/openapi/ui/[^] to test and see the API documentation
 === Create
 The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#insertOne-TDocument-[MongoCollection.insertOne()] method is used to insert a new document into the collection. This method takes in a `TDocument` which contains the configuration of the new crew member to be inserted into the collection and does not return anything. The [hotspot=create]`add()` method handles the implementation of `CREATE`.
 
-Test the `CREATE` operation through the OpenAPI UI at the `POST /crew` endpoint with the following as the request body:
+Test the `CREATE` operation through the OpenAPI UI at the `POST /api/crew` endpoint with the following as the request body:
 ```
 {
   "name": "Member1",
@@ -352,7 +352,7 @@ The `\<<ID>>` is a unique identifier in the database. Save this value for future
 === Read
 The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#find--[MongoCollection.find()] method is used to retrieve an iterable of all the crew member documents in the collection. This method does not take in any arguments and returns a http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/FindIterable.html[FindIterable]. The [hotspot=read]`retrieve()` method handles the implementation of `READ`.
 
-Test the `READ` operation from the OpenAPI UI at the `GET /crew` enpoint.
+Test the `READ` operation from the OpenAPI UI at the `GET /api/crew` enpoint.
 
 This will retrieve all crew member documents from the collection.
 
@@ -374,7 +374,7 @@ You will receive a response containing an array of all the members currently in 
 === Update
 The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#replaceOne-org.bson.conversions.Bson-TDocument-[MongoCollection.replaceOne()] method is used to update a specified document. This method takes in a http://mongodb.github.io/mongo-java-driver/3.6/javadoc/org/bson/conversions/Bson.html[Bson] which contains the object id of the document to be replaced and another `TDocument` which contains the new configuration of the crew member. The method returns an http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/UpdateResult.html[UpdateResult] object with a method called `getMatchedCount()` which indicates the number of matches to the query. The [hotspot=update]`update()` method handles the implementation of `UPDATE`.
 
-Test the `UPDATE` operation from the OpenAPI UI at the `PUT /crew/\{id\}` endpoint by specifying the `\<<ID>>` you saved from the `CREATE` section in the id parameter and setting the request body as:
+Test the `UPDATE` operation from the OpenAPI UI at the `PUT /api/crew/\{id\}` endpoint by specifying the `\<<ID>>` you saved from the `CREATE` section in the id parameter and setting the request body as:
 ```
 {
   "name": "Member1",
@@ -401,7 +401,7 @@ You will receive a reponse containing the JSON object of the updated member.
 === Delete
 The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#deleteOne-org.bson.conversions.Bson-[MongoCollection.deleteOne()] method is used to remove a document from the collection. This method takes in a http://mongodb.github.io/mongo-java-driver/3.6/javadoc/org/bson/conversions/Bson.html[Bson] which contains the object id of the document to be deleted and returns a http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/DeleteResult.html[DeleteResult] object with a method called `getDeletedCount()` to indicate the number of documents deleted from the collection. The [hotspot=delete]`remove()` method handles the implementation of `DELETE`.
 
-Test the `DELETE` operation from the OpenAPI UI at the `DELETE /crew/\{id\}` endpoint by specifying the `\<<ID>>` you saved from `CREATE` section in the id parameter.
+Test the `DELETE` operation from the OpenAPI UI at the `DELETE /api/crew/\{id\}` endpoint by specifying the `\<<ID>>` you saved from `CREATE` section in the id parameter.
 
 This will remove the document containing the specified crew member from the collection.
 
