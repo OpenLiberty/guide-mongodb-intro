@@ -28,7 +28,7 @@ Learn how to store data with `MongoDB` using CDI and MicroProfile Config.
 
 == What you'll learn
 
-You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The service will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the http://localhost:9080/mongo/crew/[^] URL.
+You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The service will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the http://localhost:9080/mongo/api/crew/[^] URL.
 
 The microservice's response to a `GET` request is with an array containing the JSON representation of the crew members' information like this:
 
@@ -132,7 +132,6 @@ Access the Docker container's command line by running the following command:
 ```
 docker exec -it mongo-guide bash
 ```
---
 
 Issue the following commands to enter the `mongo` Shell, create a new database, and create a new user for the database:
 
@@ -432,7 +431,7 @@ If you see `The MongoServer server is ready to run a smarter planet. The MongoSe
 
 == Testing the service
 
-You can test this microservice manually by starting a server and sending HTTP requests to http://localhost:9080/mongo/crew/[^] or by using the web interface at the http://localhost:9080/mongo/[^] URL. Automated tests are a much better
+You can test this microservice manually by starting a server and sending HTTP requests to http://localhost:9080/mongo/api/crew/[^] or by using the web interface at the http://localhost:9080/mongo/[^] URL. Automated tests are a much better
 approach because they trigger a failure if a change introduces a bug. The JUnit and the JAX-RS Client
 API provide a simple environment to test the microservice.
 
