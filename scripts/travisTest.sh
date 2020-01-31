@@ -24,7 +24,7 @@ cat private.key cert.pem > mongodb_tls.pem
 # Add certificate to trust store
 keytool -import -trustcacerts \
     -keystore truststore.p12 \
-    -storepass openliberty \
+    -storepass mongodb \
     -storetype PKCS12 \
     -alias mongo \
     -file cert.pem \
