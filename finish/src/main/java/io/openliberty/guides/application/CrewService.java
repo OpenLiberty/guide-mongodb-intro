@@ -42,7 +42,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.UpdateResult;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
@@ -262,7 +261,8 @@ public class CrewService {
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 			return Response
-				.serverError()
+				.status(Response.Status.INTERNAL_SERVER_ERROR)
+				.entity("[\"Unable to list crew members!\"]")
 				.build();
 		}
 
