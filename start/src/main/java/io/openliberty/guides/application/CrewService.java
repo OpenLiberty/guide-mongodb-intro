@@ -21,12 +21,12 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/")
+@Path("/crew")
 @ApplicationScoped
 public class CrewService {
 
 	@POST
-	@Path("/add")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@APIResponses({
@@ -89,7 +89,7 @@ public class CrewService {
 	}
 
 	@GET
-	@Path("/members")
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@APIResponses({
 		@APIResponse(

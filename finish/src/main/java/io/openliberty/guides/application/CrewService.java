@@ -46,7 +46,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
-@Path("/")
+@Path("/crew")
 @ApplicationScoped
 public class CrewService {
 
@@ -62,7 +62,7 @@ public class CrewService {
 
 	// tag::create[]
 	@POST
-	@Path("/add")
+	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@APIResponses({
@@ -235,7 +235,7 @@ public class CrewService {
 
 	// tag::read[]
 	@GET
-	@Path("/members")
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@APIResponses({
 		@APIResponse(
@@ -261,7 +261,8 @@ public class CrewService {
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 			return Response
-				.serverError()
+				.status(Response.Status.INTERNAL_SERVER_ERROR)
+				.entity("[\"Unable to list crew members!\"]")
 				.build();
 		}
 

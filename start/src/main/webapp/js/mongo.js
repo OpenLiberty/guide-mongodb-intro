@@ -20,20 +20,19 @@ function addCrewMember() {
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            if (this.response != '') {
-                var res = JSON.parse(this.response);
-                if (Array.isArray(res) == true) {
-                    for (m of JSON.parse(this.response)) {
-                        toast(m, i++);
-                    }
+        if (this.readyState == 4 && this.status != 200) {
+            var i = 0;
+            var res = JSON.parse(this.response);
+            if (Array.isArray(res) == true) {
+                for (m of JSON.parse(this.response)) {
+                    toast(m, i++);
                 }
             }
         }
         refreshDocDisplay();
     }
 
-    request.open("POST", "crew/add", true);
+    request.open("POST", "api/crew/", true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(crewMember));
 }
@@ -73,20 +72,20 @@ function updateCrewMember() {
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            if (this.response != '') {
-                var res = JSON.parse(this.response);
-                if (Array.isArray(res) == true) {
-                    for (m of JSON.parse(this.response)) {
-                        toast(m, i++);
-                    }
+        if (this.readyState == 4 && this.status != 200) {
+            var i = 0;
+            var res = JSON.parse(this.response);
+            if (Array.isArray(res) == true) {
+                for (m of JSON.parse(this.response)) {
+                    toast(m, i++);
                 }
             }
         }
+
         refreshDocDisplay();
     }
 
-    request.open("PUT", "crew/" + id, true);
+    request.open("PUT", "api/crew/" + id, true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(crewMember));
 
@@ -98,25 +97,23 @@ function refreshDocDisplay() {
 
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            if (this.response != '') {
-                clearDisplay()
-                doc = JSON.parse(this.responseText);
+            clearDisplay()
+            doc = JSON.parse(this.responseText);
 
-                doc.forEach(addToDisplay);
-                if (doc.length > 0) {
-                    document.getElementById("userDisplay").style.display = 'flex';
-                    document.getElementById("docDisplay").style.display = 'flex';
-                } else {
-                    document.getElementById("userDisplay").style.display = 'none';
-                    document.getElementById("docDisplay").style.display = 'none';
-                    clearUpdateForm();
-                }
-                document.getElementById("docText").innerHTML = JSON.stringify(doc, null, 2);
+            doc.forEach(addToDisplay);
+            if (doc.length > 0) {
+                document.getElementById("userDisplay").style.display = 'flex';
+                document.getElementById("docDisplay").style.display = 'flex';
+            } else {
+                document.getElementById("userDisplay").style.display = 'none';
+                document.getElementById("docDisplay").style.display = 'none';
+                clearUpdateForm();
             }
+            document.getElementById("docText").innerHTML = JSON.stringify(doc, null, 2);
         }
     }
 
-    request.open("GET", "crew/members", true);
+    request.open("GET", "api/crew", true);
     request.send();
 }
 
@@ -145,18 +142,16 @@ function remove(e, id) {
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            if (this.response != '') {
-                if (id === document.getElementById("docID").value) {
-                    clearUpdateForm();
-                }
-                document.getElementById(id).remove();
-                refreshDocDisplay()
+        if (this.readyState == 4 && this.status == 200) { 
+            if (id === document.getElementById("docID").value) {
+                clearUpdateForm();
             }
+            document.getElementById(id).remove();
+            refreshDocDisplay()
         }
     }
 
-    request.open("DELETE", "crew/" + id, true);
+    request.open("DELETE", "api/crew/" + id, true);
     request.send();
 
     e.stopPropagation();

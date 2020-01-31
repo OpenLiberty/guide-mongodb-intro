@@ -88,7 +88,7 @@ public class CrewApplicationEndpointIT {
 
         for (int i = 0; i < _TestData.size(); i ++) {
             JsonObject member = (JsonObject) _TestData.get(i);
-            String url = _RootURL + "/crew/add";
+            String url = _RootURL + "/api/crew";
             Response response = _Client.target(url).request().post(Entity.json(member));
             this.assertResponse(url, response);
 
@@ -114,7 +114,7 @@ public class CrewApplicationEndpointIT {
         newMember.add("crewID", oldMember.get("crewID"));
         newMember.add("rank", "Officer");
 
-        String url = _RootURL + "/crew" + "/" + _TestIDs.get(0);
+        String url = _RootURL + "/api/crew/" + _TestIDs.get(0);
         Response response = _Client.target(url).request().put(
                 Entity.json(newMember.build())
         );
@@ -129,7 +129,7 @@ public class CrewApplicationEndpointIT {
     private void testGetCrewMembers() {
         System.out.println("   === Listing crew members from the database. ===");
 
-        String url = _RootURL + "/crew/members";
+        String url = _RootURL + "/api/crew";
         Response response = _Client.target(url).request().get();
 
         this.assertResponse(url, response);
@@ -166,7 +166,7 @@ public class CrewApplicationEndpointIT {
                 + " crew members from the database. ===");
 
         for (String id : _TestIDs) {
-            String url = _RootURL + "/crew" + "/" + id;
+            String url = _RootURL + "/api/crew/" + id;
             Response response = _Client.target(url).request().delete();
             this.assertResponse(url, response);
             response.close();
@@ -187,6 +187,8 @@ public class CrewApplicationEndpointIT {
      *          - response received from the target URL.
      */
     private void assertResponse(String url, Response response) {
+        // tag::assertEquals[]
         assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
+        // end::assertEquals[]
     }
 }
