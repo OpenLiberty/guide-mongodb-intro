@@ -14,7 +14,7 @@ docker build -t mongo-sample .
 docker run --name mongo-guide -p 127.0.0.1:27017:27017 -d mongo-sample --config /etc/mongodb/mongodb.conf
 
 ## Wait for mongo to be ready
-sleep 20
+sleep 10
 
 # Set up database
 USE_TEST_DB="use testdb"
