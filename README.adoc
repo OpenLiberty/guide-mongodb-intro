@@ -108,7 +108,7 @@ Issue the following commands to enter the `mongo` Shell, create a new database, 
 
 [role='command']
 ```
-mongo --tls --tlsCAFile /etc/mongodb/security/cert.pem --host localhost
+mongo --tls --tlsCAFile /etc/mongodb/cert.pem --host localhost
 use testdb
 db.createUser({user: 'sampleUser', pwd:'openliberty', roles: [{ role: 'readWrite', db:'testdb'}]})
 ```
@@ -123,15 +123,15 @@ Execute the following command to copy `truststore.p12` from the container the yo
 
 [role='command']
 ```
-docker cp mongo-guide:/etc/mongodb/security/truststore.p12 assets/security
+docker cp mongo-guide:/etc/mongodb/truststore.p12 assets
 ```
 
 Execute the following commands to copy the `truststore.p12` file to the correct location in the `start` and `finish` projects.
 
 [role='command']
 ```
-cp assets/security/truststore.p12 start/src/main/liberty/config/resources/security/
-cp assets/security/truststore.p12 finish/src/main/liberty/config/resources/security/
+cp assets/truststore.p12 start/src/main/liberty/config/resources/security/
+cp assets/truststore.p12 finish/src/main/liberty/config/resources/security/
 ```
 
 // =================================================================================================

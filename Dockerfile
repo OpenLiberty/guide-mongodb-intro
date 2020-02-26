@@ -19,7 +19,6 @@ RUN keytool -import -trustcacerts -keystore /tmp/truststore.p12 \
 # tag::stageTwo[]
 FROM mongo
 RUN mkdir /etc/mongodb
-RUN mkdir /etc/mongodb/security
-COPY --from=staging /tmp /etc/mongodb/security
+COPY --from=staging /tmp /etc/mongodb
 COPY assets/mongodb.conf  /etc/mongodb
 # end::stageTwo[]
