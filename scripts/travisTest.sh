@@ -7,33 +7,7 @@ set -euxo pipefail
 ##
 ##############################################################################
 
-## Set up certificate and trust store
-# This setup can be done from the assets/security folder
-cd ../assets/security
-
-# Generate certificate
-openssl req -x509 \
-    -newkey rsa:2048 \
-    -nodes \
-    -days 365 \
-    -keyout private.key \
-    -out cert.pem \
-    -subj "/C=CA/CN=localhost"
-cat private.key cert.pem > mongodb_tls.pem
-
-# Add certificate to trust store
-keytool -import -trustcacerts \
-    -keystore truststore.p12 \
-    -storepass mongodb \
-    -storetype PKCS12 \
-    -alias mongo \
-    -file cert.pem \
-    -noprompt
-mv truststore.p12 ../../finish/src/main/liberty/config/resources/security/truststore.p12
-
-## Create mongo docker image
-# Run the commands from project root directory
-cd ../../
+cd ..
 
 # Build mongo docker image and run it
 docker build -t mongo-sample .
@@ -46,7 +20,11 @@ sleep 10
 USE_TEST_DB="use testdb"
 CREATE_USER="db.createUser({user: 'sampleUser', pwd: 'openliberty', roles: [{ role: 'readWrite', db: 'testdb' }]})"
 
-(echo "${USE_TEST_DB}"; echo "${CREATE_USER}") | docker exec -i mongo-guide bash -c "mongo --tls --tlsCAFile /etc/mongodb/security/cert.pem --host localhost"
+(echo "${USE_TEST_DB}"; echo "${CREATE_USER}") | docker exec -i mongo-guide bash -c "mongo --tls --tlsCAFile /etc/mongodb/cert.pem --host localhost"
+
+# copy truststore from container to host
+docker cp mongo-guide:/etc/mongodb/truststore.p12 start/src/main/liberty/config/resources/security
+cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
 
 ## Move back to the finish folder
 cd finish

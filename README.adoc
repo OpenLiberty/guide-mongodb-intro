@@ -28,30 +28,20 @@ Learn how to store data with `MongoDB` using CDI and MicroProfile Config.
 
 == What you'll learn
 
-You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The service will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the http://localhost:9080/mongo/api/crew/[^] URL.
+You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The microservice will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the service to manipulate the database.
 
-The microservice's response to a `GET` request is with an array containing the JSON representation of the crew members' information like this:
+The crew members will be stored in `MongoDB` in JSON documents in this format:
 
 [source,json,role="no_copy"]
 ----
-[
-  {
-    "_id": {
-      "$oid": "5dee6b079503234323db2ebc"
-    },
-    "Name": "Member1",
-    "Rank": "Captain",
-    "CrewID": "000001"
+{
+  "_id": {
+    "$oid": "5dee6b079503234323db2ebc"
   },
-  {
-    "_id": {
-      "$oid": "5dee6b079503234323db2ebd"
-    },
-    "Name": "Member2",
-    "Rank": "Engineer",
-    "CrewID": "000002"
-  }
-]
+  "Name": "Member1",
+  "Rank": "Captain",
+  "CrewID": "000001"
+}
 ----
 
 This microservice connects to `MongoDB` using TLS by using a CDI producer to inject a `MongoDatabase` and MicroProfile Config to make configuring the `MongoDB` driver simple. 
@@ -71,38 +61,9 @@ include::{common-includes}/gitclone.adoc[]
 
 == Setting up MongoDB
 
-Before you begin, you must generate a self-signed certificate, add it to the truststore, run `MongoDB` in a Docker container, and setup a new database for the microservice.
+Before you begin, you must generate a Docker image using the provided multi-stage Dockerfile which uses `mongo` as the final stage's base and will gather the required configuration files. Then, the resulting `mongo` image will be run in a container and you will need to setup a new database for the microservice. Lastly, the truststore generated in the Docker image will be copied from the container and placed into the Open Liberty server.
 
-=== Generating a self-signed certificate
-
-You will be generating a self-signed certificate `cert.pem` and a private key `private.key`. You will use these files to generate your `mongodb_tls.pem` file which contains both the certificate and private key to start `MongoDB` using TLS.
-
-Issue the following commands to generate the self-signed certificate and private key. You will be prompted to enter information pertinent to the certificate. Ensure that you set the Common Name (CN) as `localhost` the prompt appears.
-
-[role='command']
-```
-openssl req -x509 -newkey rsa:2048 -nodes -days 365 -keyout assets/security/private.key -out assets/security/cert.pem 
-```
-
-Next, run the following command to concatenate the self-signed certificate and private key to create a single `.pem` file to start `MongoDB` using TLS.
-
-[role='command']
-```
-cat assets/security/private.key assets/security/cert.pem > assets/security/mongodb_tls.pem
-```
-
-=== Add the certificate to the truststore
-
-Use the Java `keytool` to add the certificate to the truststore. The password for the truststore is `mongodb`.
-
-[role='command']
-```
-keytool -import -trustcacerts -keystore assets/security/truststore.p12 -storepass mongodb -storetype PKCS12 -alias mongo -file assets/security/cert.pem
-```
-
-Copy the `truststore.p12` file into `start/src/main/liberty/config/resources/security/` and `finish/src/main/liberty/config/resources/security/`. Then, remove it from `assets/security/`.
-
-=== Setting up the MongoDB configuration
+=== The MongoDB configuration
 
 mongodb.conf
 [source,xml,linenums,role="code_column hide_tags=copyright"]
@@ -110,11 +71,21 @@ mongodb.conf
 include::assets/mongodb.conf[]
 ----
 
-The `mongodb.conf` file specifies the configuration to use when starting a `mongo` instance. A sample configuration file is provided which sets up [hotspot=net]`net` to use TLS. Additional configuration options can be found in the official https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website].
+The `mongodb.conf` file specifies the MongoDB configuration the `mongod` (MongoDB daemon) should use. A sample configuration file is provided which sets up [hotspot=net]`net` to use TLS. Additional configuration options can be found in the official https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website].
+
+=== The Dockerfile
+
+Dockerfile
+[source,xml,linenums,role="code_column hide_tags=copyright"]
+----
+include::Dockerfile[]
+----
+
+[hotspot=stageOne file=0]`Stage One` of the Dockerfile uses `open-liberty` as the base to create a self-signed certificate and private key which are concatenated together to generate the pem file used for TLS. Then, it uses the Java keytool to generate the truststore and adds the certificate file to the truststore. [hotspot=stageTwo file=0]`Stage Two` of the Dockerfile uses `mongo` as the base and copies over the generated files from the previous stage. Additionally, it copies the `mongodb.conf` configuration file from your host machine to the image.
 
 === Running MongoDB in a Docker container
 
-Execute the following commands to build an image `FROM mongo` and run it in a Docker container using the provided `MongoDB` config (the assets folder will be copied into `/etc/mongodb` in the Docker container):
+Execute the following commands to build the image using the Dockerfile, run it in a Docker container, specify the `MongoDB` configuration `mongod` should use, and map port 27017 from the container to your host machine:
 
 [role='command']
 ```
@@ -137,7 +108,7 @@ Issue the following commands to enter the `mongo` Shell, create a new database, 
 
 [role='command']
 ```
-mongo --tls --tlsCAFile /etc/mongodb/security/cert.pem --host localhost
+mongo --tls --tlsCAFile /etc/mongodb/cert.pem --host localhost
 use testdb
 db.createUser({user: 'sampleUser', pwd:'openliberty', roles: [{ role: 'readWrite', db:'testdb'}]})
 ```
@@ -145,6 +116,39 @@ db.createUser({user: 'sampleUser', pwd:'openliberty', roles: [{ role: 'readWrite
 See https://docs.mongodb.com/manual/mongo/index.html[The mongo Shell] for more information about the using their Shell.
 
 Type `exit` to get out of the `mongo` Shell, and type `exit` again to leave the Docker Shell.
+
+=== Adding the truststore to the Open Liberty Server
+
+Execute the following commands to copy `truststore.p12` from the container to the correct location in the start and finish directories on your host machine:
+
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+docker cp mongo-guide:/etc/mongodb/truststore.p12 start/src/main/liberty/config/resources/security
+copy start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
+```
+--
+
+[.tab_content.mac_section]
+--
+[role='command']
+```
+docker cp mongo-guide:/etc/mongodb/truststore.p12 start/src/main/liberty/config/resources/security
+cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
+```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+docker cp mongo-guide:/etc/mongodb/truststore.p12 start/src/main/liberty/config/resources/security
+cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
+```
+--
 
 // =================================================================================================
 // Try what you'll build
