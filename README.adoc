@@ -75,7 +75,7 @@ The `mongodb.conf` file specifies the MongoDB configuration the `mongod` (MongoD
 
 === The Dockerfile
 
-mongodb.conf
+Dockerfile
 [source,xml,linenums,role="code_column hide_tags=copyright"]
 ----
 include::Dockerfile[]
