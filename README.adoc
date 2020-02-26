@@ -119,20 +119,36 @@ Type `exit` to get out of the `mongo` Shell, and type `exit` again to leave the 
 
 === Adding the truststore to the Open Liberty Server
 
-Execute the following command to copy `truststore.p12` from the container the your host machine:
+Execute the following commands to copy `truststore.p12` from the container to the correct location in the start and finish directories on your host machine:
 
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
 [role='command']
 ```
-docker cp mongo-guide:/etc/mongodb/truststore.p12 assets
+docker cp mongo-guide:/etc/mongodb/truststore.p12 start/src/main/liberty/config/resources/security
+copy start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
 ```
+--
 
-Execute the following commands to copy the `truststore.p12` file to the correct location in the `start` and `finish` projects.
-
+[.tab_content.mac_section]
+--
 [role='command']
 ```
-cp assets/truststore.p12 start/src/main/liberty/config/resources/security/
-cp assets/truststore.p12 finish/src/main/liberty/config/resources/security/
+docker cp mongo-guide:/etc/mongodb/truststore.p12 start/src/main/liberty/config/resources/security
+cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
 ```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+docker cp mongo-guide:/etc/mongodb/truststore.p12 start/src/main/liberty/config/resources/security
+cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
+```
+--
 
 // =================================================================================================
 // Try what you'll build
