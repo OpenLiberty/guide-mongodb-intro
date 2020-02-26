@@ -16,6 +16,7 @@ RUN cat /tmp/private.key /tmp/cert.pem > /tmp/mongodb_tls.pem
 RUN keytool -import -trustcacerts -keystore /tmp/truststore.p12 \
     -storepass mongodb -storetype PKCS12 -alias mongo -file /tmp/cert.pem -noprompt
 # end::stageOne[]
+
 # tag::stageTwo[]
 FROM mongo
 RUN mkdir /etc/mongodb
