@@ -12,7 +12,7 @@
 :page-releasedate: 2019-12-12
 :page-essential: true
 :page-essential-order: 1
-:page-description: Learn how to store data with MongoDB using CDI and MicroProfile Config.
+:page-description: Learn how to store data with MongoDB using using Contexts and Dependency Injection (CDI) and MicroProfile Config.
 :guide-author: Open Liberty
 :page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE', MongoDB]
 :page-related-guides: [???]
@@ -24,7 +24,7 @@
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to store data with `MongoDB` using CDI and MicroProfile Config.
+Learn how to store data with `MongoDB` using Contexts and Dependency Injection (CDI) and MicroProfile Config.
 
 == What you'll learn
 
@@ -61,7 +61,7 @@ include::{common-includes}/gitclone.adoc[]
 
 == Setting up MongoDB
 
-Before you begin, you must generate a Docker image using the provided multi-stage Dockerfile which uses `mongo` as the final stage's base and will gather the required configuration files. Then, the resulting `mongo` image will be run in a container and you will need to setup a new database for the microservice. Lastly, the truststore generated in the Docker image will be copied from the container and placed into the Open Liberty server.
+This guide will use Docker to run an instance of `MongoDB` for a fast setup. A multi-stage Dockerfile which uses `mongo` as the final stage's base and will gather the required configuration files. Then, the resulting `mongo` image will be run in a Docker container and you will need to setup a new database for the microservice. Lastly, the truststore generated in the Docker image will be copied from the container and placed into the Open Liberty server.
 
 === The MongoDB configuration
 
@@ -81,7 +81,7 @@ Dockerfile
 include::Dockerfile[]
 ----
 
-[hotspot=stageOne file=0]`Stage One` of the Dockerfile uses `open-liberty` as the base to create a self-signed certificate and private key which are concatenated together to generate the pem file used for TLS. Then, it uses the Java keytool to generate the truststore and adds the certificate file to the truststore. [hotspot=stageTwo file=0]`Stage Two` of the Dockerfile uses `mongo` as the base and copies over the generated files from the previous stage. Additionally, it copies the `mongodb.conf` configuration file from your host machine to the image.
+The [hotspot=stageOne file=0]`first stage` of the Dockerfile uses [hotspot=openLiberty file=0]`open-liberty` as the base to create a [hotspot=generateCerts file=0]`self-signed certificate and private key` which are concatenated together to generate the [hotspot=catCerts file=0]`mongodb_tls.pem` file used for TLS. Then, it uses the Java [hotspot=keytool file=0]`keytool` to generate the truststore and adds the certificate file to the truststore. The [hotspot=stageTwo file=0]`second stage` of the Dockerfile uses [hotspot=mongo file=0]`mongo` as the base and [hotspot=copyCerts file=0]`copies` over the generated files from the [hotspot=stageOne]`previous stage`. Additionally, it copies the [hotspot=copyConfig]`mongodb.conf` configuration file from your host machine to the image.
 
 === Running MongoDB in a Docker container
 
@@ -293,7 +293,7 @@ Since you started your `MongoDB` server using TLS, you must setup the SSL contex
 
 == Basic CRUD operations
 
-You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client] package is used to help implement these `CRUD` operations for the microservice. The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoDatabase.html#getCollection-java.lang.String-[MongoDatabase.getCollection()] method will be used to return http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection<TDocument>], a generic with a `TDocument` type parameter. For this guide, you will be using http://mongodb.github.io/mongo-java-driver/3.6/javadoc/?org/bson/Document.html[Document] as the type. Furthermore, several methods from http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html[MongoCollection] will be used to interact with the collection to implement the `CRUD` operations.
+You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [hotspot=mongoImport]`com.mongodb.client` package is used to help implement these `CRUD` operations for the microservice. For more information about this package, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/[Mongo Java Driver Javadocs].
 
 See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce] for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
 
@@ -315,7 +315,7 @@ CrewMember.java
 include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[]
 ----
 
-A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember file=1]`CrewMember` before inserting or updating the database.
+A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember file=1]`CrewMember` using the [hotspot=getViolations]`getViolations()` function before [hotspot=create]`inserting` or [hotspot=update]`updating` the database.
 
 === Injecting the database
 
@@ -324,7 +324,8 @@ The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into t
 Visit http://localhost:9080/openapi/ui/[^] to test and see the API documentation for the next sections.
 
 === Create
-The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#insertOne-TDocument-[MongoCollection.insertOne()] method is used to insert a new document into the collection. This method takes in a `TDocument` which contains the configuration of the new crew member to be inserted into the collection and does not return anything. The [hotspot=create]`add()` method handles the implementation of `CREATE`.
+
+The [hotspot=create]`add()` function handles the implementation of `CREATE`. An instance of `MongoCollection` is retrieved by invoking [hotspot=getCollection]`MongoDatabase.getCollection` method and specifying the `Crew` collection. The `MongoCollection` is a generic with a `TDocument` type parameter and the [hotspot=bsonDocument]`Document` class will be used as the type for this guide. The crew member is converted to a [createCrewMember]`Document` and the [hotspot=insertOne]`MongoCollection#insertOne` method is called to insert the new crew member `Document`.
 
 Test the `CREATE` operation through the OpenAPI UI at the `POST /api/crew` endpoint with the following as the request body:
 ```
@@ -335,7 +336,7 @@ Test the `CREATE` operation through the OpenAPI UI at the `POST /api/crew` endpo
 }
 ```
 
-This will create a new document in the collection with a name of Member1, rank of Officer, and crewID of 000001.
+This will create a new document in the `Crew` collection with a Name of `Member1`, Rank of `Officer`, and CrewID of `000001`.
 
 You will receive a response containing the JSON object of the new member.
 
@@ -350,10 +351,11 @@ You will receive a response containing the JSON object of the new member.
 }
 ```
 
-The `\<<ID>>` is a unique identifier in the database. Save this value for future commands.
+The `\<<ID>>` is a unique identifier in the collection. Save this value for future commands.
 
 === Read
-The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#find--[MongoCollection.find()] method is used to retrieve an iterable of all the crew member documents in the collection. This method does not take in any arguments and returns a http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/FindIterable.html[FindIterable]. The [hotspot=read]`retrieve()` method handles the implementation of `READ`.
+
+The [hotspot=read]`retrieve()` function handles the implementation of `READ`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionRead]`MongoDatabase#getCollection`. The [hotspot=find]`MongoCollection#find` method is invoked to retrieve a `FindIterable<TDocument>` generic using the `Document` type, an iterable for all the crew members documents in the collection. The documents are [hotspot=iterate]`iterated` through and appended together into a String array to be returned.
 
 Test the `READ` operation from the OpenAPI UI at the `GET /api/crew` enpoint.
 
@@ -375,7 +377,8 @@ You will receive a response containing an array of all the members currently in 
 ```
 
 === Update
-The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#replaceOne-org.bson.conversions.Bson-TDocument-[MongoCollection.replaceOne()] method is used to update a specified document. This method takes in a http://mongodb.github.io/mongo-java-driver/3.6/javadoc/org/bson/conversions/Bson.html[Bson] which contains the object id of the document to be replaced and another `TDocument` which contains the new configuration of the crew member. The method returns an http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/UpdateResult.html[UpdateResult] object with a method called `getMatchedCount()` which indicates the number of matches to the query. The [hotspot=update]`update()` method handles the implementation of `UPDATE`.
+
+The [hotspot=update]`update()` method handles the implementation of `UPDATE`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionRead]`MongoDatabase#getCollection`. Then, a [hotspot=queryUpdate]`Document` is created using the [hotspot=objectIdUpdate]`object id` to query the collection for the document. Next, a new crew member [hotspot=createCrewMemberUpdate]`Document` is created using the updated configuration. The [hotspot=replaceOne]`MongoCollection#replaceOne` method is called with the query and new crew member document which will update all matching queries with the supplied document. Since the object id is unique in the collection, only one document will be updated. The [hotspot=replaceOne]`MongoCollection#replaceOne` method will return an `UpdateResult`. The [hotspot=getMatchedCount]`UpdateResult#getMatchedCount` method is invoked to determine the number of documents that matched the query. If the match count is 0, then the object id does not exist.
 
 Test the `UPDATE` operation from the OpenAPI UI at the `PUT /api/crew/\{id\}` endpoint by specifying the `\<<ID>>` you saved from the `CREATE` section in the id parameter and setting the request body as:
 ```
@@ -402,11 +405,12 @@ You will receive a reponse containing the JSON object of the updated member.
 ```
 
 === Delete
-The http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/MongoCollection.html#deleteOne-org.bson.conversions.Bson-[MongoCollection.deleteOne()] method is used to remove a document from the collection. This method takes in a http://mongodb.github.io/mongo-java-driver/3.6/javadoc/org/bson/conversions/Bson.html[Bson] which contains the object id of the document to be deleted and returns a http://mongodb.github.io/mongo-java-driver/3.8/javadoc/com/mongodb/client/result/DeleteResult.html[DeleteResult] object with a method called `getDeletedCount()` to indicate the number of documents deleted from the collection. The [hotspot=delete]`remove()` method handles the implementation of `DELETE`.
+
+The [hotspot=delete]`remove()` method handles the implementation of `DELETE`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionRead]`MongoDatabase#getCollection`. The [hotspot=deleteOne]`MongoCollection#DeleteOne` method is called with a [hotspot=objectIdDelete]`Document` containing the `object id` to delete the matching document from the collection. The [hotspot=deleteOne]`MongoCollection#DeleteOne` will return a `DeleteResult`. The [hotspot=getDeletedCount]`DeleteResult#getDeletedCount` method is invoked to determine the number of documents that were deleted. If the deleted count is 0, then the object id does not exist.
 
 Test the `DELETE` operation from the OpenAPI UI at the `DELETE /api/crew/\{id\}` endpoint by specifying the `\<<ID>>` you saved from `CREATE` section in the id parameter.
 
-This will remove the document containing the specified crew member from the collection.
+This will remove the document containing the specified crew member object id from the collection.
 
 You will receive a response containing the object id of the deleted crew member.
 
@@ -482,8 +486,10 @@ See the following descriptions of the test cases:
 
 === Running the tests
 
-Since you started Open Liberty in development mode at the start of the guide, press
-`enter/return` key to run the tests. You will see the following output:
+[role='command']
+include::{common-includes}/devmode-test.adoc[]
+
+You will see the following output:
 
 [source,role="no_copy"]
 ----
@@ -507,8 +513,8 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 To see whether the tests detect a failure, add an assertion that you know fails, or change the existing
 [hotspot=assertEquals file=0]`assertEquals` method to expect `301` instead of `200`.
 
-When you are done checking out the application, exit development mode by typing `q` in the shell session where
-you ran the server and then pressing the `enter/return` key.
+[role='command']
+include::{common-includes}/devmode-quit.adoc[]
 
 
 == Great work! You're done!

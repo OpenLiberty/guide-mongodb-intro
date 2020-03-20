@@ -1,6 +1,6 @@
 //tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2019, 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,19 +21,18 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.StringReader;
 import java.util.ArrayList;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CrewApplicationEndpointIT {
 
     private static Client _Client;
     private static JsonArray _TestData;
     private static String _RootURL;
-    private ArrayList<String> _TestIDs = new ArrayList<>(2);
+    private static ArrayList<String> _TestIDs = new ArrayList<>(2);
 
     // tag::Before[]
     @BeforeAll
@@ -69,19 +68,11 @@ public class CrewApplicationEndpointIT {
         _Client.close();
     }
     // end::teardown[]
-
-    // tag::test[]
-    @Test
-    // end::test[]
-    public void testSuite() {
-        this.testAddCrewMember();
-        this.testUpdateCrewMember();
-        this.testGetCrewMembers();
-        this.testDeleteCrewMember();
-    }
-
+    
     // tag::testAddCrewMember[]
-    private void testAddCrewMember() {
+    @Test
+    @Order(1)
+    public void testAddCrewMember() {
         System.out.println("   === Adding "
                 + _TestData.size()
                 + " crew members to the database. ===");
@@ -102,6 +93,8 @@ public class CrewApplicationEndpointIT {
     // end::testAddCrewMember[]
 
     // tag::testUpdateCrewMember[]
+    @Test
+    @Order(2)
     public void testUpdateCrewMember() {
         System.out.println("   === Updating crew member with id "
                 + _TestIDs.get(0)
@@ -126,7 +119,9 @@ public class CrewApplicationEndpointIT {
     // end::testUpdateCrewMember[]
 
     // tag::testGetCrewMembers[]
-    private void testGetCrewMembers() {
+    @Test
+    @Order(3)
+    public void testGetCrewMembers() {
         System.out.println("   === Listing crew members from the database. ===");
 
         String url = _RootURL + "/api/crew";
@@ -160,7 +155,9 @@ public class CrewApplicationEndpointIT {
     // end::testGetCrewMembers[]
 
     // tag::testDeleteCrewMember[]
-    private void testDeleteCrewMember() {
+    @Test
+    @Order(4)
+    public void testDeleteCrewMember() {
         System.out.println("   === Removing "
                 + _TestIDs.size()
                 + " crew members from the database. ===");

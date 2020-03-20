@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018 IBM Corporation and others.
+ * Copyright (c) 2018, 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,40 +17,40 @@ import javax.validation.constraints.Pattern;
 
 // tag::crewMember[]
 public class CrewMember {
+    
+    @NotEmpty(message = "All crew members must have a name!")
+    private String name;
 
-	@NotEmpty(message = "All crew members must have a name!")
-	private String name;
+    @Pattern(regexp = "(Captain|Officer|Engineer)",
+            message = "Crew member must be one of the listed ranks!")
+    private String rank;
 
-	@Pattern(regexp = "(Captain|Officer|Engineer)",
-			message = "Crew member must be one of the listed ranks!")
-	private String rank;
+    @Pattern(regexp = "^\\d+$", message = "ID Number must be a non-negative integer!")
+    private String crewID;
 
-	@Pattern(regexp = "^\\d+$", message = "ID Number must be a non-negative integer!")
-	private String crewID;
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getRank() {
+        return rank;
+    }
 
-	public String getRank() {
-		return rank;
-	}
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
 
-	public void setRank(String rank) {
-		this.rank = rank;
-	}
+    public String getCrewID(){
+        return crewID;
+    }
 
-	public String getCrewID(){
-		return crewID;
-	}
-
-	public void setCrewID(String crewID) {
-		this.crewID = crewID;
-	}
+    public void setCrewID(String crewID) {
+        this.crewID = crewID;
+    }
 
 }
 // end::crewMember[]
