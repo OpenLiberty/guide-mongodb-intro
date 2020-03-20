@@ -94,12 +94,12 @@ public class CrewService {
         MongoCollection<Document> crew = db.getCollection("Crew");
 		// end::getCollection[]
 
-		// tag::createCrewMember[]
+		// tag::crewMemberCreation[]
         Document newCrewMember = new Document();
         newCrewMember.put("Name", crewMember.getName());
         newCrewMember.put("Rank", crewMember.getRank());
         newCrewMember.put("CrewID", crewMember.getCrewID());
-		// end::createCrewMember[]
+		// end::crewMemberCreation[]
 
 		// tag::insertOne[]
         crew.insertOne(newCrewMember);
@@ -224,12 +224,12 @@ public class CrewService {
         Document query = new Document("_id", oid);
 		// end::queryUpdate[]
 
-		// tag::createCrewMemberUpdate[]
+		// tag::crewMemberUpdate[]
         Document newCrewMember = new Document();
         newCrewMember.put("Name", crewMember.getName());
         newCrewMember.put("Rank", crewMember.getRank());
         newCrewMember.put("CrewID", crewMember.getCrewID());
-		// tag::createCrewMemberUpdate[]
+		// end::crewMemberUpdate[]
 
 		// tag::replaceOne[]
         UpdateResult updateResult = crew.replaceOne(query, newCrewMember);

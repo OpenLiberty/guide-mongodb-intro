@@ -293,7 +293,7 @@ Since you started your `MongoDB` server using TLS, you must setup the SSL contex
 
 == Basic CRUD operations
 
-You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [hotspot=mongoImport]`com.mongodb.client` package is used to help implement these `CRUD` operations for the microservice. For more information about this package, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/[Mongo Java Driver Javadocs].
+You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [hotspot=mongoImports]`com.mongodb.client` package is used to help implement these `CRUD` operations for the microservice. For more information about this package, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/[Mongo Java Driver Javadocs].
 
 See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce] for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
 
@@ -505,9 +505,9 @@ Running it.io.openliberty.guides.application.CrewApplicationEndpointIT
       === Done. There are 2 crew members. ===
    === Removing 2 crew members from the database. ===
       === Done. ===
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.411 s - in it.io.openliberty.guides.application.CrewApplicationEndpointIT
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.411 s - in it.io.openliberty.guides.application.CrewApplicationEndpointIT
 Results:
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, add an assertion that you know fails, or change the existing
