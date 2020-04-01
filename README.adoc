@@ -252,12 +252,6 @@ microprofile-config.properties
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-MongoProducer.java
-[source, Java, linenums, role="code_column hide_tags=copyright"]
-----
-include::finish/src/main/java/io/openliberty/guides/mongo/MongoProducer.java[]
-----
-
 pom.xml
 [source,xml,linenums,role="code_column hide_tags=copyright"]
 ----
@@ -270,13 +264,13 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-The values in the [hotspot file=0]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=1]`MongoProducer` class.
+The values in the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class.
 
 **Using an encoded password with passwordUtilities-1.0**
 
-One of the advantages of using a CDI producer is that it can be tailored to your needs. For improved security, the [hotspot=createMongo file=1]`createMongo` method includes authentication with a [hotspot=username file=1]`user name` and an [hotspot=encodedPassword file=1]`encoded password` which is decoded using [hotspot=passwordUtil file=1]`passwordUtilities-1.0`. 
+One of the advantages of using a CDI producer is that it can be tailored to your needs. For improved security, the [hotspot=createMongo file=0]`createMongo()` method includes authentication with a [hotspot=username file=0]`user name` and an [hotspot=encodedPassword file=0]`encoded password` which is decoded using [hotspot=passwordUtil file=0]`passwordUtilities-1.0`. 
 
-This tool is included in `pom.xml` as a [hotspot=passwordUtilDependency file=2]`dependency` and added to `server.xml` as a [hotspot=passwordUtilFeature file=3]`feature`.
+This tool is included in [file=2]`pom.xml` as a [hotspot=passwordUtilDependency file=2]`dependency` and added to `server.xml` as a [hotspot=passwordUtilFeature file=3]`feature`.
 
 **Using TLS**
 
