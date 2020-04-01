@@ -270,7 +270,7 @@ The values in the [hotspot file=1]`microprofile-config.properties` file are inje
 
 One of the advantages of using a CDI producer is that it can be tailored to your needs. For improved security, the [hotspot=createMongo file=0]`createMongo()` method includes authentication with a [hotspot=username file=0]`user name` and an [hotspot=encodedPassword file=0]`encoded password` which is decoded using [hotspot=passwordUtil file=0]`passwordUtilities-1.0`. 
 
-This tool is included in [file=2]`pom.xml` as a [hotspot=passwordUtilDependency file=2]`dependency` and added to `server.xml` as a [hotspot=passwordUtilFeature file=3]`feature`.
+This tool is included in [hotspot file=2]`pom.xml` as a [hotspot=passwordUtilDependency file=2]`dependency` and added to `server.xml` as a [hotspot=passwordUtilFeature file=3]`feature`.
 
 **Using TLS**
 
