@@ -67,7 +67,7 @@ public class CrewService {
     Validator validator;
     // end::beanValidator[]
 
-    // tag::create[]
+    // tag::add[]
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -90,29 +90,29 @@ public class CrewService {
                     .build();
         }
 
-		// tag::getCollection[]
+        // tag::getCollection[]
         MongoCollection<Document> crew = db.getCollection("Crew");
-		// end::getCollection[]
+        // end::getCollection[]
 
-		// tag::crewMemberCreation[]
+        // tag::crewMemberCreation[]
         Document newCrewMember = new Document();
         newCrewMember.put("Name", crewMember.getName());
         newCrewMember.put("Rank", crewMember.getRank());
         newCrewMember.put("CrewID", crewMember.getCrewID());
-		// end::crewMemberCreation[]
+        // end::crewMemberCreation[]
 
-		// tag::insertOne[]
+        // tag::insertOne[]
         crew.insertOne(newCrewMember);
-		// end::insertOne[]
+        // end::insertOne[]
         
         return Response
             .status(Response.Status.OK)
             .entity(newCrewMember.toJson())
             .build();
     }
-    // end::create[]
+    // end::add[]
 
-    // tag::delete[]
+    // tag::remove[]
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -137,9 +137,9 @@ public class CrewService {
         Document docId;
 
         try {
-			// tag::objectIdDelete[]
-			docId = new Document("_id", new ObjectId(id));
-			// end::objectIdDelete[]
+            // tag::objectIdDelete[]
+            docId = new Document("_id", new ObjectId(id));
+            // end::objectIdDelete[]
         } catch (Exception e) {
             return Response
                 .status(Response.Status.BAD_REQUEST)
@@ -147,17 +147,17 @@ public class CrewService {
                 .build();
         }
 
-		// tag::getCollectionDelete[]
+        // tag::getCollectionDelete[]
         MongoCollection<Document> crew = db.getCollection("Crew");
-		// end::getCollectionDelete[]
+        // end::getCollectionDelete[]
 
-		// tag::deleteOne[]
+        // tag::deleteOne[]
         DeleteResult deleteResult = crew.deleteOne(docId);
-		// end::deleteOne[]
-		
-		// tag::getDeletedCount[]
+        // end::deleteOne[]
+        
+        // tag::getDeletedCount[]
         if (deleteResult.getDeletedCount() == 0) {
-		// end::getDeletedCount[]
+        // end::getDeletedCount[]
             return Response
                 .status(Response.Status.NOT_FOUND)
                 .entity("[\"_id was not found!\"]")
@@ -169,7 +169,7 @@ public class CrewService {
             .entity(docId.toJson())
             .build();
     }
-    // end::delete[]
+    // end::remove[]
 
     // tag::update[]
     @PUT
@@ -206,9 +206,9 @@ public class CrewService {
         ObjectId oid;
 
         try {
-			// tag::objectIdUpdate[]
-			oid = new ObjectId(id);
-			// end::objectIdUpdate[]
+            // tag::objectIdUpdate[]
+            oid = new ObjectId(id);
+            // end::objectIdUpdate[]
         } catch (Exception e) {
             return Response
                 .status(Response.Status.BAD_REQUEST)
@@ -216,28 +216,28 @@ public class CrewService {
                 .build();
         }
 
-		// tag::getCollectionUpdate[]
+        // tag::getCollectionUpdate[]
         MongoCollection<Document> crew = db.getCollection("Crew");
-		// end::getCollectionUpdate[]
+        // end::getCollectionUpdate[]
 
-		// tag::queryUpdate[]
+        // tag::queryUpdate[]
         Document query = new Document("_id", oid);
-		// end::queryUpdate[]
+        // end::queryUpdate[]
 
-		// tag::crewMemberUpdate[]
+        // tag::crewMemberUpdate[]
         Document newCrewMember = new Document();
         newCrewMember.put("Name", crewMember.getName());
         newCrewMember.put("Rank", crewMember.getRank());
         newCrewMember.put("CrewID", crewMember.getCrewID());
-		// end::crewMemberUpdate[]
+        // end::crewMemberUpdate[]
 
-		// tag::replaceOne[]
+        // tag::replaceOne[]
         UpdateResult updateResult = crew.replaceOne(query, newCrewMember);
-		// end::replaceOne[]
+        // end::replaceOne[]
 
-		// tag::getMatchedCount[]
+        // tag::getMatchedCount[]
         if (updateResult.getMatchedCount() == 0) {
-		// end::getMatchedCount[]
+        // end::getMatchedCount[]
             return Response
                 .status(Response.Status.NOT_FOUND)
                 .entity("[\"_id was not found!\"]")
@@ -269,21 +269,21 @@ public class CrewService {
         StringWriter sb = new StringWriter();
 
         try {
-			// tag::getCollectionRead[]
-			MongoCollection<Document> crew = db.getCollection("Crew");
-			// end::getCollectionRead[]
+            // tag::getCollectionRead[]
+            MongoCollection<Document> crew = db.getCollection("Crew");
+            // end::getCollectionRead[]
             sb.append("[");
             boolean first = true;
             // tag::find[]
             FindIterable<Document> docs = crew.find();
-			// end::find[]
-			// tag::iterate[]
+            // end::find[]
+            // tag::iterate[]
             for (Document d : docs) {
                 if (!first) sb.append(",");
                 else first = false;
                 sb.append(d.toJson());
-			}
-			// end::iterate[]
+            }
+            // end::iterate[]
             sb.append("]");
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -300,10 +300,10 @@ public class CrewService {
     }
     // end::read[]
 
-	// tag::getViolations[]
+    // tag::getViolations[]
     private JsonArray getViolations(CrewMember crewMember) {
         Set<ConstraintViolation<CrewMember>> violations = validator.validate(
-				crewMember);
+                crewMember);
 
         JsonArrayBuilder messages = Json.createArrayBuilder();
 
@@ -312,6 +312,6 @@ public class CrewService {
         }
 
         return messages.build();
-	}
-	// end::getViolations[]
+    }
+    // end::getViolations[]
 }

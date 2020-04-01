@@ -401,7 +401,7 @@ You will receive a reponse containing the JSON object of the updated member.
 
 === Delete
 
-The [hotspot=delete]`remove()` method handles the implementation of `DELETE`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionRead]`MongoDatabase.getCollection()`. The [hotspot=deleteOne]`MongoCollection.DeleteOne()` method is called with a [hotspot=objectIdDelete]`Document` containing the `object id` to delete the matching document from the collection. The [hotspot=deleteOne]`MongoCollection.DeleteOne()` will return a `DeleteResult`. The [hotspot=getDeletedCount]`DeleteResult.getDeletedCount()` method is invoked to determine the number of documents that were deleted. If the deleted count is 0, then the object id does not exist.
+The [hotspot=delete]`remove()` method handles the implementation of `DELETE`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionDelete]`MongoDatabase.getCollection()`. The [hotspot=deleteOne]`MongoCollection.DeleteOne()` method is called with a [hotspot=objectIdDelete]`Document` containing the `object id` to delete the matching document from the collection. The [hotspot=deleteOne]`MongoCollection.DeleteOne()` will return a `DeleteResult`. The [hotspot=getDeletedCount]`DeleteResult.getDeletedCount()` method is invoked to determine the number of documents that were deleted. If the deleted count is 0, then the object id does not exist.
 
 Test the `DELETE` operation from the OpenAPI UI at the `DELETE /api/crew/\{id\}` endpoint by specifying the `\<<ID>>` you saved from `CREATE` section in the id parameter.
 
@@ -452,7 +452,7 @@ CrewServiceIT.java
 include::finish/src/test/java/it/io/openliberty/guides/application/CrewServiceIT.java[]
 ----
 
-The test methods are annotated with the [hotspot=test file=0]`@Test` annotation.
+The test methods are annotated with the [hotspot=test1 hotspot=test2 hotspot=test3 hotspot=test4 file=0]`@Test` annotation.
 
 pom.xml
 [source , xml, linenums,role="code_column hide_tags=copyright"]
