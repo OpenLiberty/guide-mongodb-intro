@@ -10,11 +10,15 @@ ARG ORGANIZATION=IBM
 ARG UNIT=OpenLiberty
 ARG COMMON_NAME=localhost
 
-# tag::generateCerts[]
 RUN openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
-    -keyout /tmp/private.key -out /tmp/cert.pem \
+    # tag::selfSignedCert[]
+    -out /tmp/cert.pem \
+    # end::selfSignedCert[]
+    # tag::privateKey[]
+    -keyout /tmp/private.key \
+    # end::privateKey[]
     -subj "/C=$COUNTRY/ST=$STATE_PROVINCE/L=$LOCALITY/O=$ORGANIZATION/OU=$UNIT/CN=$COMMON_NAME"
-# end::generateCerts[]
+
 # tag::catCerts[]
 RUN cat /tmp/private.key /tmp/cert.pem > /tmp/mongodb_tls.pem
 # end::catCerts[]

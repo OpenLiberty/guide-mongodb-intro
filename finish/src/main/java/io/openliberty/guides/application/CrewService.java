@@ -35,8 +35,8 @@ import javax.ws.rs.core.Response;
 import javax.validation.Validator;
 import javax.validation.ConstraintViolation;
 
-// tag::bsonDocument[]
 import com.mongodb.client.FindIterable;
+// tag::bsonDocument[]
 import org.bson.Document;
 // end::bsonDocument[]
 import org.bson.types.ObjectId;

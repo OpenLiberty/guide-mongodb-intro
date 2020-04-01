@@ -27,7 +27,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CrewApplicationEndpointIT {
+public class CrewServiceIT {
 
     private static Client _Client;
     private static JsonArray _TestData;
@@ -70,7 +70,9 @@ public class CrewApplicationEndpointIT {
     // end::teardown[]
     
     // tag::testAddCrewMember[]
+    // tag::test1[]
     @Test
+    // end::test1[]
     @Order(1)
     public void testAddCrewMember() {
         System.out.println("   === Adding "
@@ -93,7 +95,9 @@ public class CrewApplicationEndpointIT {
     // end::testAddCrewMember[]
 
     // tag::testUpdateCrewMember[]
+    // tag::test2[]
     @Test
+    // end::test2[]
     @Order(2)
     public void testUpdateCrewMember() {
         System.out.println("   === Updating crew member with id "
@@ -119,7 +123,9 @@ public class CrewApplicationEndpointIT {
     // end::testUpdateCrewMember[]
 
     // tag::testGetCrewMembers[]
+    // tag::test3[]
     @Test
+    // end::test3[]
     @Order(3)
     public void testGetCrewMembers() {
         System.out.println("   === Listing crew members from the database. ===");
@@ -155,7 +161,9 @@ public class CrewApplicationEndpointIT {
     // end::testGetCrewMembers[]
 
     // tag::testDeleteCrewMember[]
+    // tag::test4[]
     @Test
+    // end::test4[]
     @Order(4)
     public void testDeleteCrewMember() {
         System.out.println("   === Removing "
@@ -173,16 +181,6 @@ public class CrewApplicationEndpointIT {
     }
     // end::testDeleteCrewMember[]
 
-    /**
-     * <p>
-     * Asserts that the given URL has the correct response code of 200.
-     * </p>
-     *
-     * @param url
-     *          - target URL.
-     * @param response
-     *          - response received from the target URL.
-     */
     private void assertResponse(String url, Response response) {
         // tag::assertEquals[]
         assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
