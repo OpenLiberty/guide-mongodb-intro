@@ -253,7 +253,7 @@ public class CrewService {
     }
     // end::update[]
 
-    // tag::read[]
+    // tag::retrieve[]
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
@@ -298,7 +298,7 @@ public class CrewService {
             .entity(sb.toString())
             .build();
     }
-    // end::read[]
+    // end::retrieve[]
 
     // tag::getViolations[]
     private JsonArray getViolations(CrewMember crewMember) {
