@@ -288,7 +288,7 @@ Since you started your `MongoDB` server using TLS, you must setup the SSL contex
 
 == Basic CRUD operations
 
-You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [hotspot=mongoImports]`com.mongodb.client` package is used to help implement these `CRUD` operations for the microservice. For more information about this package, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/[Mongo Java Driver Javadocs].
+You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [hotspot=mongoImports]`com.mongodb.client` package is used to help implement these `CRUD` operations for the microservice. For more information about this package, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client Javadocs].
 
 See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce] for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
 
@@ -310,7 +310,7 @@ CrewMember.java
 include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[]
 ----
 
-A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember file=1]`CrewMember` using the [hotspot=getViolations]`getViolations()` function before [hotspot=create]`inserting` or [hotspot=update]`updating` the database.
+A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember file=1]`CrewMember` using the [hotspot=getViolations]`getViolations()` method before [hotspot=add]`inserting` or [hotspot=update]`updating` the database.
 
 === Injecting the database
 
@@ -320,7 +320,7 @@ Visit http://localhost:9080/openapi/ui/[^] to test and see the API documentation
 
 === Create
 
-The [hotspot=add]`add()` function handles the implementation of `CREATE`. An instance of `MongoCollection` is retrieved by invoking [hotspot=getCollection]`MongoDatabase.getCollection()` method and specifying the `Crew` collection. The `MongoCollection<TDocument>` is a generic with a `TDocument` type parameter and the [hotspot=bsonDocument]`Document` class will be used as the `TDocument` type for this guide. The crew member is converted to a [hotspot=createCrewMember]`Document` and the [hotspot=insertOne]`MongoCollection.insertOne()` method is called to insert the new crew member `Document`.
+The [hotspot=add]`add()` method handles the implementation of `CREATE`. An instance of `MongoCollection` is retrieved by invoking [hotspot=getCollection]`MongoDatabase.getCollection()` method and specifying the `Crew` collection. The `MongoCollection<TDocument>` is a generic with a `TDocument` type parameter and the [hotspot=bsonDocument]`Document` class will be used as the `TDocument` type for this guide. The crew member is converted to a [hotspot=createCrewMember]`Document` and the [hotspot=insertOne]`MongoCollection.insertOne()` method is called to insert the new crew member `Document`.
 
 Test the `CREATE` operation through the OpenAPI UI at the `POST /api/crew` endpoint with the following as the request body:
 ```
@@ -350,7 +350,7 @@ The `\<<ID>>` is a unique identifier in the collection. Save this value for futu
 
 === Read
 
-The [hotspot=retrieve]`retrieve()` function handles the implementation of `READ`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionRead]`MongoDatabase#getCollection`. The [hotspot=find]`MongoCollection#find` method is invoked to retrieve a `FindIterable<TDocument>` generic using the `Document` type, an iterable for all the crew members documents in the collection. The documents are [hotspot=iterate]`iterated` through and appended together into a String array to be returned.
+The [hotspot=retrieve]`retrieve()` method handles the implementation of `READ`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionRead]`MongoDatabase#getCollection`. The [hotspot=find]`MongoCollection#find` method is invoked to retrieve a `FindIterable<TDocument>` generic using the `Document` type, an iterable for all the crew members documents in the collection. The documents are [hotspot=iterate]`iterated` through and appended together into a String array to be returned.
 
 Test the `READ` operation from the OpenAPI UI at the `GET /api/crew` enpoint.
 
