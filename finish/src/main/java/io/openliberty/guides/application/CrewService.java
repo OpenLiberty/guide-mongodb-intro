@@ -81,6 +81,7 @@ public class CrewService {
             description = "Invalid crew member configuration.") })
     @Operation(summary = "Add a new crew member to the database.")
     public Response add(CrewMember crewMember) {
+        // tag::violations1[]
         JsonArray violations = getViolations(crewMember);
 
         if (!violations.isEmpty()) {
@@ -89,6 +90,7 @@ public class CrewService {
                     .entity(violations.toString())
                     .build();
         }
+        // end::violations1[]
 
         // tag::getCollection[]
         MongoCollection<Document> crew = db.getCollection("Crew");
@@ -194,14 +196,16 @@ public class CrewService {
         )
         @PathParam("id") String id) {
 
+        // tag::violations2[]
         JsonArray violations = getViolations(crewMember);
-
+        
         if (!violations.isEmpty()) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .entity(violations.toString())
                     .build();
         }
+        // end::violations2[]
 
         ObjectId oid;
 

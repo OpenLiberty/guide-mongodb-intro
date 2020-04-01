@@ -310,7 +310,7 @@ CrewMember.java
 include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[]
 ----
 
-A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember file=1]`CrewMember` using the [hotspot=getViolations]`getViolations()` method before [hotspot=add]`inserting` or [hotspot=update]`updating` the database.
+A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember file=1]`CrewMember` using the [hotspot=getViolations]`getViolations()` method before [hotspot=violations1]`inserting` or [hotspot=violations2]`updating` the database.
 
 === Injecting the database
 
