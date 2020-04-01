@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2019 IBM Corporation and others.
+* Copyright (c) 2019, 2020 IBM Corporation and others.
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -20,16 +20,19 @@ function addCrewMember() {
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status != 200) {
-            var i = 0;
-            var res = JSON.parse(this.response);
-            if (Array.isArray(res) == true) {
-                for (m of JSON.parse(this.response)) {
-                    toast(m, i++);
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                refreshDocDisplay();
+            } else {
+                var i = 0;
+                var res = JSON.parse(this.response);
+                if (Array.isArray(res) == true) {
+                    for (m of res) {
+                        toast(m, i++);
+                    }
                 }
             }
         }
-        refreshDocDisplay();
     }
 
     request.open("POST", "api/crew/", true);
@@ -72,17 +75,19 @@ function updateCrewMember() {
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status != 200) {
-            var i = 0;
-            var res = JSON.parse(this.response);
-            if (Array.isArray(res) == true) {
-                for (m of JSON.parse(this.response)) {
-                    toast(m, i++);
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                refreshDocDisplay();
+            } else {
+                var i = 0;
+                var res = JSON.parse(this.response);
+                if (Array.isArray(res) == true) {
+                    for (m of res) {
+                        toast(m, i++);
+                    }
                 }
             }
         }
-
-        refreshDocDisplay();
     }
 
     request.open("PUT", "api/crew/" + id, true);
@@ -147,7 +152,7 @@ function remove(e, id) {
                 clearUpdateForm();
             }
             document.getElementById(id).remove();
-            refreshDocDisplay()
+            refreshDocDisplay();
         }
     }
 

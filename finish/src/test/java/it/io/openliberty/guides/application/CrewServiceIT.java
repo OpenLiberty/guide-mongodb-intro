@@ -1,6 +1,6 @@
 //tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2019, 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,19 +21,18 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.StringReader;
 import java.util.ArrayList;
 
-public class CrewApplicationEndpointIT {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class CrewServiceIT {
 
     private static Client _Client;
     private static JsonArray _TestData;
     private static String _RootURL;
-    private ArrayList<String> _TestIDs = new ArrayList<>(2);
+    private static ArrayList<String> _TestIDs = new ArrayList<>(2);
 
     // tag::Before[]
     @BeforeAll
@@ -69,19 +68,13 @@ public class CrewApplicationEndpointIT {
         _Client.close();
     }
     // end::teardown[]
-
-    // tag::test[]
-    @Test
-    // end::test[]
-    public void testSuite() {
-        this.testAddCrewMember();
-        this.testUpdateCrewMember();
-        this.testGetCrewMembers();
-        this.testDeleteCrewMember();
-    }
-
+    
     // tag::testAddCrewMember[]
-    private void testAddCrewMember() {
+    // tag::test1[]
+    @Test
+    // end::test1[]
+    @Order(1)
+    public void testAddCrewMember() {
         System.out.println("   === Adding "
                 + _TestData.size()
                 + " crew members to the database. ===");
@@ -102,6 +95,10 @@ public class CrewApplicationEndpointIT {
     // end::testAddCrewMember[]
 
     // tag::testUpdateCrewMember[]
+    // tag::test2[]
+    @Test
+    // end::test2[]
+    @Order(2)
     public void testUpdateCrewMember() {
         System.out.println("   === Updating crew member with id "
                 + _TestIDs.get(0)
@@ -126,7 +123,11 @@ public class CrewApplicationEndpointIT {
     // end::testUpdateCrewMember[]
 
     // tag::testGetCrewMembers[]
-    private void testGetCrewMembers() {
+    // tag::test3[]
+    @Test
+    // end::test3[]
+    @Order(3)
+    public void testGetCrewMembers() {
         System.out.println("   === Listing crew members from the database. ===");
 
         String url = _RootURL + "/api/crew";
@@ -160,7 +161,11 @@ public class CrewApplicationEndpointIT {
     // end::testGetCrewMembers[]
 
     // tag::testDeleteCrewMember[]
-    private void testDeleteCrewMember() {
+    // tag::test4[]
+    @Test
+    // end::test4[]
+    @Order(4)
+    public void testDeleteCrewMember() {
         System.out.println("   === Removing "
                 + _TestIDs.size()
                 + " crew members from the database. ===");
@@ -176,16 +181,6 @@ public class CrewApplicationEndpointIT {
     }
     // end::testDeleteCrewMember[]
 
-    /**
-     * <p>
-     * Asserts that the given URL has the correct response code of 200.
-     * </p>
-     *
-     * @param url
-     *          - target URL.
-     * @param response
-     *          - response received from the target URL.
-     */
     private void assertResponse(String url, Response response) {
         // tag::assertEquals[]
         assertEquals(200, response.getStatus(), "Incorrect response code from " + url);

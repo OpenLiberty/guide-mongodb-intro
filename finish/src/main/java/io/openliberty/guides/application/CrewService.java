@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018 IBM Corporation and others.
+ * Copyright (c) 2018, 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,6 +18,7 @@ import java.io.StringWriter;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.Json;
 import javax.ws.rs.GET;
@@ -29,18 +30,24 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import javax.validation.Validator;
 import javax.validation.ConstraintViolation;
-import javax.ws.rs.core.Response;
 
-import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.FindIterable;
+// tag::bsonDocument[]
 import org.bson.Document;
+// end::bsonDocument[]
 import org.bson.types.ObjectId;
 
+// tag::mongoImports[]
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+// end::mongoImports[]
+
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -50,226 +57,265 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 @ApplicationScoped
 public class CrewService {
 
-	// tag::dbInjection[]
-	@Inject
-	MongoDatabase db;
-	// end::dbInjection[]
+    // tag::dbInjection[]
+    @Inject
+    MongoDatabase db;
+    // end::dbInjection[]
 
-	// tag::beanValidator[]
-	@Inject
-	Validator validator;
-	// end::beanValidator[]
+    // tag::beanValidator[]
+    @Inject
+    Validator validator;
+    // end::beanValidator[]
 
-	// tag::create[]
-	@POST
-	@Path("/")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@APIResponses({
-		@APIResponse(
-			responseCode = "200",
-			description = "Successfully added crew member."),
-		@APIResponse(
-			responseCode = "400",
-			description = "Invalid crew member configuration.") })
-	@Operation(summary = "Add a new crew member to the database.")
-	public Response add(CrewMember crewMember) {
+    // tag::add[]
+    @POST
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @APIResponses({
+        @APIResponse(
+            responseCode = "200",
+            description = "Successfully added crew member."),
+        @APIResponse(
+            responseCode = "400",
+            description = "Invalid crew member configuration.") })
+    @Operation(summary = "Add a new crew member to the database.")
+    public Response add(CrewMember crewMember) {
+        // tag::violations1[]
+        JsonArray violations = getViolations(crewMember);
 
-		Set<ConstraintViolation<CrewMember>> violations = validator.validate(
-			crewMember
-		);
+        if (!violations.isEmpty()) {
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(violations.toString())
+                    .build();
+        }
+        // end::violations1[]
 
-		if(violations.size() > 0) {
-			JsonArrayBuilder messages = Json.createArrayBuilder();
-			for (ConstraintViolation<CrewMember> v : violations) {
-				messages.add(v.getMessage());
-			}
-			return Response
-				.status(Response.Status.BAD_REQUEST)
-				.entity(messages.build().toString())
-				.build();
-		}
+        // tag::getCollection[]
+        MongoCollection<Document> crew = db.getCollection("Crew");
+        // end::getCollection[]
 
-		MongoCollection<Document> crew = db.getCollection("Crew");
+        // tag::crewMemberCreation[]
+        Document newCrewMember = new Document();
+        newCrewMember.put("Name", crewMember.getName());
+        newCrewMember.put("Rank", crewMember.getRank());
+        newCrewMember.put("CrewID", crewMember.getCrewID());
+        // end::crewMemberCreation[]
 
-		Document newCrewMember = new Document();
-		newCrewMember.put("Name", crewMember.getName());
-		newCrewMember.put("Rank", crewMember.getRank());
-		newCrewMember.put("CrewID", crewMember.getCrewID());
+        // tag::insertOne[]
+        crew.insertOne(newCrewMember);
+        // end::insertOne[]
+        
+        return Response
+            .status(Response.Status.OK)
+            .entity(newCrewMember.toJson())
+            .build();
+    }
+    // end::add[]
 
-		crew.insertOne(newCrewMember);
+    // tag::remove[]
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @APIResponses({
+        @APIResponse(
+            responseCode = "200",
+            description = "Successfully deleted crew member."),
+        @APIResponse(
+            responseCode = "400",
+            description = "Invalid object id."),
+        @APIResponse(
+            responseCode = "404",
+            description = "Crew member object id was not found.") })
+    @Operation(summary = "Delete a crew member from the database.")
+    public Response remove(
+        @Parameter(
+            description = "Object id of the crew member to delete.",
+            required = true
+        )
+        @PathParam("id") String id) {
 
-		return Response
-			.status(Response.Status.OK)
-			.entity(newCrewMember.toJson())
-			.build();
-	}
-	// end::create[]
+        Document docId;
 
-	// tag::delete[]
-	@DELETE
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@APIResponses({
-		@APIResponse(
-			responseCode = "200",
-			description = "Successfully deleted crew member."),
-		@APIResponse(
-			responseCode = "400",
-			description = "Invalid object id."),
-		@APIResponse(
-			responseCode = "404",
-			description = "Crew member object id was not found.") })
-	@Operation(summary = "Delete a crew member from the database.")
-	public Response remove(
-		@Parameter(
-			description = "Object id of the crew member to delete.",
-			required = true
-		)
-		@PathParam("id") String id) {
+        try {
+            // tag::objectIdDelete[]
+            docId = new Document("_id", new ObjectId(id));
+            // end::objectIdDelete[]
+        } catch (Exception e) {
+            return Response
+                .status(Response.Status.BAD_REQUEST)
+                .entity("[\"Invalid object id!\"]")
+                .build();
+        }
 
-		MongoCollection<Document> crew = db.getCollection("Crew");
+        // tag::getCollectionDelete[]
+        MongoCollection<Document> crew = db.getCollection("Crew");
+        // end::getCollectionDelete[]
 
-		Document docId;
+        // tag::deleteOne[]
+        DeleteResult deleteResult = crew.deleteOne(docId);
+        // end::deleteOne[]
+        
+        // tag::getDeletedCount[]
+        if (deleteResult.getDeletedCount() == 0) {
+        // end::getDeletedCount[]
+            return Response
+                .status(Response.Status.NOT_FOUND)
+                .entity("[\"_id was not found!\"]")
+                .build();
+        }
 
-		try {
-			docId = new Document("_id", new ObjectId(id));
-		} catch (Exception e) {
-			return Response
-				.status(Response.Status.BAD_REQUEST)
-				.entity("[\"Invalid object id!\"]")
-				.build();
-		}
+        return Response
+            .status(Response.Status.OK)
+            .entity(docId.toJson())
+            .build();
+    }
+    // end::remove[]
 
-		DeleteResult deleteResult = crew.deleteOne(docId);
-		
-		if (deleteResult.getDeletedCount() == 0) {
-			return Response
-				.status(Response.Status.NOT_FOUND)
-				.entity("[\"_id was not found!\"]")
-				.build();
-		}
+    // tag::update[]
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @APIResponses({
+        @APIResponse(
+            responseCode = "200",
+            description = "Successfully updated crew member."),
+        @APIResponse(
+            responseCode = "400",
+            description = "Invalid object id or crew member configuration."),
+        @APIResponse(
+            responseCode = "404",
+            description = "Crew member object id was not found.") })
+    @Operation(summary = "Update a crew member in the database.")
+    public Response update(CrewMember crewMember,
+        @Parameter(
+            description = "Object id of the crew member to update.",
+            required = true
+        )
+        @PathParam("id") String id) {
 
-		return Response
-			.status(Response.Status.OK)
-			.entity(docId.toJson())
-			.build();
-	}
-	// end::delete[]
+        // tag::violations2[]
+        JsonArray violations = getViolations(crewMember);
+        
+        if (!violations.isEmpty()) {
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(violations.toString())
+                    .build();
+        }
+        // end::violations2[]
 
-	// tag::update[]
-	@PUT
-	@Path("/{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@APIResponses({
-		@APIResponse(
-			responseCode = "200",
-			description = "Successfully updated crew member."),
-		@APIResponse(
-			responseCode = "400",
-			description = "Invalid object id or crew member configuration."),
-		@APIResponse(
-			responseCode = "404",
-			description = "Crew member object id was not found.") })
-	@Operation(summary = "Update a crew member in the database.")
-	public Response update(CrewMember crewMember,
-		@Parameter(
-			description = "Object id of the crew member to update.",
-			required = true
-		)
-		@PathParam("id") String id) {
+        ObjectId oid;
 
-		Set<ConstraintViolation<CrewMember>> violations = validator.validate(
-				crewMember
-		);
+        try {
+            // tag::objectIdUpdate[]
+            oid = new ObjectId(id);
+            // end::objectIdUpdate[]
+        } catch (Exception e) {
+            return Response
+                .status(Response.Status.BAD_REQUEST)
+                .entity("[\"Invalid object id!\"]")
+                .build();
+        }
 
-		if(violations.size() > 0) {
-			JsonArrayBuilder messages = Json.createArrayBuilder();
-			for (ConstraintViolation<CrewMember> v : violations) {
-				messages.add(v.getMessage());
-			}
-			return Response
-				.status(Response.Status.BAD_REQUEST)
-				.entity(messages.build().toString())
-				.build();
-		}
+        // tag::getCollectionUpdate[]
+        MongoCollection<Document> crew = db.getCollection("Crew");
+        // end::getCollectionUpdate[]
 
-		MongoCollection<Document> crew = db.getCollection("Crew");
+        // tag::queryUpdate[]
+        Document query = new Document("_id", oid);
+        // end::queryUpdate[]
 
-		ObjectId oid;
+        // tag::crewMemberUpdate[]
+        Document newCrewMember = new Document();
+        newCrewMember.put("Name", crewMember.getName());
+        newCrewMember.put("Rank", crewMember.getRank());
+        newCrewMember.put("CrewID", crewMember.getCrewID());
+        // end::crewMemberUpdate[]
 
-		try {
-			oid = new ObjectId(id);
-		} catch (Exception e) {
-			return Response
-				.status(Response.Status.BAD_REQUEST)
-				.entity("[\"Invalid object id!\"]")
-				.build();
-		}
+        // tag::replaceOne[]
+        UpdateResult updateResult = crew.replaceOne(query, newCrewMember);
+        // end::replaceOne[]
 
-		Document query = new Document("_id", oid);
+        // tag::getMatchedCount[]
+        if (updateResult.getMatchedCount() == 0) {
+        // end::getMatchedCount[]
+            return Response
+                .status(Response.Status.NOT_FOUND)
+                .entity("[\"_id was not found!\"]")
+                .build();
+        }
 
-		Document newCrewMember = new Document();
-		newCrewMember.put("Name", crewMember.getName());
-		newCrewMember.put("Rank", crewMember.getRank());
-		newCrewMember.put("CrewID", crewMember.getCrewID());
+        newCrewMember.put("_id", oid);
 
-		UpdateResult updateResult = crew.replaceOne(query , newCrewMember);
+        return Response
+            .status(Response.Status.OK)
+            .entity(newCrewMember.toJson())
+            .build();
+    }
+    // end::update[]
 
-		if (updateResult.getMatchedCount() == 0) {
-			return Response
-				.status(Response.Status.NOT_FOUND)
-				.entity("[\"_id was not found!\"]")
-				.build();
-		}
+    // tag::retrieve[]
+    @GET
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    @APIResponses({
+        @APIResponse(
+            responseCode = "200",
+            description = "Successfully listed the crew members."),
+        @APIResponse(
+            responseCode = "500",
+            description = "Failed to list the crew members.") })
+    @Operation(summary = "List the crew members from the database.")
+    public Response retrieve() {
+        StringWriter sb = new StringWriter();
 
-		newCrewMember.put("_id", oid);
+        try {
+            // tag::getCollectionRead[]
+            MongoCollection<Document> crew = db.getCollection("Crew");
+            // end::getCollectionRead[]
+            sb.append("[");
+            boolean first = true;
+            // tag::find[]
+            FindIterable<Document> docs = crew.find();
+            // end::find[]
+            // tag::iterate[]
+            for (Document d : docs) {
+                if (!first) sb.append(",");
+                else first = false;
+                sb.append(d.toJson());
+            }
+            // end::iterate[]
+            sb.append("]");
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            return Response
+                .status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("[\"Unable to list crew members!\"]")
+                .build();
+        }
 
-		return Response
-			.status(Response.Status.OK)
-			.entity(newCrewMember.toJson())
-			.build();
-	}
-	// end::update[]
+        return Response
+            .status(Response.Status.OK)
+            .entity(sb.toString())
+            .build();
+    }
+    // end::retrieve[]
 
-	// tag::read[]
-	@GET
-	@Path("/")
-	@Produces(MediaType.APPLICATION_JSON)
-	@APIResponses({
-		@APIResponse(
-			responseCode = "200",
-			description = "Successfully listed the crew members."),
-		@APIResponse(
-			responseCode = "500",
-			description = "Failed to list the crew members.") })
-	@Operation(summary = "List the crew members from the database.")
-	public Response retrieve() {
-		StringWriter sb = new StringWriter();
+    // tag::getViolations[]
+    private JsonArray getViolations(CrewMember crewMember) {
+        Set<ConstraintViolation<CrewMember>> violations = validator.validate(
+                crewMember);
 
-		try {
-			MongoCollection<Document> crew = db.getCollection("Crew");
-			sb.append("[");
-			boolean first = true;
-			for (Document d : crew.find()) {
-				if (!first) sb.append(",");
-				else first = false;
-				sb.append(d.toJson());
-			}
-			sb.append("]");
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
-			return Response
-				.status(Response.Status.INTERNAL_SERVER_ERROR)
-				.entity("[\"Unable to list crew members!\"]")
-				.build();
-		}
+        JsonArrayBuilder messages = Json.createArrayBuilder();
 
-		return Response
-			.status(Response.Status.OK)
-			.entity(sb.toString())
-			.build();
-	}
-	// end::read[]
+        for (ConstraintViolation<CrewMember> v : violations) {
+            messages.add(v.getMessage());
+        }
+
+        return messages.build();
+    }
+    // end::getViolations[]
 }
