@@ -25,6 +25,7 @@ RUN keytool -import -trustcacerts -keystore /tmp/truststore.p12 \
 # end::keytool[]
 # end::stageOne[]
 # tag::stageTwo[]
+
 # tag::mongo[]
 FROM mongo
 # end::mongo[]
