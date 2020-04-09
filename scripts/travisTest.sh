@@ -11,19 +11,13 @@ cd ..
 
 # Build mongo docker image and run it
 docker build -t mongo-sample .
-docker run --name mongo-guide -p 127.0.0.1:27017:27017 -d mongo-sample --config /etc/mongodb/mongodb.conf
+docker run --name mongo-guide -p 27017:27017 -d mongo-sample
 
 ## Wait for mongo to be ready
 sleep 10
 
-# Set up database
-USE_TEST_DB="use testdb"
-CREATE_USER="db.createUser({user: 'sampleUser', pwd: 'openliberty', roles: [{ role: 'readWrite', db: 'testdb' }]})"
-
-(echo "${USE_TEST_DB}"; echo "${CREATE_USER}") | docker exec -i mongo-guide bash -c "mongo --tls --tlsCAFile /etc/mongodb/cert.pem --host localhost"
-
 # copy truststore from container to host
-docker cp mongo-guide:/etc/mongodb/truststore.p12 start/src/main/liberty/config/resources/security
+docker cp mongo-guide:/etc/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
 cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
 
 ## Move back to the finish folder
