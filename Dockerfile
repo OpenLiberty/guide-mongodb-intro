@@ -35,14 +35,14 @@ RUN mkdir /etc/mongodb/data
 RUN mkdir /etc/mongodb/certs
 RUN mkdir /etc/mongodb/logs
 RUN chown -R mongodb:mongodb /etc/mongodb
-# tag::createDirectory[]
+# end::createDirectory[]
 
 # tag::copyCerts[]
 COPY --from=staging /tmp /etc/mongodb/certs
 # end::copyCerts[]
 # tag::copyConfig[]
 COPY assets/mongodb.conf  /etc/mongodb
-# tag::copyConfig[]
+# end::copyConfig[]
 # tag::copyJS[]
 COPY assets/index.js  /etc/mongodb
 # end::copyJS[]
@@ -55,33 +55,33 @@ RUN mongod \
 # tag::config[]
         --config /etc/mongodb/mongodb.conf \
 # end::config[]
-# tag:: runMongod[]
-# tag:: runScript[]
+# end::runMongod[]
+# tag::runScript[]
     && mongo \
 # tag::testdb[]
         testdb \
 # end::testdb[]
-# tag:: tls[]
+# tag::tls[]
         -tls \
-# end:: tls[]
-# tag:: tlsCAFile[]
+# end::tls[]
+# tag::tlsCAFile[]
         --tlsCAFile /etc/mongodb/certs/cert.pem \
-# end:: tlsCAFile[]
-# tag:: host[]
+# end::tlsCAFile[]
+# tag::host[]
         --host localhost \
-# end:: host[]
-# tag:: script[]
+# end::host[]
+# tag::script[]
         /etc/mongodb/index.js \
-# end:: script[]
-# end:: runScript[]
-# tag:: shutdown[] 
+# end::script[]
+# end::runScript[]
+# tag::shutdown[] 
     && mongod --dbpath /etc/mongodb/data --shutdown \
-# end:: shutdown[]
-# tag:: chown[]
+# end::shutdown[]
+# tag::chown[]
     && chown -R mongodb /etc/mongodb
 # end:: chown[]
 
-# tag:: cmd[]
+# tag::cmd[]
 CMD ["mongod", "--config", "/etc/mongodb/mongodb.conf"]
-# tag:: end[]
+# end::cmd[]
 # end::stageTwo[]
