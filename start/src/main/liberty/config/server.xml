@@ -2,15 +2,7 @@
 	<!-- tag::featureManager[] -->
 	<featureManager>
 		<feature>beanValidation-2.0</feature>	   
-		<feature>mpConfig-1.2</feature>
-		<!-- tag::passwordUtilFeature[] -->
-		<feature>passwordUtilities-1.0</feature>
-		<!-- end::passwordUtilFeature[] -->
 		<feature>jaxrs-2.1</feature>
-		<feature>cdi-2.0</feature>
-		<!-- tag::sslFeature[] -->
-		<feature>ssl-1.0</feature>
-		<!-- end::sslFeature[] -->
 		<feature>mpOpenAPI-1.1</feature>
 	</featureManager>
 	<!-- end::featureManager[] -->
@@ -34,21 +26,4 @@
 		contextRoot="${app.context.root}"
 	/>
 	<!-- end::webApplication[] -->
-	<!-- tag::sslContext[] -->
-	<ssl 
-		id="outboundSSLContext" 
-		keyStoreRef="defaultKeyStore" 
-		trustStoreRef="outboundTrustStore" 
-		sslProtocol="TLS" 
-	/>
-	<keyStore 
-		id="outboundTrustStore" 
-		location="${server.output.dir}resources/security/truststore.p12"
-		password="mongodb"
-		type="PKCS12" 
-	/>
-	<sslDefault 
-		outboundSSLRef="outboundSSLContext" 
-	/>
-	<!-- end::sslContext[] -->
 </server>

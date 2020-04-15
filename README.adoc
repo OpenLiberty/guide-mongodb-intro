@@ -101,7 +101,7 @@ The [hotspot=stageTwo file=0]`second stage` of the Dockerfile uses the [hotspot=
 
 The [hotspot file=1]`index.js` script creates a new [hotspot=createUser file=1]`user` in the `testdb` database with a username of `sampleUser`, password of `openliberty`, and the role of https://docs.mongodb.com/manual/reference/built-in-roles/#readWrite[readWrite]. It also creates a [hotspot=createCollection file=1]`Crew` collection in the `testdb` database.
 
-The `MongoDB` daemon is then [hotspot=shutdown file=0]`shutdown` and [hotspot=chown file=0]`chown` is called to change the ownership of the `/etc/mongodb` directory to `mongodb`. Lastly, the [hotspot=cmd file=0]`CMD` command is run to specify the entry point of the Docker image which will start the `MongoDB` daemon using the `mongodb.conf` configuration file.
+The `MongoDB` daemon is then [hotspot=shutdown file=0]`shutdown` and [hotspot=chown file=0]`chown` is called to change the ownership of the `/etc/mongodb` directory to `mongodb`. Lastly, the [hotspot=cmd file=0]`CMD` command is used to start the `MongoDB` daemon using the `mongodb.conf` configuration file when the image is run in a container.
 
 === Running MongoDB in a Docker container
 
@@ -177,6 +177,12 @@ mvn liberty:stop
 // =================================================================================================
 
 == Configuring the Open Liberty Server
+
+[role="code_command hotspot", subs="quotes"]
+----
+#Replace the server configuration file.#
+`src/main/liberty/config/server.xml`
+----
 
 server.xml
 [source,xml,linenums,role="code_column hide_tags=copyright"]
@@ -264,7 +270,7 @@ The values in the [hotspot file=1]`microprofile-config.properties` file are inje
 
 **Using an encoded password with passwordUtilities-1.0**
 
-One of the advantages of using a CDI producer is that it can be tailored to your needs. For improved security, the [hotspot=createMongo file=0]`createMongo()` method includes authentication with a [hotspot=username file=0]`user name` and an [hotspot=encodedPassword file=0]`encoded password` which is decoded using [hotspot=passwordUtil file=0]`passwordUtilities-1.0`. The [hotspot=mongoPassEncoded file=1]`encoded password` is `openliberty` which was encoded using the `passwordUtilities-1.0` feature. For reference, running `PasswordUtil.passwordEncode("openliberty", "aes");` generates the encoded password. However, note that the generated encoding will be different each time, but will always decode to the correct value.
+One of the advantages of using a CDI producer is that it can be tailored to your needs. For improved security, the [hotspot=createMongo file=0]`createMongo()` method includes authentication with a [hotspot=username file=0]`user name` and an [hotspot=encodedPassword file=0]`encoded password` which is decoded using [hotspot=passwordUtil file=0]`passwordUtilities-1.0`. The [hotspot=mongoPassEncoded file=1]`encoded password` is `openliberty` encoded using the `passwordUtilities-1.0` feature. For reference, running `PasswordUtil.passwordEncode("openliberty", "aes");` generates the encoded password. However, note that the generated encoding will be different each time, but will always decode to the correct value.
 
 This tool is included in [hotspot file=2]`pom.xml` as a [hotspot=passwordUtilDependency file=2]`dependency` and added to `server.xml` as a [hotspot=passwordUtilFeature file=3]`feature`.
 
