@@ -110,7 +110,11 @@ public class MongoProducer {
     // tag::produces2[]
     @Produces
     // end::produces2[]
-    public MongoDatabase createDB(MongoClient client) {
+    public MongoDatabase createDB(
+        // tag::injectMongoClient[]
+        MongoClient client
+        // end::injectMongoClient[]
+        ) {
         // tag::getDatabase[]
         return client.getDatabase(dbName);
         // end::getDatabase[]
@@ -118,8 +122,14 @@ public class MongoProducer {
     // end::createDB[]
 
     // tag::close[]
-    public void close(@Disposes MongoClient toClose) {
+    public void close(
+        // tag::disposes[]
+        @Disposes MongoClient toClose
+        // end::disposes[]
+        ) {
+        // tag::toClose[]
         toClose.close();
+        // end::toClose[]
     }
     // end::close[]
 }
