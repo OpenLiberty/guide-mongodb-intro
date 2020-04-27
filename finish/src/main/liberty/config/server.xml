@@ -1,16 +1,20 @@
 <server description="Sample Liberty server">
 	<!-- tag::featureManager[] -->
 	<featureManager>
-		<feature>beanValidation-2.0</feature>	   
-		<feature>mpConfig-1.2</feature>
-		<!-- tag::passwordUtilFeature[] -->
-		<feature>passwordUtilities-1.0</feature>
-		<!-- end::passwordUtilFeature[] -->
-		<feature>jaxrs-2.1</feature>
+		<!-- tag::cdiFeature[] -->
 		<feature>cdi-2.0</feature>
+		<!-- end::cdiFeature[] -->
 		<!-- tag::sslFeature[] -->
 		<feature>ssl-1.0</feature>
 		<!-- end::sslFeature[] -->
+		<!-- tag::mpConfigFeature[] -->
+		<feature>mpConfig-1.2</feature>
+		<!-- end::mpConfigFeature[] -->
+		<!-- tag::passwordUtilFeature[] -->
+		<feature>passwordUtilities-1.0</feature>
+		<!-- end::passwordUtilFeature[] -->
+		<feature>beanValidation-2.0</feature>	   
+		<feature>jaxrs-2.1</feature>
 		<feature>mpOpenAPI-1.1</feature>
 	</featureManager>
 	<!-- end::featureManager[] -->
@@ -35,20 +39,21 @@
 	/>
 	<!-- end::webApplication[] -->
 	<!-- tag::sslContext[] -->
+	<!-- tag::keyStore[] -->
+	<keyStore
+		id="outboundTrustStore" 
+		location="${server.output.dir}/resources/security/truststore.p12"
+		password="mongodb"
+		type="PKCS12" 
+	/>
+	<!-- end::keyStore[] -->
+	<!-- tag::ssl[] -->
 	<ssl 
 		id="outboundSSLContext" 
 		keyStoreRef="defaultKeyStore" 
 		trustStoreRef="outboundTrustStore" 
 		sslProtocol="TLS" 
 	/>
-	<keyStore 
-		id="outboundTrustStore" 
-		location="${server.output.dir}resources/security/truststore.p12"
-		password="mongodb"
-		type="PKCS12" 
-	/>
-	<sslDefault 
-		outboundSSLRef="outboundSSLContext" 
-	/>
+	<!-- end::ssl[] -->
 	<!-- end::sslContext[] -->
 </server>
