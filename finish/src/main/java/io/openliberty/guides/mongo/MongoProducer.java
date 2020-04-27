@@ -46,58 +46,90 @@ public class MongoProducer {
     @ConfigProperty(name = "mongo.dbname", defaultValue = "testdb")
     String dbName;
 
-    // tag::username[]
     @Inject
     @ConfigProperty(name = "mongo.user")
     String user;
-    // end::username[]
 
-    // tag::encodedPassword[]
     @Inject
     @ConfigProperty(name = "mongo.pass.encoded")
     String encodedPass;
-    // end::encodedPassword[]
     // end::mongoProducerInjections[]
 
     // tag::createMongo[]
+    // tag::produces1[]
     @Produces
+    // end::produces1[]
     public MongoClient createMongo() throws SSLException {
-        // tag::passwordUtil[]
+        // tag::decode[]
         String password = PasswordUtil.passwordDecode(encodedPass);
-        // end::passwordUtil[]
+        // end::decode[]
+        // tag::createCredential[]
         MongoCredential creds = MongoCredential.createCredential(
+                // tag::username[]
                 user,
+                // end::username[]
+                // tag::dbName[]
                 dbName,
+                // end::dbName[]
+                // tag::password[]
                 password.toCharArray()
+                // end::password[]
         );
+        // end::createCredential[]
 
         // tag::sslContext[]
         SSLContext sslContext = JSSEHelper.getInstance().getSSLContext(
+                // tag::outboundSSLContext[]
                 "outboundSSLContext",
+                // end::outboundSSLContext[]
                 Collections.emptyMap(),
                 null
         );
         // end::sslContext[]
 
+        // tag::mongoClient[]
         return new MongoClient(
+                // tag::serverAddress[] 
                 new ServerAddress(hostname, port),
+                // end::serverAddress[]
+                // tag::creds[]
                 creds,
+                // end::creds[]
+                // tag::mongoClientOptions[]
                 new MongoClientOptions.Builder()
-                        // tag::sslEnable[]
                         .sslEnabled(true)
                         .sslContext(sslContext)
-                        // end::sslEnable[]
                         .build()
+                // end::mongoClientOptions[]
         );
+        // end::mongoClient[]
     }
     // end::createMongo[]
 
+    // tag::createDB[]
+    // tag::produces2[]
     @Produces
-    public MongoDatabase createDB(MongoClient client) {
+    // end::produces2[]
+    public MongoDatabase createDB(
+        // tag::injectMongoClient[]
+        MongoClient client
+        // end::injectMongoClient[]
+        ) {
+        // tag::getDatabase[]
         return client.getDatabase(dbName);
+        // end::getDatabase[]
     }
+    // end::createDB[]
 
-    public void close(@Disposes MongoClient toClose) {
+    // tag::close[]
+    public void close(
+        // tag::disposes[]
+        @Disposes MongoClient toClose
+        // end::disposes[]
+        ) {
+        // tag::toClose[]
         toClose.close();
+        // end::toClose[]
     }
+    // end::close[]
 }

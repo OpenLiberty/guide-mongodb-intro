@@ -5,7 +5,7 @@ FROM adoptopenjdk/openjdk8-openj9:ubi as staging
 
 # Define the variables for the OpenSSL subject.
 ARG COUNTRY=CA
-ARG PROVINCE=Ontario
+ARG STATE=Ontario
 ARG LOCALITY=Markham
 ARG ORG=IBM
 ARG UNIT=OpenLiberty
@@ -19,7 +19,7 @@ RUN openssl req -x509 -newkey rsa:2048 -nodes -days 365 \
     # tag::privateKey[]
     -keyout /tmp/private.key \
     # end::privateKey[]
-    -subj "/C=$COUNTRY/ST=$PROVINCE/L=$LOCALITY/O=$ORG/OU=$UNIT/CN=$COMMON_NAME"
+    -subj "/C=$COUNTRY/ST=$STATE/L=$LOCALITY/O=$ORG/OU=$UNIT/CN=$COMMON_NAME"
 
 # Combine the self-signed certificate and private key.
 # tag::catCerts[]
@@ -40,25 +40,25 @@ FROM mongo
 
 # Create the directories.
 # tag::createDirectory[]
-RUN mkdir /etc/mongodb
-RUN mkdir /etc/mongodb/data
-RUN mkdir /etc/mongodb/certs
-RUN mkdir /etc/mongodb/logs
-RUN chown -R mongodb:mongodb /etc/mongodb
+RUN mkdir /home/mongodb
+RUN mkdir /home/mongodb/data
+RUN mkdir /home/mongodb/certs
+RUN mkdir /home/mongodb/logs
+RUN chown -R mongodb:mongodb /home/mongodb
 # end::createDirectory[]
 
 # Copy the certificates over from stage one.
 # tag::copyCerts[]
-COPY --from=staging /tmp /etc/mongodb/certs
+COPY --from=staging /tmp /home/mongodb/certs
 # end::copyCerts[]
 
 # Copy the configuration and setup files from
 # the host machine to the image.
 # tag::copyConfig[]
-COPY assets/mongodb.conf /etc/mongodb
+COPY assets/mongodb.conf /home/mongodb
 # end::copyConfig[]
 # tag::copyJS[]
-COPY assets/index.js /etc/mongodb
+COPY assets/index.js /home/mongodb
 # end::copyJS[]
 
 # Run MongodDB daemon and execute the setup script.
@@ -68,7 +68,7 @@ RUN mongod \
         --fork \
 # end::fork[]
 # tag::config[]
-        --config /etc/mongodb/mongodb.conf \
+        --config /home/mongodb/mongodb.conf \
 # end::config[]
 # end::runMongod[]
 # tag::runScript[]
@@ -78,22 +78,22 @@ RUN mongod \
 # end::testdb[]
 # tag::tls[]
         -tls \
-        --tlsCAFile /etc/mongodb/certs/cert.pem \
+        --tlsCAFile /home/mongodb/certs/cert.pem \
         --host localhost \
 # end::tls[]
 # tag::script[]
-        /etc/mongodb/index.js \
+        /home/mongodb/index.js \
 # end::script[]
 # end::runScript[]
 # tag::shutdown[] 
-    && mongod --dbpath /etc/mongodb/data --shutdown \
+    && mongod --dbpath /home/mongodb/data --shutdown \
 # end::shutdown[]
 # tag::chown[]
-    && chown -R mongodb /etc/mongodb
+    && chown -R mongodb /home/mongodb
 # end::chown[]
 
 # Start MongoDB daemon when the image is run in a container.
 # tag::cmd[]
-CMD ["mongod", "--config", "/etc/mongodb/mongodb.conf"]
+CMD ["mongod", "--config", "/home/mongodb/mongodb.conf"]
 # end::cmd[]
 # end::stageTwo[]

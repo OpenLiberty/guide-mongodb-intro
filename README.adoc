@@ -49,19 +49,19 @@ This microservice connects to `MongoDB` using TLS by using a CDI producer to inj
 For more information about using a CDI producer and MicroProfile Config, see https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices] and https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices].
 
 // =================================================================================================
-// Getting Started
-// =================================================================================================
-
-[role='command']
-include::{common-includes}/gitclone.adoc[]
-
-// =================================================================================================
 // Additional Prerequisites
 // =================================================================================================
 
 == Additional Prerequisites
 
 You will be using Docker to run an instance of `MongoDB` for a fast installation and setup. Install Docker by following the instructions on the official https://docs.docker.com/engine/installation[Docker documentation^] and start your Docker environment.
+
+// =================================================================================================
+// Getting Started
+// =================================================================================================
+
+[role='command']
+include::{common-includes}/gitclone.adoc[]
 
 // =================================================================================================
 // Setting up MongoDB
@@ -79,7 +79,7 @@ mongodb.conf
 include::assets/mongodb.conf[]
 ----
 
-The `mongodb.conf` file specifies the `MongoDB` configuration the `MongoDB` daemon should use. A sample configuration file is provided which sets up the [hotspot=storage]`storage`, [hotspot=systemLog]`systemLog`, and [hotspot=net]`net` options. For [hotspot=storage]`storage`, it sets [hotspot=dbPath]`dbPath` to `/etc/mongodb/data` which defines where the `MongoDB` daemon should store its data. For [hotspot=systemLog]`systemLog`, it sets [hotspot=destination]`destination` to `file` and [hotspot=path]`path` to `/etc/mongodb/log/mongodb.log`. This defines that the `MongoDB` daemon will write its logs to a file located at `/etc/mongodb/log/mongodb.log`. For [hotspot=net]`net`, [hotspot=tls]`tls` is configured such that its [hotspot=mode]`mode` is `requireTLS` meaning that only TLS connections are allowed with the `MongoDB` daemon and [hotspot=certificateKeyFile]`certificateKeyFile`, which is set to `/etc/mongodb/certs/mongodb_tls.pem`, defines the location of the file which contains the certificate and private key. Additional configuration options can be found in the official https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website].
+The `mongodb.conf` file specifies the `MongoDB` configuration the `MongoDB` daemon should use. A sample configuration file is provided which sets up the [hotspot=storage]`storage`, [hotspot=systemLog]`systemLog`, and [hotspot=net]`net` options. For [hotspot=storage]`storage`, it sets [hotspot=dbPath]`dbPath` to `/home/mongodb/data` which defines where the `MongoDB` daemon should store its data. For [hotspot=systemLog]`systemLog`, it sets [hotspot=destination]`destination` to `file` and [hotspot=path]`path` to `/home/mongodb/log/mongodb.log`. This defines that the `MongoDB` daemon will write its logs to a file located at `/home/mongodb/log/mongodb.log`. For [hotspot=net]`net`, [hotspot=tls]`tls` is configured such that its [hotspot=mode]`mode` is `requireTLS` meaning that only TLS connections are allowed with the `MongoDB` daemon and [hotspot=certificateKeyFile]`certificateKeyFile`, which is set to `/home/mongodb/certs/mongodb_tls.pem`, defines the location of the file which contains the certificate and private key. Additional configuration options can be found in the official https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website].
 
 === The Dockerfile
 
@@ -97,11 +97,11 @@ include::assets/index.js[]
 
 The [hotspot=stageOne file=0]`first stage` of the Dockerfile uses the [hotspot=openLiberty file=0]`adoptopenjdk/openjdk8-openj9:ubi` image as the base image to create a [hotspot=selfSignedCert file=0]`self-signed certificate` and [hotspot=privateKey file=0]`private key` which are concatenated together to generate the [hotspot=catCerts file=0]`mongodb_tls.pem` file used for TLS. Then, it uses the Java [hotspot=keytool file=0]`keytool` to generate the truststore and adds the certificate file to the truststore.
 
-The [hotspot=stageTwo file=0]`second stage` of the Dockerfile uses the [hotspot=mongo file=0]`mongo` image as the base image and creates the [hotspot=createDirectory]`/etc/mongodb` directory. Then, it copies over the generated files from the [hotspot=stageOne hotspot=copyCerts file=0]`first stage`. Additionally, it copies the [hotspot=copyConfig file=0]`mongodb.conf` configuration file and the [hotspot=copyJS file=0]`index.js` script from your host machine to the image. Then, the [hotspot=runMongod file=0]`mongod` command is called to start the `MongoDB` daemon as a [hotspot=fork file=0]`background process` using the [hotspot=config file=0]`mongodb.conf` configuration. The [hotspot=runScript file=0]`mongo` command creates and connects to the [hotspot=testdb file=0]`testdb` database over [hotspot=tls file=0]`TLS` and runs the [hotspot=script file=0]`index.js` script.
+The [hotspot=stageTwo file=0]`second stage` of the Dockerfile uses the [hotspot=mongo file=0]`mongo` image as the base image and creates the [hotspot=createDirectory]`/home/mongodb` directory. Then, it copies over the generated files from the [hotspot=stageOne hotspot=copyCerts file=0]`first stage`. Additionally, it copies the [hotspot=copyConfig file=0]`mongodb.conf` configuration file and the [hotspot=copyJS file=0]`index.js` script from your host machine to the image. Then, the [hotspot=runMongod file=0]`mongod` command is called to start the `MongoDB` daemon as a [hotspot=fork file=0]`background process` using the [hotspot=config file=0]`mongodb.conf` configuration. The [hotspot=runScript file=0]`mongo` command creates and connects to the [hotspot=testdb file=0]`testdb` database over [hotspot=tls file=0]`TLS` and runs the [hotspot=script file=0]`index.js` script.
 
 The [hotspot file=1]`index.js` script creates a new [hotspot=createUser file=1]`user` in the `testdb` database with a username of `sampleUser`, password of `openliberty`, and the role of https://docs.mongodb.com/manual/reference/built-in-roles/#readWrite[readWrite]. It also creates a [hotspot=createCollection file=1]`Crew` collection in the `testdb` database.
 
-The `MongoDB` daemon is then [hotspot=shutdown file=0]`shutdown` and [hotspot=chown file=0]`chown` is called to change the ownership of the `/etc/mongodb` directory to `mongodb`. Lastly, the [hotspot=cmd file=0]`CMD` command is used to start the `MongoDB` daemon using the `mongodb.conf` configuration file when the image is run in a container.
+The `MongoDB` daemon is then [hotspot=shutdown file=0]`shutdown` and [hotspot=chown file=0]`chown` is called to change the ownership of the `/home/mongodb` directory to `mongodb`. Lastly, the [hotspot=cmd file=0]`CMD` command is used to start the `MongoDB` daemon using the `mongodb.conf` configuration file when the image is run in a container.
 
 === Running MongoDB in a Docker container
 
@@ -123,7 +123,7 @@ include::{common-includes}/os-tabs.adoc[]
 --
 [role='command']
 ```
-docker cp mongo-guide:/etc/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
+docker cp mongo-guide:/home/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
 copy start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
 ```
 --
@@ -132,7 +132,7 @@ copy start/src/main/liberty/config/resources/security/truststore.p12 finish/src/
 --
 [role='command']
 ```
-docker cp mongo-guide:/etc/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
+docker cp mongo-guide:/home/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
 cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
 ```
 --
@@ -141,7 +141,7 @@ cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/ma
 --
 [role='command']
 ```
-docker cp mongo-guide:/etc/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
+docker cp mongo-guide:/home/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
 cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
 ```
 --
@@ -178,9 +178,13 @@ mvn liberty:stop
 
 == Configuring the Open Liberty Server
 
+Navigate to the `start` directory to begin.
+
+To create a CDI producer for `MongoDB` and connect over TLS, the Open Liberty server needs to be correctly configured.
+
 [role="code_command hotspot", subs="quotes"]
 ----
-#Replace the server configuration file.#
+#Create the server configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -190,28 +194,15 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-The provided Open Liberty server configuration defines the following settings:
-
-. Configures the server to enable JAX-RS. This is specified in the [hotspot=featureManager file=0]`featureManager` element.
-. Configures the server to resolve the HTTP port numbers from variables, which are then specified in
-the Maven [hotspot=defaultHttpPort hotspot=defaultHttpsPort file=1]`pom.xml` file. This is specified in the [hotspot=httpEndpoint file=0]`<httpEndpoint/>` element. Variables use the `${variableName}` syntax.
-. Configures the server to run the produced microservice on a context root specified in the 
-[hotspot=appContextRoot file=1]`pom.xml` file. This is specified in the [hotspot=webApplication file=0]`<webApplication/>` element.
-. Sets up the [hotspot=sslContext file=0]`SSL context` in order to connect to `MongoDB` using TLS.
-
 pom.xml
 [source,xml,linenums,role="code_column hide_tags=copyright"]
 ----
 include::finish/pom.xml[]
 ----
 
-The variables that are being used in the [hotspot=httpEndpoint hotspot=webApplication file=0]`server.xml` file are provided by the properties set in the Maven [hotspot=defaultHttpPort hotspot=defaultHttpsPort hotspot=appContextRoot file=1]`pom.xml` file.
+The features required to create the CDI producer for `MongoDB` are [hotspot=cdiFeature file=0]`cdi-2.0`, [hotspot=sslFeature file=0]`ssl-1.0`, [hotspot=mpConfigFeature file=0]`mpConfig-1.2`, and [hotspot=passwordUtilFeature file=0]`passwordUtilities-1.0` which are specified in the [hotspot=featureManager file=0]`featureManager` element. In the past, using `MongoDB` required enabling the `mongodb-2.0` feature, which was limited to certain `MongoDB` 2.X versions. By using a CDI producer, any version of MongoDB can be used, with no need for a specific `MongoDB` feature. Even if the `MongoDB` Java Driver API changes, simple updates to your CDI producer will allow it to continue to work. The `MongoDB` driver is be bundled in your microservice in your [hotspot=mongoDriver file=1]`pom.xml`.
 
-**No need for a MongoDB feature**
-
-In the past, using `MongoDB` required enabling the `mongodb-2.0` feature, which was limited to certain MongoDB 2.X versions. By using a CDI producer, any version of MongoDB can be used, with no need for a specific MongoDB feature. Even if the MongoDB Java Driver API changes, simple updates to your CDI producer will allow it to continue to work. 
-
-The `MongoDB` driver should be bundled in your microservice in your [hotspot=mongoDriver file=1]`pom.xml`.
+Additionally, the SSL context is configured in the [hotspot file=0]`server.xml` so the application can connect to `MongoDB` using TLS. The [hotspot=keyStore file=0]`keyStore` element is configured with an id of `outboundTrustStore` to point to the `truststore.p12` keystore file created in one of the earlier sections with the password of `mongodb` and type of `PKCS12`. The [hotspot=ssl file=0]`ssl` element is configured with an id of `outboundSSLContext` to use the `defaultKeyStore` as the keystore, `outboundTrustStore` as the truststore, and `TLS` as the SSL protocol. 
 
 // =================================================================================================
 // Starting the Open Liberty server in development mode
@@ -219,10 +210,43 @@ The `MongoDB` driver should be bundled in your microservice in your [hotspot=mon
 
 == Starting the Open Liberty server in development mode
 
-Navigate to the `start` directory to begin.
-
 [role='command']
 include::{common-includes}/devmode-start.adoc[]
+
+// =================================================================================================
+// Configuring with MicroProfile Config
+// =================================================================================================
+
+== Configuring with MicroProfile Config
+
+Using MicroProfile Config makes configuring the `MongoDB` driver simple since all the configuration can be set in one place and injected into the CDI producer.
+
+[role="code_command hotspot", subs="quotes"]
+----
+#Create the configuration file.#
+`src/main/webapp/META-INF/microprofile-config.properties`
+----
+
+microprofile-config.properties
+[source, properties, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
+----
+
+Properties such as the [hotspot=hostname file=0]`hostname`, [hotspot=port file=0]`port`, and [hotspot=dbname file=0]`database name` for the running `MongoDB` instance are set. Additionally, the user's [hotspot=mongoUser file=0]`username` and [hotspot=mongoEncodedPass file=0]`password` are set here. For added security, you will encode the password using `securityUtility` before setting it in the properties file.
+
+Navigate to the `target/liberty/wlp/bin/` directory and run the following command:
+
+--
+[role='command']
+```
+./securityUtility encode openliberty --encoding=aes
+```
+--
+
+This generates an AES encoding of the password `openliberty`. Copy the output and paste it to [hotspot=mongoEncodedPass file=0]`mongo.pass.encoded` property.
+
+The MicroProfile configuration is now set up to be used in the CDI producer.
 
 // =================================================================================================
 // Creating a CDI Producer for Mongo
@@ -230,7 +254,7 @@ include::{common-includes}/devmode-start.adoc[]
 
 == Creating a CDI Producer for Mongo
 
-With a CDI producer, you are no longer restricted to `MongoDB` 2.X versions, and can easily provide a `MongoDatabase` to your microservice. 
+With a CDI producer, you are no longer restricted to `MongoDB` 2.X versions, and can easily provide a `MongoDatabase` to your microservice.
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -243,10 +267,6 @@ MongoProducer.java
 ----
 include::finish/src/main/java/io/openliberty/guides/mongo/MongoProducer.java[]
 ----
-
-**Configuring with MicroProfile Config**
-
-Using MicroProfile Config makes configuring the `MongoDB` driver simple.
 
 microprofile-config.properties
 [source, properties, linenums, role="code_column hide_tags=copyright"]
@@ -266,17 +286,15 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-The values in the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class.
+This class contains a producer method for the `MongoClient`, a producer method for the `MongoDatabase` which uses the `MongoClient` producer method, and a dispose method for the `MongoClient`.
 
-**Using an encoded password with passwordUtilities-1.0**
+Before creating the methods, the values in the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class. 
 
-One of the advantages of using a CDI producer is that it can be tailored to your needs. For improved security, the [hotspot=createMongo file=0]`createMongo()` method includes authentication with a [hotspot=username file=0]`user name` and an [hotspot=encodedPassword file=0]`encoded password` which is decoded using [hotspot=passwordUtil file=0]`passwordUtilities-1.0`. The [hotspot=mongoPassEncoded file=1]`encoded password` is `openliberty` encoded using the `passwordUtilities-1.0` feature. For reference, running `PasswordUtil.passwordEncode("openliberty", "aes");` generates the encoded password. However, note that the generated encoding will be different each time, but will always decode to the correct value.
+The [hotspot=createMongo file=0]`createMongo()` method is annotated with [hotspot=produces1 file=0]`@Produces` and returns an instance of `MongoClient`. Firstly, the function decodes the encoded password using the [hotspot=decode file=0]`PasswordUtil.passwordDecode()` method from the [hotspot=passwordUtilFeature file=3]`passwordUtilities-1.0` feature. Then, the [hotspot=username file=0]`username`, [hotspot=dbName file=0]`database name`, and [hotspot=password file=0]`decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the [hotspot=outboundSSLContext file=0]`outboundSSLContext` created in the [hotspot=ssl file=3]`server.xml`. Lastly, a [hotspot=mongoClient file=0]`MongoClient` instance is created and returned. The [hotspot=mongoClient file=0]`MongoClient` instance was created using an instance of [hotspot=serverAddress file=0]`ServerAddress` which contains the hostname and port, the [hotspot=creds file=0]`MongoCredential` instance, and an instance of [hotspot=mongoClientOptions file=0]`MongoClientOptions` which enables SSL and specifies the SSL context.
 
-This tool is included in [hotspot file=2]`pom.xml` as a [hotspot=passwordUtilDependency file=2]`dependency` and added to `server.xml` as a [hotspot=passwordUtilFeature file=3]`feature`.
+The [hotspot=createDB file=0]`createDB()` method is annotated with [hotspot=produces2 file=0]`@Produces` and returns an instance of `MongoDatabase`. The method injects the [hotspot=injectMongoClient file=0]`MongoClient` in its parameters and invokes the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method, passing in the database name to get the `MongoDatabase` instance. The [hotspot=getDatabase file=0]`MongoDatabase` instance is returned.
 
-**Using TLS**
-
-Since you started your `MongoDB` server using TLS, you must setup the SSL context in your Open Liberty server accordingly. The `ssl` dependency is imported in the [hotspot=sslDependency file=2]`pom.xml` and enabled in the [hotspot=sslFeature file=3]`server.xml`. Additionally, the SSL context is setup in the [hotspot=sslContext file=3]`server.xml` to use the `TLS` protocol, the default keystore and your truststore which contains the public key. In your [hotspot file=0]`MongoProducer`, the [hotspot=sslContext file=0]`SSL context` is retrieved using the `JSSEHelper` and it is included in the [hotspot=sslEnable file=0]`MongoClientOptions`.
+The [hotspot=close file=0]`close()` method is a cleanup function for the `MongoClient`. The method injects the `MongoClient` in its parameters, annotated with [hotspot=disposes file=0]`@Disposes`. The [hotspot=toClose file=0]`MongoClient.close()` method is invoked to close the connection to the `MongoDB` instance.
 
 // =================================================================================================
 // Implementing CRUD operations
