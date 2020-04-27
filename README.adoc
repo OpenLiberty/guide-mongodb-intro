@@ -230,10 +230,10 @@ Using MicroProfile Config makes configuring the `MongoDB` driver simple since al
 microprofile-config.properties
 [source, properties, linenums, role="code_column hide_tags=copyright"]
 ----
-include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
+include::start/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-Properties such as the [hotspot=hostname file=0]`hostname`, [hotspot=port file=0]`port`, and [hotspot=dbname file=0]`database name` for the running `MongoDB` instance are set. Additionally, the user's [hotspot=mongoUser file=0]`username` and [hotspot=mongoEncodedPass file=0]`password` are set here. For added security, you will encode the password using `securityUtility` before setting it in the properties file.
+Properties such as the [hotspot=hostname file=0]`hostname`, [hotspot=port file=0]`port`, and [hotspot=dbname file=0]`database name` for the running `MongoDB` instance are set. Additionally, the user's [hotspot=mongoUser file=0]`username` and [hotspot=mongoPassword file=0]`password` are set here. For added security, you will encode the password using `securityUtility`.
 
 Navigate to the `target/liberty/wlp/bin/` directory and run the following command:
 
@@ -244,7 +244,7 @@ Navigate to the `target/liberty/wlp/bin/` directory and run the following comman
 ```
 --
 
-This generates an AES encoding of the password `openliberty`. Copy the output and paste it to [hotspot=mongoEncodedPass file=0]`mongo.pass.encoded` property.
+This generates an AES encoding of the password `openliberty`. Copy the output and replace [hotspot=mongoPassword file=0]`openliberty` with the encoded password.
 
 The MicroProfile configuration is now set up to be used in the CDI producer.
 
