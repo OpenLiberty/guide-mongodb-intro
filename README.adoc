@@ -308,7 +308,7 @@ The [hotspot=close file=0]`close()` method is a cleanup function for the `MongoC
 
 == Implementing CRUD operations
 
-You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [hotspot=mongoImports]`com.mongodb.client` package is used to help implement these `CRUD` operations for the microservice. For more information about this package, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client Javadocs].
+You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these `CRUD` operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client Javadocs] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result Javadocs].
 
 See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce] for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
 

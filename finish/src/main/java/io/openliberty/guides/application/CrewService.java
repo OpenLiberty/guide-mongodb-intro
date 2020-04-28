@@ -41,12 +41,14 @@ import org.bson.Document;
 // end::bsonDocument[]
 import org.bson.types.ObjectId;
 
-// tag::mongoImports[]
+// tag::mongoImports1[]
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+// end::mongoImports1[]
+// tag::mongoImports2[]
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-// end::mongoImports[]
+// end::mongoImports2[]
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
