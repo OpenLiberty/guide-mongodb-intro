@@ -113,9 +113,9 @@ docker build -t mongo-sample .
 docker run --name mongo-guide -p 27017:27017 -d mongo-sample
 ```
 
-=== Adding the truststore to the Open Liberty Server
+=== Adding the truststore to the Open Liberty server
 
-Execute the following commands to copy `truststore.p12` from the container to the correct location in the start and finish directories on your host machine:
+The truststore created in the container needs to be added to the Open Liberty server, so the server can trust the certificate `MongoDB` presents when they are connecting. Execute the following commands to copy `truststore.p12` from the container to the correct location in the start and finish directories on your host machine:
 
 include::{common-includes}/os-tabs.adoc[]
 
@@ -244,7 +244,13 @@ Navigate to the `target/liberty/wlp/bin/` directory and run the following comman
 ```
 --
 
-This generates an AES encoding of the password `openliberty`. Copy the output and replace [hotspot=mongoPassword file=0]`openliberty` with the encoded password.
+microprofile-config.properties
+[source, properties, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
+----
+
+This generates an AES encoding of the password `openliberty`. Copy the output and replace [hotspot=mongoPassword file=0]`openliberty` with the [hotspot=mongoPassword file=1]`encoded password`.
 
 The MicroProfile configuration is now set up to be used in the CDI producer.
 
