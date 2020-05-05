@@ -55,10 +55,10 @@ public class MongoProducer {
     String encodedPass;
     // end::mongoProducerInjections[]
 
-    // tag::createMongo[]
     // tag::produces1[]
     @Produces
     // end::produces1[]
+    // tag::createMongo[]
     public MongoClient createMongo() throws SSLException {
         // tag::decode[]
         String password = PasswordUtil.passwordDecode(encodedPass);
@@ -95,25 +95,25 @@ public class MongoProducer {
                 // tag::creds[]
                 creds,
                 // end::creds[]
-                // tag::mongoClientOptions[]
+                // tag::optionsBuilder[]
                 new MongoClientOptions.Builder()
                         .sslEnabled(true)
                         .sslContext(sslContext)
                         .build()
-                // end::mongoClientOptions[]
+                // end::optionsBuilder[]
         );
         // end::mongoClient[]
     }
     // end::createMongo[]
 
-    // tag::createDB[]
     // tag::produces2[]
     @Produces
     // end::produces2[]
+    // tag::createDB[]
     public MongoDatabase createDB(
-        // tag::injectMongoClient[]
-        MongoClient client
-        // end::injectMongoClient[]
+            // tag::injectMongoClient[]
+            MongoClient client
+            // end::injectMongoClient[]
         ) {
         // tag::getDatabase[]
         return client.getDatabase(dbName);
@@ -123,9 +123,9 @@ public class MongoProducer {
 
     // tag::close[]
     public void close(
-        // tag::disposes[]
-        @Disposes MongoClient toClose
-        // end::disposes[]
+            // tag::disposes[]
+            @Disposes MongoClient toClose
+            // end::disposes[]
         ) {
         // tag::toClose[]
         toClose.close();
