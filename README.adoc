@@ -188,8 +188,6 @@ cp \
 // Try what you'll build
 // =================================================================================================
 
-== Try what you'll build
-
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
@@ -277,7 +275,7 @@ microprofile-config.properties
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-This generates an AES encoding of the password `openliberty`. Copy the output and replace [hotspot=mongoPassword file=0]`openliberty` with the [hotspot=mongoPassword file=1]`encoded password`.
+This generates an AES encoding of the password `openliberty`. Copy the output and replace [hotspot=mongoPassword file=0]`openliberty` with the [hotspot=passEncoded file=1]`encoded password`.
 
 The MicroProfile configuration is now set up to be used in the CDI producer.
 
