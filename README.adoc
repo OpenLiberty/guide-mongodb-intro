@@ -15,7 +15,7 @@
 :page-description: Learn how to store data with MongoDB using Contexts and Dependency Injection (CDI) and MicroProfile Config.
 :guide-author: Open Liberty
 :page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE', 'MongoDB']
-:page-related-guides: ['rest-intro', 'cdi-intro']
+:page-related-guides: ['cdi-intro', 'microprofile-config', 'rest-intro']
 :page-permalink: /guides/{projectid}
 :repo-description: Visit the https://openliberty.io/guides/{projectid}.html[website] for the rendered version of the guide.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
@@ -30,7 +30,7 @@ Learn how to store data with `MongoDB` using Contexts and Dependency Injection (
 
 You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The microservice will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the service to manipulate the database.
 
-The crew members will be stored in `MongoDB` in JSON documents in this format:
+The crew members will be stored in `MongoDB` as JSON documents in the following format:
 
 [source,json,role="no_copy"]
 ----
@@ -44,9 +44,9 @@ The crew members will be stored in `MongoDB` in JSON documents in this format:
 }
 ----
 
-This microservice connects to `MongoDB` using TLS by using a CDI producer to inject a `MongoDatabase` and MicroProfile Config to make configuring the `MongoDB` driver simple. 
+This microservice connects to `MongoDB` using TLS and injects a `MongoDatabase` instance into the service through a CDI producer.  Additionally, MicroProfile Config is used to make configuring the `MongoDB` driver simple.
 
-For more information about using a CDI producer and MicroProfile Config, see https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices] and https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices].
+For more information about CDI and MicroProfile Config, see https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices^] and https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^].
 
 // =================================================================================================
 // Additional Prerequisites
@@ -69,9 +69,9 @@ include::{common-includes}/gitclone.adoc[]
 
 == Setting up MongoDB
 
-This guide uses Docker to run an instance of `MongoDB`. A multi-stage Dockerfile is provided which uses the `mongo` image as the final stage's base image and will gather the required configuration files. Then, the resulting `mongo` image will be run in a Docker container and you will need to setup a new database for the microservice. Lastly, the truststore generated in the Docker image will be copied from the container and placed into the Open Liberty server.
+This guide uses Docker to run an instance of `MongoDB`. A multi-stage Dockerfile is provided which uses the `mongo` image as the final stage's base image and will gather the required configuration files. Then, the resulting `mongo` image will run in a Docker container and you will need to setup a new database for the microservice. Lastly, the truststore generated in the Docker image will be copied from the container and placed into the Open Liberty server.
 
-=== The MongoDB configuration
+**The MongoDB configuration**
 
 mongodb.conf
 [source,xml,linenums,role="code_column hide_tags=copyright"]
@@ -79,9 +79,9 @@ mongodb.conf
 include::assets/mongodb.conf[]
 ----
 
-The `mongodb.conf` file specifies the `MongoDB` configuration the `MongoDB` daemon should use. A sample configuration file is provided which sets up the [hotspot=storage]`storage`, [hotspot=systemLog]`systemLog`, and [hotspot=net]`net` options. For [hotspot=storage]`storage`, it sets [hotspot=dbPath]`dbPath` to `/home/mongodb/data` which defines where the `MongoDB` daemon should store its data. For [hotspot=systemLog]`systemLog`, it sets [hotspot=destination]`destination` to `file` and [hotspot=path]`path` to `/home/mongodb/log/mongodb.log`. This defines that the `MongoDB` daemon will write its logs to a file located at `/home/mongodb/log/mongodb.log`. For [hotspot=net]`net`, [hotspot=tls]`tls` is configured such that its [hotspot=mode]`mode` is `requireTLS` meaning that only TLS connections are allowed with the `MongoDB` daemon and [hotspot=certificateKeyFile]`certificateKeyFile`, which is set to `/home/mongodb/certs/mongodb_tls.pem`, defines the location of the file which contains the certificate and private key. Additional configuration options can be found in the official https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website].
+The `mongodb.conf` file specifies the `MongoDB` configuration that the `MongoDB` daemon should use. A sample configuration file is provided which sets up the [hotspot=storage file=0]`storage`, [hotspot=systemLog file=0]`systemLog`, and [hotspot=net file=0]`net` options. For [hotspot=storage file=0]`storage`, it sets [hotspot=dbPath file=0]`dbPath` to `/home/mongodb/data` which defines where the `MongoDB` daemon should store its data. For [hotspot=systemLog file=0]`systemLog`, it sets [hotspot=destination file=0]`destination` to `file` and [hotspot=path file=0]`path` to `/home/mongodb/log/mongodb.log`. This defines that the `MongoDB` daemon will write its logs to a file located at `/home/mongodb/log/mongodb.log`. For [hotspot=net file=0]`net`, [hotspot=tls file=0]`tls` is configured such that its [hotspot=mode file=0]`mode` is `requireTLS` meaning that only TLS connections are allowed with the `MongoDB` daemon and [hotspot=certificateKeyFile file=0]`certificateKeyFile`, which is set to `/home/mongodb/certs/mongodb_tls.pem`, defines the location of the file which contains the certificate and private key. Additional configuration options can be found in the official https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website^].
 
-=== The Dockerfile
+**The Dockerfile**
 
 Dockerfile
 [source,xml,linenums,role="code_column hide_tags=copyright"]
@@ -95,17 +95,17 @@ index.js
 include::assets/index.js[]
 ----
 
-The [hotspot=stageOne file=0]`first stage` of the Dockerfile uses the [hotspot=openLiberty file=0]`adoptopenjdk/openjdk8-openj9:ubi` image as the base image to create a [hotspot=selfSignedCert file=0]`self-signed certificate` and [hotspot=privateKey file=0]`private key` which are concatenated together to generate the [hotspot=catCerts file=0]`mongodb_tls.pem` file used for TLS. Then, it uses the Java [hotspot=keytool file=0]`keytool` to generate the truststore and adds the certificate file to the truststore.
+The [hotspot=stageOne file=1]`first stage` of the Dockerfile uses the [hotspot=openLiberty file=1]`adoptopenjdk/openjdk8-openj9:ubi` image as the base image to create a [hotspot=selfSignedCert file=1]`self-signed certificate` and [hotspot=privateKey file=1]`private key` which are concatenated together to generate the [hotspot=catCerts file=0]`mongodb_tls.pem` file used for TLS. Then, it uses the Java [hotspot=keytool file=1]`keytool` to generate the truststore and adds the certificate file to the truststore.
 
-The [hotspot=stageTwo file=0]`second stage` of the Dockerfile uses the [hotspot=mongo file=0]`mongo` image as the base image and creates the [hotspot=createDirectory]`/home/mongodb` directory. Then, it copies over the generated files from the [hotspot=stageOne hotspot=copyCerts file=0]`first stage`. Additionally, it copies the [hotspot=copyConfig file=0]`mongodb.conf` configuration file and the [hotspot=copyJS file=0]`index.js` script from your host machine to the image. Then, the [hotspot=runMongod file=0]`mongod` command is called to start the `MongoDB` daemon as a [hotspot=fork file=0]`background process` using the [hotspot=config file=0]`mongodb.conf` configuration. The [hotspot=runScript file=0]`mongo` command creates and connects to the [hotspot=testdb file=0]`testdb` database over [hotspot=tls file=0]`TLS` and runs the [hotspot=script file=0]`index.js` script.
+The [hotspot=stageTwo file=1]`second stage` of the Dockerfile uses the [hotspot=mongo file=1]`mongo` image as the base image and creates the [hotspot=createDirectory]`/home/mongodb` directory. Then, it copies over the generated files from the [hotspot=stageOne hotspot=copyCerts file=1]`first stage`. Additionally, it copies the [hotspot=copyConfig file=0]`mongodb.conf` configuration file and the [hotspot=copyJS file=1]`index.js` script from your host machine to the image. Then, the [hotspot=runMongod file=1]`mongod` command is called to start the `MongoDB` daemon as a [hotspot=fork file=1]`background process` using the [hotspot=config file=1]`mongodb.conf` configuration. The [hotspot=runScript file=1]`mongo` command creates and connects to the [hotspot=testdb file=1]`testdb` database over [hotspot=tls file=1]`TLS` and runs the [hotspot=script file=1]`index.js` script.
 
-The [hotspot file=1]`index.js` script creates a new [hotspot=createUser file=1]`user` in the `testdb` database with a username of `sampleUser`, password of `openliberty`, and the role of https://docs.mongodb.com/manual/reference/built-in-roles/#readWrite[readWrite]. It also creates a [hotspot=createCollection file=1]`Crew` collection in the `testdb` database.
+The [hotspot file=2]`index.js` script creates a new [hotspot=createUser file=2]`user` in the `testdb` database with a username of `sampleUser`, password of `openliberty`, and the role of https://docs.mongodb.com/manual/reference/built-in-roles/#readWrite[readWrite^]. It also creates a [hotspot=createCollection file=2]`Crew` collection in the `testdb` database.
 
-The `MongoDB` daemon is then [hotspot=shutdown file=0]`shutdown` and [hotspot=chown file=0]`chown` is called to change the ownership of the `/home/mongodb` directory to `mongodb`. Lastly, the [hotspot=cmd file=0]`CMD` command is used to start the `MongoDB` daemon using the `mongodb.conf` configuration file when the image is run in a container.
+The `MongoDB` daemon is then [hotspot=shutdown file=1]`shutdown` and [hotspot=chown file=1]`chown` is called to change the ownership of the `/home/mongodb` directory to `mongodb`. Lastly, the [hotspot=cmd file=1]`CMD` command is used to start the `MongoDB` daemon using the `mongodb.conf` configuration file when the image is run in a container.
 
-=== Running MongoDB in a Docker container
+**Running MongoDB in a Docker container**
 
-Execute the following commands to build the image using the Dockerfile, run it in a Docker container, and map port 27017 from the container to your host machine:
+Execute the following commands to build the image using the Dockerfile, run it in a Docker container, and map port `27017` from the container to your host machine:
 
 [role='command']
 ```
@@ -113,9 +113,9 @@ docker build -t mongo-sample .
 docker run --name mongo-guide -p 27017:27017 -d mongo-sample
 ```
 
-=== Adding the truststore to the Open Liberty server
+**Adding the truststore to the Open Liberty server**
 
-The truststore created in the container needs to be added to the Open Liberty server, so the server can trust the certificate `MongoDB` presents when they are connecting. Execute the following commands to copy `truststore.p12` from the container to the correct location in the start and finish directories on your host machine:
+The truststore created in the container needs to be added to the Open Liberty server, so the server can trust the certificate `MongoDB` presents when they are connecting. Execute the following command to copy the `truststore.p12` file from the container to the finish directory on your host machine:
 
 include::{common-includes}/os-tabs.adoc[]
 
@@ -123,8 +123,9 @@ include::{common-includes}/os-tabs.adoc[]
 --
 [role='command']
 ```
-docker cp mongo-guide:/home/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
-copy start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
+docker cp ^
+  mongo-guide:/home/mongodb/certs/truststore.p12 ^
+  start/src/main/liberty/config/resources/security
 ```
 --
 
@@ -132,8 +133,9 @@ copy start/src/main/liberty/config/resources/security/truststore.p12 finish/src/
 --
 [role='command']
 ```
-docker cp mongo-guide:/home/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
-cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
+docker cp \
+  mongo-guide:/home/mongodb/certs/truststore.p12 \
+  start/src/main/liberty/config/resources/security
 ```
 --
 
@@ -141,10 +143,46 @@ cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/ma
 --
 [role='command']
 ```
-docker cp mongo-guide:/home/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
-cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/main/liberty/config/resources/security/
+docker cp \
+  mongo-guide:/home/mongodb/certs/truststore.p12 \
+  start/src/main/liberty/config/resources/security
 ```
 --
+
+Then, execute the following command to copy the `truststore.p12` file from the finish directory to the start directory.
+
+include::{common-includes}/os-tabs.adoc[]
+
+[.tab_content.windows_section]
+--
+[role='command']
+```
+copy ^
+  start/src/main/liberty/config/resources/security/truststore.p12 ^
+  finish/src/main/liberty/config/resources/security/
+```
+--
+
+[.tab_content.mac_section]
+--
+[role='command']
+```
+cp \
+  start/src/main/liberty/config/resources/security/truststore.p12 \
+  finish/src/main/liberty/config/resources/security/
+```
+--
+
+[.tab_content.linux_section]
+--
+[role='command']
+```
+cp \
+  start/src/main/liberty/config/resources/security/truststore.p12 \
+  finish/src/main/liberty/config/resources/security/
+```
+--
+
 
 // =================================================================================================
 // Try what you'll build
@@ -152,25 +190,14 @@ cp start/src/main/liberty/config/resources/security/truststore.p12 finish/src/ma
 
 == Try what you'll build
 
-The `finish` directory in the root of this guide contains the finished microservice. Give it a try before you proceed.
-
-To try out the application, first go to the `finish` directory and run the following Maven 
-goal to build the application and deploy it to Open Liberty:
 [role='command']
-```
-mvn liberty:run
-```
+include::{common-includes}/twyb-intro.adoc[]
 
-If you see `The MongoServer server is ready to run a smarter planet. The MongoServer server started in 4.300 seconds.` in the console, then it is ready for you to check out the microservice through the web interface at the http://localhost:9080/mongo/[^] URL.
-
-After you are done checking out the microservice, stop the Open Liberty server by pressing `CTRL+C`
-in the shell session where you ran the server. Alternatively, you can run the `liberty:stop` goal 
-from the `finish` directory in another shell session:
+Check out the service at the
+http://localhost:9080/mongo/[^] URL. 
 
 [role='command']
-```
-mvn liberty:stop
-```
+include::{common-includes}/twyb-end.adoc[]
 
 // =================================================================================================
 // Configuring the Open Liberty Server
@@ -200,7 +227,7 @@ pom.xml
 include::finish/pom.xml[]
 ----
 
-The features required to create the CDI producer for `MongoDB` are [hotspot=cdiFeature file=0]`cdi-2.0`, [hotspot=sslFeature file=0]`ssl-1.0`, [hotspot=mpConfigFeature file=0]`mpConfig-1.2`, and [hotspot=passwordUtilFeature file=0]`passwordUtilities-1.0` which are specified in the [hotspot=featureManager file=0]`featureManager` element. In the past, using `MongoDB` required enabling the `mongodb-2.0` feature, which was limited to certain `MongoDB` 2.X versions. By using a CDI producer, any version of MongoDB can be used, with no need for a specific `MongoDB` feature. Even if the `MongoDB` Java Driver API changes, simple updates to your CDI producer will allow it to continue to work. The `MongoDB` driver is be bundled in your microservice in your [hotspot=mongoDriver file=1]`pom.xml`.
+The features required to create the CDI producer for `MongoDB` are [hotspot=cdiFeature file=0]`cdi-2.0`, [hotspot=sslFeature file=0]`ssl-1.0`, [hotspot=mpConfigFeature file=0]`mpConfig-1.2`, and [hotspot=passwordUtilFeature file=0]`passwordUtilities-1.0` which are specified in the [hotspot=featureManager file=0]`featureManager` element. In the past, using `MongoDB` required enabling the `mongodb-2.0` feature, which was limited to certain `MongoDB` 2.x versions. By using a CDI producer, any version of MongoDB can be used, with no need for a specific `MongoDB` feature. Even if the `MongoDB` Java Driver API changes, simple updates to your CDI producer will allow it to continue to work. The `MongoDB` driver is be bundled in your microservice in your [hotspot=mongoDriver file=1]`pom.xml`.
 
 Additionally, the SSL context is configured in the [hotspot file=0]`server.xml` so the application can connect to `MongoDB` using TLS. The [hotspot=keyStore file=0]`keyStore` element is configured with an id of `outboundTrustStore` to point to the `truststore.p12` keystore file created in one of the earlier sections with the password of `mongodb` and type of `PKCS12`. The [hotspot=ssl file=0]`ssl` element is configured with an id of `outboundSSLContext` to use the `defaultKeyStore` as the keystore, `outboundTrustStore` as the truststore, and `TLS` as the SSL protocol. 
 
@@ -228,9 +255,9 @@ Using MicroProfile Config makes configuring the `MongoDB` driver simple since al
 ----
 
 microprofile-config.properties
-[source, properties, linenums, role="code_column hide_tags=copyright"]
+[source, properties, linenums, role="code_column hide_tags=copyright,passEncoded"]
 ----
-include::start/src/main/webapp/META-INF/microprofile-config.properties[]
+include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
 Properties such as the [hotspot=hostname file=0]`hostname`, [hotspot=port file=0]`port`, and [hotspot=dbname file=0]`database name` for the running `MongoDB` instance are set. Additionally, the user's [hotspot=mongoUser file=0]`username` and [hotspot=mongoPassword file=0]`password` are set here. For added security, you will encode the password using `securityUtility`.
@@ -245,7 +272,7 @@ Navigate to the `target/liberty/wlp/bin/` directory and run the following comman
 --
 
 microprofile-config.properties
-[source, properties, linenums, role="code_column hide_tags=copyright"]
+[source, properties, linenums, role="code_column hide_tags=copyright,mongoPass"]
 ----
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
@@ -260,7 +287,7 @@ The MicroProfile configuration is now set up to be used in the CDI producer.
 
 == Creating a CDI Producer for Mongo
 
-With a CDI producer, you are no longer restricted to `MongoDB` 2.X versions, and can easily provide a `MongoDatabase` to your microservice.
+With a CDI producer, you are no longer restricted to `MongoDB` 2.x versions, and can easily provide a `MongoDatabase` to your microservice.
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -296,7 +323,7 @@ This class contains a producer method for the `MongoClient`, a producer method f
 
 Before creating the methods, the values in the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class. 
 
-The [hotspot=createMongo file=0]`createMongo()` method is annotated with [hotspot=produces1 file=0]`@Produces` and returns an instance of `MongoClient`. Firstly, the function decodes the encoded password using the [hotspot=decode file=0]`PasswordUtil.passwordDecode()` method from the [hotspot=passwordUtilFeature file=3]`passwordUtilities-1.0` feature. Then, the [hotspot=username file=0]`username`, [hotspot=dbName file=0]`database name`, and [hotspot=password file=0]`decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the [hotspot=outboundSSLContext file=0]`outboundSSLContext` created in the [hotspot=ssl file=3]`server.xml`. Lastly, a [hotspot=mongoClient file=0]`MongoClient` instance is created and returned. The [hotspot=mongoClient file=0]`MongoClient` instance was created using an instance of [hotspot=serverAddress file=0]`ServerAddress` which contains the hostname and port, the [hotspot=creds file=0]`MongoCredential` instance, and an instance of [hotspot=mongoClientOptions file=0]`MongoClientOptions` which enables SSL and specifies the SSL context.
+The [hotspot=createMongo file=0]`createMongo()` method is annotated with [hotspot=produces1 file=0]`@Produces` and returns an instance of `MongoClient`. Firstly, the function decodes the encoded password using the [hotspot=decode file=0]`PasswordUtil.passwordDecode()` method from the [hotspot=passwordUtilFeature file=3]`passwordUtilities-1.0` feature. Then, the [hotspot=username file=0]`username`, [hotspot=dbName file=0]`database name`, and [hotspot=password file=0]`decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the [hotspot=outboundSSLContext file=0]`outboundSSLContext` created in the [hotspot=ssl file=3]`server.xml`. Lastly, a [hotspot=mongoClient file=0]`MongoClient` instance is created and returned. The [hotspot=mongoClient file=0]`MongoClient` instance was created using an instance of [hotspot=serverAddress file=0]`ServerAddress` which contains the hostname and port, the [hotspot=creds file=0]`MongoCredential` instance, and an instance of [hotspot=optionsBuilder file=0]`MongoClientOptions` which enables SSL and specifies the SSL context.
 
 The [hotspot=createDB file=0]`createDB()` method is annotated with [hotspot=produces2 file=0]`@Produces` and returns an instance of `MongoDatabase`. The method injects the [hotspot=injectMongoClient file=0]`MongoClient` in its parameters and invokes the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method, passing in the database name to get the `MongoDatabase` instance. The [hotspot=getDatabase file=0]`MongoDatabase` instance is returned.
 
@@ -308,9 +335,9 @@ The [hotspot=close file=0]`close()` method is a cleanup function for the `MongoC
 
 == Implementing CRUD operations
 
-You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these `CRUD` operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client Javadocs] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result Javadocs].
+You will be implementing the basic `CRUD` operations which are `CREATE`, `READ`, `UPDATE`, and `DELETE`. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these `CRUD` operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client^] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result^] Javadocs.
 
-See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce] for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
+See https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce^] for more information about creating a REST service with JAX-RS, JSON-B, and Open Liberty.
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -332,7 +359,7 @@ include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[
 
 A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember file=1]`CrewMember` using the [hotspot=getViolations]`getViolations()` method before [hotspot=violations1]`inserting` or [hotspot=violations2]`updating` the database.
 
-=== Injecting the database
+**Injecting the database**
 
 The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the [hotspot file=0]`CrewService` class.
 
@@ -343,6 +370,8 @@ Visit http://localhost:9080/openapi/ui/[^] to test and see the API documentation
 The [hotspot=add]`add()` method handles the implementation of `CREATE`. An instance of `MongoCollection` is retrieved by invoking [hotspot=getCollection]`MongoDatabase.getCollection()` method and specifying the `Crew` collection. The `MongoCollection<TDocument>` is a generic with a `TDocument` type parameter and the [hotspot=bsonDocument]`Document` class will be used as the `TDocument` type for this guide. The crew member is converted to a [hotspot=crewMemberCreation]`Document` and the [hotspot=insertOne]`MongoCollection.insertOne()` method is called to insert the new crew member `Document`.
 
 Test the `CREATE` operation through the OpenAPI UI at the `POST /api/crew` endpoint with the following as the request body:
+
+[role='command']
 ```
 {
   "name": "Member1",
@@ -355,6 +384,7 @@ This will create a new document in the `Crew` collection with a Name of `Member1
 
 You will receive a response containing the JSON object of the new member.
 
+[role="no_copy"]
 ```
 {
   "_id": {
@@ -378,6 +408,7 @@ This will retrieve all crew member documents from the collection.
 
 You will receive a response containing an array of all the members currently in your crew.
 
+[role="no_copy"]
 ```
 [
   {
@@ -396,6 +427,8 @@ You will receive a response containing an array of all the members currently in 
 The [hotspot=update]`update()` method handles the implementation of `UPDATE`. Firstly, the `Crew` collection is retrieved using [hotspot=getCollectionUpdate]`MongoDatabase.getCollection()`. Then, a [hotspot=queryUpdate]`Document` is created using the [hotspot=objectIdUpdate]`object id` to be used to query the collection for the document containing the specified object id. Next, a new crew member [hotspot=crewMemberUpdate]`Document` is created using the updated configuration. The [hotspot=replaceOne]`MongoCollection.replaceOne()` method is called with the query and new crew member document which will update all matching queries with the supplied document. Since the object id is unique in the collection, only one document will be updated. The [hotspot=replaceOne]`MongoCollection.replaceOne()` method will return an `UpdateResult`. The [hotspot=getMatchedCount]`UpdateResult.getMatchedCount()` method is invoked to determine the number of documents that matched the query. If the match count is 0, then the object id does not exist.
 
 Test the `UPDATE` operation from the OpenAPI UI at the `PUT /api/crew/\{id\}` endpoint by specifying the `\<<ID>>` you saved from the `CREATE` section in the id parameter and setting the request body as:
+
+[role='command']
 ```
 {
   "name": "Member1",
@@ -408,6 +441,7 @@ This will update the rank of the crew member you created in the `CREATE` step fr
 
 You will receive a reponse containing the JSON object of the updated member.
 
+[role="no_copy"]
 ```
 {
   "_id": {
@@ -429,6 +463,7 @@ This will remove the document containing the specified crew member object id fro
 
 You will receive a response containing the object id of the deleted crew member.
 
+[role="no_copy"]
 ```
 {
   "_id": {
@@ -493,9 +528,9 @@ See the following descriptions of the test cases:
 
 * [hotspot=testAddCrewMember file=0]`testAddCrewMember()` verifies that new members are correctly added to the database.
 
-* [hotspot=testUpdateCrewMember file=0]`testUpdateCrewMember()` verifies that a crew member information is correctly updated.
+* [hotspot=testUpdateCrewMember file=0]`testUpdateCrewMember()` verifies that a crew member's information is correctly updated.
 
-* [hotspot=testGetCrewMembers file=0]`testGetCrewMembers()` verifies that a list of crew members returned by the microservice API.
+* [hotspot=testGetCrewMembers file=0]`testGetCrewMembers()` verifies that a list of crew members is returned by the microservice API.
 
 * [hotspot=testDeleteCrewMember file=0]`testDeleteCrewMember()` verifies that the crew members are correctly removed from the database.
 

@@ -69,7 +69,6 @@ public class CrewService {
     Validator validator;
     // end::beanValidator[]
 
-    // tag::add[]
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -82,6 +81,7 @@ public class CrewService {
             responseCode = "400",
             description = "Invalid crew member configuration.") })
     @Operation(summary = "Add a new crew member to the database.")
+    // tag::add[]
     public Response add(CrewMember crewMember) {
         // tag::violations1[]
         JsonArray violations = getViolations(crewMember);
@@ -116,7 +116,6 @@ public class CrewService {
     }
     // end::add[]
 
-    // tag::remove[]
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -131,6 +130,7 @@ public class CrewService {
             responseCode = "404",
             description = "Crew member object id was not found.") })
     @Operation(summary = "Delete a crew member from the database.")
+    // tag::remove[]
     public Response remove(
         @Parameter(
             description = "Object id of the crew member to delete.",
@@ -175,7 +175,6 @@ public class CrewService {
     }
     // end::remove[]
 
-    // tag::update[]
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -191,6 +190,7 @@ public class CrewService {
             responseCode = "404",
             description = "Crew member object id was not found.") })
     @Operation(summary = "Update a crew member in the database.")
+    // tag::update[]
     public Response update(CrewMember crewMember,
         @Parameter(
             description = "Object id of the crew member to update.",
@@ -259,7 +259,6 @@ public class CrewService {
     }
     // end::update[]
 
-    // tag::retrieve[]
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
@@ -271,6 +270,7 @@ public class CrewService {
             responseCode = "500",
             description = "Failed to list the crew members.") })
     @Operation(summary = "List the crew members from the database.")
+    // tag::retrieve[]
     public Response retrieve() {
         StringWriter sb = new StringWriter();
 
