@@ -270,7 +270,7 @@ Navigate to the `target/liberty/wlp/bin/` directory and run the following comman
 --
 
 microprofile-config.properties
-[source, properties, linenums, role="code_column hide_tags=copyright,mongoPass"]
+[source, properties, linenums, role="code_column hide_tags=copyright,mongoPassword"]
 ----
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
