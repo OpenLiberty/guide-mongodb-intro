@@ -30,7 +30,7 @@ Learn how to store data with `MongoDB` using Contexts and Dependency Injection (
 
 You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The microservice will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the service to manipulate the database.
 
-The crew members will be stored in `MongoDB` as JSON documents in the following format:
+The crew members will be stored in `MongoDB` as documents in the following JSON format:
 
 [source,json,role="no_copy"]
 ----
