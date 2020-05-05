@@ -243,7 +243,7 @@ Using MicroProfile Config makes configuring the `MongoDB` driver simple since al
 ----
 
 microprofile-config.properties
-[source, properties, linenums, role="code_column hide_tags=copyright,passEncoded"]
+[source, properties, linenums, role="code_column hide_tags=copyright"]
 ----
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
