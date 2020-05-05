@@ -125,7 +125,7 @@ include::{common-includes}/os-tabs.adoc[]
 ```
 docker cp ^
   mongo-guide:/home/mongodb/certs/truststore.p12 ^
-  start/src/main/liberty/config/resources/security
+  finish/src/main/liberty/config/resources/security
 ```
 --
 
@@ -135,7 +135,7 @@ docker cp ^
 ```
 docker cp \
   mongo-guide:/home/mongodb/certs/truststore.p12 \
-  start/src/main/liberty/config/resources/security
+  finish/src/main/liberty/config/resources/security
 ```
 --
 
@@ -145,7 +145,7 @@ docker cp \
 ```
 docker cp \
   mongo-guide:/home/mongodb/certs/truststore.p12 \
-  start/src/main/liberty/config/resources/security
+  finish/src/main/liberty/config/resources/security
 ```
 --
 
@@ -158,8 +158,8 @@ include::{common-includes}/os-tabs.adoc[]
 [role='command']
 ```
 copy ^
-  start/src/main/liberty/config/resources/security/truststore.p12 ^
-  finish/src/main/liberty/config/resources/security/
+  finish/src/main/liberty/config/resources/security/truststore.p12 ^
+  start/src/main/liberty/config/resources/security
 ```
 --
 
@@ -168,8 +168,8 @@ copy ^
 [role='command']
 ```
 cp \
-  start/src/main/liberty/config/resources/security/truststore.p12 \
-  finish/src/main/liberty/config/resources/security/
+  finish/src/main/liberty/config/resources/security/truststore.p12 \
+  start/src/main/liberty/config/resources/security
 ```
 --
 
@@ -178,8 +178,8 @@ cp \
 [role='command']
 ```
 cp \
-  start/src/main/liberty/config/resources/security/truststore.p12 \
-  finish/src/main/liberty/config/resources/security/
+  finish/src/main/liberty/config/resources/security/truststore.p12 \
+  start/src/main/liberty/config/resources/security
 ```
 --
 
