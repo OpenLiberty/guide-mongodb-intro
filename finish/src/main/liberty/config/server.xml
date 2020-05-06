@@ -8,7 +8,7 @@
 		<feature>ssl-1.0</feature>
 		<!-- end::sslFeature[] -->
 		<!-- tag::mpConfigFeature[] -->
-		<feature>mpConfig-1.2</feature>
+		<feature>mpConfig-1.4</feature>
 		<!-- end::mpConfigFeature[] -->
 		<!-- tag::passwordUtilFeature[] -->
 		<feature>passwordUtilities-1.0</feature>
