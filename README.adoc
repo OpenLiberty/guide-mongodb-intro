@@ -248,7 +248,7 @@ microprofile-config.properties
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-Properties such as the [hotspot=hostname file=0]`hostname`, [hotspot=port file=0]`port`, and [hotspot=dbname file=0]`database name` for the running `MongoDB` instance are set. Additionally, the user's [hotspot=mongoUser file=0]`username` and [hotspot=mongoPassword file=0]`password` are set here. For added security, the password was encoded using `securityUtility`.
+Properties such as the [hotspot=hostname file=0]`hostname`, [hotspot=port file=0]`port`, and [hotspot=dbname file=0]`database name` for the running `MongoDB` instance are set. Additionally, the user's [hotspot=mongoUser file=0]`username` and [hotspot=passEncoded file=0]`password` are set here. For added security, the password was encoded using `securityUtility`.
 
 For reference on how the encoded password was generated, navigate to the `target/liberty/wlp/bin/` directory in a separate shell session and run the following command:
 
@@ -461,7 +461,7 @@ You will receive a response containing the object id of the deleted crew member.
 The Open Liberty server was started in development mode at the beginning of the guide and all the 
 changes were automatically picked up.
 
-If you see `The MongoServer server is ready to run a smarter planet. The MongoServer server started in 4.300 seconds.` in the console, then it is ready for you to check out the microservice that you created at the http://localhost:9080/mongo/[^] URL. 
+If you see `The defaultServer server is ready to run a smarter planet. The defaultServer server started in 4.300 seconds.` in the console, then it is ready for you to check out the microservice that you created at the http://localhost:9080/mongo/[^] URL. 
 
 // =================================================================================================
 // Testing the service

@@ -33,6 +33,7 @@ import java.util.Collections;
 
 @ApplicationScoped
 public class MongoProducer {
+    
     // tag::mongoProducerInjections[]
     @Inject
     @ConfigProperty(name = "mongo.hostname", defaultValue = "localhost")
