@@ -33,7 +33,7 @@ import java.util.Collections;
 
 @ApplicationScoped
 public class MongoProducer {
-    
+
     // tag::mongoProducerInjections[]
     @Inject
     @ConfigProperty(name = "mongo.hostname", defaultValue = "localhost")
@@ -113,9 +113,8 @@ public class MongoProducer {
     // tag::createDB[]
     public MongoDatabase createDB(
             // tag::injectMongoClient[]
-            MongoClient client
+            MongoClient client) {
             // end::injectMongoClient[]
-        ) {
         // tag::getDatabase[]
         return client.getDatabase(dbName);
         // end::getDatabase[]
@@ -125,9 +124,8 @@ public class MongoProducer {
     // tag::close[]
     public void close(
             // tag::disposes[]
-            @Disposes MongoClient toClose
+            @Disposes MongoClient toClose) {
             // end::disposes[]
-        ) {
         // tag::toClose[]
         toClose.close();
         // end::toClose[]
