@@ -86,7 +86,7 @@ The `mongodb.conf` file specifies the `MongoDB` configuration that the `MongoDB`
 Dockerfile
 [source,xml,linenums,role="code_column hide_tags=copyright"]
 ----
-include::Dockerfile[]
+include::assets/Dockerfile[]
 ----
 
 index.js
@@ -97,7 +97,7 @@ include::assets/index.js[]
 
 The [hotspot=stageOne file=1]`first stage` of the Dockerfile uses the [hotspot=openLiberty file=1]`adoptopenjdk/openjdk8-openj9:ubi` image as the base image to create a [hotspot=selfSignedCert file=1]`self-signed certificate` and [hotspot=privateKey file=1]`private key` which are concatenated together to generate the [hotspot=catCerts file=0]`mongodb_tls.pem` file used for TLS. Then, it uses the Java [hotspot=keytool file=1]`keytool` to generate the truststore and adds the certificate file to the truststore.
 
-The [hotspot=stageTwo file=1]`second stage` of the Dockerfile uses the [hotspot=mongo file=1]`mongo` image as the base image and creates the [hotspot=createDirectory]`/home/mongodb` directory. Then, it copies over the generated files from the [hotspot=stageOne hotspot=copyCerts file=1]`first stage`. Additionally, it copies the [hotspot=copyConfig file=0]`mongodb.conf` configuration file and the [hotspot=copyJS file=1]`index.js` script from your host machine to the image. Then, the [hotspot=runMongod file=1]`mongod` command is called to start the `MongoDB` daemon as a [hotspot=fork file=1]`background process` using the [hotspot=config file=1]`mongodb.conf` configuration. The [hotspot=runScript file=1]`mongo` command creates and connects to the [hotspot=testdb file=1]`testdb` database over [hotspot=tls file=1]`TLS` and runs the [hotspot=script file=1]`index.js` script.
+The [hotspot=stageTwo file=1]`second stage` of the Dockerfile uses the [hotspot=mongo file=1]`mongo` image as the base image and creates the [hotspot=createDirectory file=1]`/home/mongodb` directory. Then, it copies over the generated files from the [hotspot=stageOne hotspot=copyCerts file=1]`first stage`. Additionally, it copies the [hotspot=copyConfig file=0]`mongodb.conf` configuration file and the [hotspot=copyJS file=1]`index.js` script from your host machine to the image. Then, the [hotspot=runMongod file=1]`mongod` command is called to start the `MongoDB` daemon as a [hotspot=fork file=1]`background process` using the [hotspot=config file=1]`mongodb.conf` configuration. The [hotspot=runScript file=1]`mongo` command creates and connects to the [hotspot=testdb file=1]`testdb` database over [hotspot=tls file=1]`TLS` and runs the [hotspot=script file=1]`index.js` script.
 
 The [hotspot file=2]`index.js` script creates a new [hotspot=createUser file=2]`user` in the `testdb` database with a username of `sampleUser`, password of `openliberty`, and the role of https://docs.mongodb.com/manual/reference/built-in-roles/#readWrite[readWrite^]. It also creates a [hotspot=createCollection file=2]`Crew` collection in the `testdb` database.
 
@@ -109,7 +109,7 @@ Execute the following commands to build the image using the Dockerfile, run it i
 
 [role='command']
 ```
-docker build -t mongo-sample .
+docker build -t mongo-sample -f assets/Dockerfile .
 docker run --name mongo-guide -p 27017:27017 -d mongo-sample
 ```
 
@@ -343,7 +343,7 @@ A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember
 
 The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the [hotspot file=0]`CrewService` class.
 
-Visit http://localhost:9080/openapi/ui/[^] to test and see the API documentation for the next sections.
+Visit the http://localhost:9080/openapi/ui/[^] URL to view the OpenAPI UI which provides API documentation and a client to test the API endpoints you will create.
 
 === Create
 
@@ -386,7 +386,7 @@ Test the `READ` operation from the OpenAPI UI at the `GET /api/crew` enpoint.
 
 This will retrieve all crew member documents from the collection.
 
-You will receive a response containing an array of all the members currently in your crew.
+You will receive a response containing an array of all the members currently in your crew. The response may include crew members created in the `Try what you'll build` section.
 
 [role="no_copy"]
 ```
