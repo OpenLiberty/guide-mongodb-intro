@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2018, 2020 IBM Corporation and others.
+ * Copyright (c) 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -33,6 +33,7 @@ import java.util.Collections;
 
 @ApplicationScoped
 public class MongoProducer {
+
     // tag::mongoProducerInjections[]
     @Inject
     @ConfigProperty(name = "mongo.hostname", defaultValue = "localhost")
@@ -112,9 +113,8 @@ public class MongoProducer {
     // tag::createDB[]
     public MongoDatabase createDB(
             // tag::injectMongoClient[]
-            MongoClient client
+            MongoClient client) {
             // end::injectMongoClient[]
-        ) {
         // tag::getDatabase[]
         return client.getDatabase(dbName);
         // end::getDatabase[]
@@ -124,9 +124,8 @@ public class MongoProducer {
     // tag::close[]
     public void close(
             // tag::disposes[]
-            @Disposes MongoClient toClose
+            @Disposes MongoClient toClose) {
             // end::disposes[]
-        ) {
         // tag::toClose[]
         toClose.close();
         // end::toClose[]
