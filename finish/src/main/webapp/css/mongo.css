@@ -184,8 +184,9 @@ button:hover {
 	background-color: white;
 	margin: 1em;
 	padding: .5em;
-	border-radius: 7pt;
-	width: 13em;
+    border-radius: 7pt;
+    width: 13em;
+    height: 23em;
 	justify-content: space-between;
 }
 
@@ -194,13 +195,17 @@ button:hover {
 	margin: 1em;
 	padding: .5em;
 	border-radius: 7pt;
-	max-height: 30em;
+	max-height: 23em;
 	overflow: auto;
 	display: none;
 	flex: 0 1 auto;
 	max-width: 30%;
 	border: 1px solid transparent;
 	padding-right: 20px; /*Scroll bar space*/
+}
+
+#userDisplay {
+    max-width: 25%;
 }
 
 .inputLine {
