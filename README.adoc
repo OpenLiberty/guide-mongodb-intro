@@ -382,7 +382,7 @@ The `\<<ID>>` is a unique identifier in the collection. Save this value for futu
 
 The [hotspot=retrieve]`retrieve()` method handles the implementation of `READ`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionRead]`MongoDatabase.getCollection()`. The [hotspot=find]`MongoCollection.find()` method is invoked to retrieve a `FindIterable<TDocument>` generic using the `Document` type, an iterable for all the crew members documents in the collection. The documents are [hotspot=iterate]`iterated` through and appended together into a String array to be returned.
 
-Test the `READ` operation from the OpenAPI UI at the `GET /api/crew` end  point.
+Test the `READ` operation from the OpenAPI UI at the `GET /api/crew` endpoint.
 
 This will retrieve all crew member documents from the collection.
 

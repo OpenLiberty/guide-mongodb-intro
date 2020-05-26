@@ -104,7 +104,8 @@ public class CrewServiceIT {
         newMember.add("rank", "Officer");
 
         String url = rootURL + "/api/crew/" + testIDs.get(0);
-        Response response = client.target(url).request().put(Entity.json(newMember.build()));
+        Response response = client.target(url).request()
+                .put(Entity.json(newMember.build()));
 
         this.assertResponse(url, response);
 
