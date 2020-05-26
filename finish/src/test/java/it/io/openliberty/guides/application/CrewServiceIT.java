@@ -29,21 +29,19 @@ import java.util.ArrayList;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CrewServiceIT {
 
-    private static Client _Client;
-    private static JsonArray _TestData;
-    private static String _RootURL;
-    private static ArrayList<String> _TestIDs = new ArrayList<>(2);
+    private static Client client;
+    private static JsonArray testData;
+    private static String rootURL;
+    private static ArrayList<String> testIDs = new ArrayList<>(2);
 
-    // tag::Before[]
     @BeforeAll
-    // end::Before[]
     public static void setup() {
-        _Client = ClientBuilder.newClient();
-        _Client.register(JsrJsonpProvider.class);
+        client = ClientBuilder.newClient();
+        client.register(JsrJsonpProvider.class);
 
         String port = System.getProperty("app.http.port");
         String context = System.getProperty("app.context.root");
-        _RootURL = "http://localhost:" + port + context;
+        rootURL = "http://localhost:" + port + context;
 
         // test data
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
@@ -57,36 +55,31 @@ public class CrewServiceIT {
         jsonBuilder.add("crewID", "000002");
         jsonBuilder.add("rank", "Engineer");
         arrayBuilder.add(jsonBuilder.build());
-        _TestData = arrayBuilder.build();
+        testData = arrayBuilder.build();
     }
 
-    // tag::After[]
     @AfterAll
-    // end::After[]
-    // tag::teardown[]
     public static void teardown() {
-        _Client.close();
+        client.close();
     }
-    // end::teardown[]
-    
+
     // tag::testAddCrewMember[]
     // tag::test1[]
     @Test
     // end::test1[]
     @Order(1)
     public void testAddCrewMember() {
-        System.out.println("   === Adding "
-                + _TestData.size()
+        System.out.println("   === Adding " + testData.size()
                 + " crew members to the database. ===");
 
-        for (int i = 0; i < _TestData.size(); i ++) {
-            JsonObject member = (JsonObject) _TestData.get(i);
-            String url = _RootURL + "/api/crew";
-            Response response = _Client.target(url).request().post(Entity.json(member));
+        for (int i = 0; i < testData.size(); i++) {
+            JsonObject member = (JsonObject) testData.get(i);
+            String url = rootURL + "/api/crew";
+            Response response = client.target(url).request().post(Entity.json(member));
             this.assertResponse(url, response);
 
             JsonObject newMember = response.readEntity(JsonObject.class);
-            _TestIDs.add(newMember.getJsonObject("_id").getString("$oid"));
+            testIDs.add(newMember.getJsonObject("_id").getString("$oid"));
 
             response.close();
         }
@@ -100,21 +93,19 @@ public class CrewServiceIT {
     // end::test2[]
     @Order(2)
     public void testUpdateCrewMember() {
-        System.out.println("   === Updating crew member with id "
-                + _TestIDs.get(0)
+        System.out.println("   === Updating crew member with id " + testIDs.get(0)
                 + ". ===");
 
-        JsonObject oldMember = (JsonObject) _TestData.get(0);
+        JsonObject oldMember = (JsonObject) testData.get(0);
 
         JsonObjectBuilder newMember = Json.createObjectBuilder();
         newMember.add("name", oldMember.get("name"));
         newMember.add("crewID", oldMember.get("crewID"));
         newMember.add("rank", "Officer");
 
-        String url = _RootURL + "/api/crew/" + _TestIDs.get(0);
-        Response response = _Client.target(url).request().put(
-                Entity.json(newMember.build())
-        );
+        String url = rootURL + "/api/crew/" + testIDs.get(0);
+        Response response = client.target(url).request()
+                .put(Entity.json(newMember.build()));
 
         this.assertResponse(url, response);
 
@@ -130,8 +121,8 @@ public class CrewServiceIT {
     public void testGetCrewMembers() {
         System.out.println("   === Listing crew members from the database. ===");
 
-        String url = _RootURL + "/api/crew";
-        Response response = _Client.target(url).request().get();
+        String url = rootURL + "/api/crew";
+        Response response = client.target(url).request().get();
 
         this.assertResponse(url, response);
 
@@ -144,16 +135,15 @@ public class CrewServiceIT {
         for (JsonValue value : crew) {
             JsonObject member = (JsonObject) value;
             String id = member.getJsonObject("_id").getString("$oid");
-            if (_TestIDs.contains(id)) {
-                testMemberCount ++;
+            if (testIDs.contains(id)) {
+                testMemberCount++;
             }
         }
 
-        assertEquals(_TestIDs.size(), testMemberCount,
+        assertEquals(testIDs.size(), testMemberCount,
                 "Incorrect number of testing members.");
 
-        System.out.println("      === Done. There are "
-                + crew.size()
+        System.out.println("      === Done. There are " + crew.size() 
                 + " crew members. ===");
 
         response.close();
@@ -166,13 +156,12 @@ public class CrewServiceIT {
     // end::test4[]
     @Order(4)
     public void testDeleteCrewMember() {
-        System.out.println("   === Removing "
-                + _TestIDs.size()
+        System.out.println("   === Removing " + testIDs.size() 
                 + " crew members from the database. ===");
 
-        for (String id : _TestIDs) {
-            String url = _RootURL + "/api/crew/" + id;
-            Response response = _Client.target(url).request().delete();
+        for (String id : testIDs) {
+            String url = rootURL + "/api/crew/" + id;
+            Response response = client.target(url).request().delete();
             this.assertResponse(url, response);
             response.close();
         }
@@ -182,8 +171,6 @@ public class CrewServiceIT {
     // end::testDeleteCrewMember[]
 
     private void assertResponse(String url, Response response) {
-        // tag::assertEquals[]
         assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
-        // end::assertEquals[]
     }
 }

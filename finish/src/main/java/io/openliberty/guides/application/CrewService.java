@@ -69,6 +69,21 @@ public class CrewService {
     Validator validator;
     // end::beanValidator[]
 
+    // tag::getViolations[]
+    private JsonArray getViolations(CrewMember crewMember) {
+        Set<ConstraintViolation<CrewMember>> violations = validator.validate(
+                crewMember);
+
+        JsonArrayBuilder messages = Json.createArrayBuilder();
+
+        for (ConstraintViolation<CrewMember> v : violations) {
+            messages.add(v.getMessage());
+        }
+
+        return messages.build();
+    }
+    // end::getViolations[]
+
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -116,64 +131,52 @@ public class CrewService {
     }
     // end::add[]
 
-    @DELETE
-    @Path("/{id}")
+    @GET
+    @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     @APIResponses({
         @APIResponse(
             responseCode = "200",
-            description = "Successfully deleted crew member."),
+            description = "Successfully listed the crew members."),
         @APIResponse(
-            responseCode = "400",
-            description = "Invalid object id."),
-        @APIResponse(
-            responseCode = "404",
-            description = "Crew member object id was not found.") })
-    @Operation(summary = "Delete a crew member from the database.")
-    // tag::remove[]
-    public Response remove(
-        @Parameter(
-            description = "Object id of the crew member to delete.",
-            required = true
-        )
-        @PathParam("id") String id) {
-
-        Document docId;
+            responseCode = "500",
+            description = "Failed to list the crew members.") })
+    @Operation(summary = "List the crew members from the database.")
+    // tag::retrieve[]
+    public Response retrieve() {
+        StringWriter sb = new StringWriter();
 
         try {
-            // tag::objectIdDelete[]
-            docId = new Document("_id", new ObjectId(id));
-            // end::objectIdDelete[]
+            // tag::getCollectionRead[]
+            MongoCollection<Document> crew = db.getCollection("Crew");
+            // end::getCollectionRead[]
+            sb.append("[");
+            boolean first = true;
+            // tag::find[]
+            FindIterable<Document> docs = crew.find();
+            // end::find[]
+            // tag::iterate[]
+            for (Document d : docs) {
+                if (!first) sb.append(",");
+                else first = false;
+                sb.append(d.toJson());
+            }
+            // end::iterate[]
+            sb.append("]");
         } catch (Exception e) {
+            e.printStackTrace(System.out);
             return Response
-                .status(Response.Status.BAD_REQUEST)
-                .entity("[\"Invalid object id!\"]")
-                .build();
-        }
-
-        // tag::getCollectionDelete[]
-        MongoCollection<Document> crew = db.getCollection("Crew");
-        // end::getCollectionDelete[]
-
-        // tag::deleteOne[]
-        DeleteResult deleteResult = crew.deleteOne(docId);
-        // end::deleteOne[]
-        
-        // tag::getDeletedCount[]
-        if (deleteResult.getDeletedCount() == 0) {
-        // end::getDeletedCount[]
-            return Response
-                .status(Response.Status.NOT_FOUND)
-                .entity("[\"_id was not found!\"]")
+                .status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("[\"Unable to list crew members!\"]")
                 .build();
         }
 
         return Response
             .status(Response.Status.OK)
-            .entity(docId.toJson())
+            .entity(sb.toString())
             .build();
     }
-    // end::remove[]
+    // end::retrieve[]
 
     @PUT
     @Path("/{id}")
@@ -259,65 +262,62 @@ public class CrewService {
     }
     // end::update[]
 
-    @GET
-    @Path("/")
+    @DELETE
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @APIResponses({
         @APIResponse(
             responseCode = "200",
-            description = "Successfully listed the crew members."),
+            description = "Successfully deleted crew member."),
         @APIResponse(
-            responseCode = "500",
-            description = "Failed to list the crew members.") })
-    @Operation(summary = "List the crew members from the database.")
-    // tag::retrieve[]
-    public Response retrieve() {
-        StringWriter sb = new StringWriter();
+            responseCode = "400",
+            description = "Invalid object id."),
+        @APIResponse(
+            responseCode = "404",
+            description = "Crew member object id was not found.") })
+    @Operation(summary = "Delete a crew member from the database.")
+    // tag::remove[]
+    public Response remove(
+        @Parameter(
+            description = "Object id of the crew member to delete.",
+            required = true
+        )
+        @PathParam("id") String id) {
+
+        Document docId;
 
         try {
-            // tag::getCollectionRead[]
-            MongoCollection<Document> crew = db.getCollection("Crew");
-            // end::getCollectionRead[]
-            sb.append("[");
-            boolean first = true;
-            // tag::find[]
-            FindIterable<Document> docs = crew.find();
-            // end::find[]
-            // tag::iterate[]
-            for (Document d : docs) {
-                if (!first) sb.append(",");
-                else first = false;
-                sb.append(d.toJson());
-            }
-            // end::iterate[]
-            sb.append("]");
+            // tag::objectIdDelete[]
+            docId = new Document("_id", new ObjectId(id));
+            // end::objectIdDelete[]
         } catch (Exception e) {
-            e.printStackTrace(System.out);
             return Response
-                .status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("[\"Unable to list crew members!\"]")
+                .status(Response.Status.BAD_REQUEST)
+                .entity("[\"Invalid object id!\"]")
+                .build();
+        }
+
+        // tag::getCollectionDelete[]
+        MongoCollection<Document> crew = db.getCollection("Crew");
+        // end::getCollectionDelete[]
+
+        // tag::deleteOne[]
+        DeleteResult deleteResult = crew.deleteOne(docId);
+        // end::deleteOne[]
+        
+        // tag::getDeletedCount[]
+        if (deleteResult.getDeletedCount() == 0) {
+        // end::getDeletedCount[]
+            return Response
+                .status(Response.Status.NOT_FOUND)
+                .entity("[\"_id was not found!\"]")
                 .build();
         }
 
         return Response
             .status(Response.Status.OK)
-            .entity(sb.toString())
+            .entity(docId.toJson())
             .build();
     }
-    // end::retrieve[]
-
-    // tag::getViolations[]
-    private JsonArray getViolations(CrewMember crewMember) {
-        Set<ConstraintViolation<CrewMember>> violations = validator.validate(
-                crewMember);
-
-        JsonArrayBuilder messages = Json.createArrayBuilder();
-
-        for (ConstraintViolation<CrewMember> v : violations) {
-            messages.add(v.getMessage());
-        }
-
-        return messages.build();
-    }
-    // end::getViolations[]
+    // end::remove[]
 }

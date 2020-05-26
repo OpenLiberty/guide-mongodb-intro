@@ -41,26 +41,18 @@ public class CrewService {
 		return Response.ok().build();
 	}
 
-	@DELETE
-	@Path("/{id}")
+	@GET
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@APIResponses({
 		@APIResponse(
 			responseCode = "200",
-			description = "Successfully deleted crew member."),
+			description = "Successfully listed the crew members."),
 		@APIResponse(
-			responseCode = "400",
-			description = "Invalid object id."),
-		@APIResponse(
-			responseCode = "404",
-			description = "Crew member object id was not found.") })
-	@Operation(summary = "Delete a crew member from the database.")
-	public Response remove(
-		@Parameter(
-			description = "Object id of the crew member to delete.",
-			required = true
-		)
-		@PathParam("id") String id) {
+			responseCode = "500",
+			description = "Failed to list the crew members.") })
+	@Operation(summary = "List the crew members from the database.")
+	public Response retrieve() {
 		return Response.ok().build();
 	}
 
@@ -88,18 +80,26 @@ public class CrewService {
 		return Response.ok().build();
 	}
 
-	@GET
-	@Path("/")
+	@DELETE
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@APIResponses({
 		@APIResponse(
 			responseCode = "200",
-			description = "Successfully listed the crew members."),
+			description = "Successfully deleted crew member."),
 		@APIResponse(
-			responseCode = "500",
-			description = "Failed to list the crew members.") })
-	@Operation(summary = "List the crew members from the database.")
-	public Response retrieve() {
+			responseCode = "400",
+			description = "Invalid object id."),
+		@APIResponse(
+			responseCode = "404",
+			description = "Crew member object id was not found.") })
+	@Operation(summary = "Delete a crew member from the database.")
+	public Response remove(
+		@Parameter(
+			description = "Object id of the crew member to delete.",
+			required = true
+		)
+		@PathParam("id") String id) {
 		return Response.ok().build();
-	}
+	}	
 }

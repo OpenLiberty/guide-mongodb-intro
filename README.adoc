@@ -30,7 +30,7 @@ Learn how to store data with `MongoDB` using Contexts and Dependency Injection (
 
 You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The microservice will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the service to manipulate the database.
 
-The crew members will be stored in `MongoDB` as documents in the following JSON format:
+The crew members will be stored in `MongoDB` as documents in the following JSON-like format:
 
 [source,json,role="no_copy"]
 ----
@@ -382,7 +382,7 @@ The `\<<ID>>` is a unique identifier in the collection. Save this value for futu
 
 The [hotspot=retrieve]`retrieve()` method handles the implementation of `READ`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionRead]`MongoDatabase.getCollection()`. The [hotspot=find]`MongoCollection.find()` method is invoked to retrieve a `FindIterable<TDocument>` generic using the `Document` type, an iterable for all the crew members documents in the collection. The documents are [hotspot=iterate]`iterated` through and appended together into a String array to be returned.
 
-Test the `READ` operation from the OpenAPI UI at the `GET /api/crew` enpoint.
+Test the `READ` operation from the OpenAPI UI at the `GET /api/crew` endpoint.
 
 This will retrieve all crew member documents from the collection.
 
@@ -456,12 +456,10 @@ You will receive a response containing the object id of the deleted crew member.
 // Running the microservice
 // =================================================================================================
 
-== Running the microservice
+[role='command']
+include::{common-includes}/devmode-build.adoc[]
 
-The Open Liberty server was started in development mode at the beginning of the guide and all the 
-changes were automatically picked up.
-
-If you see `The defaultServer server is ready to run a smarter planet. The defaultServer server started in 4.300 seconds.` in the console, then it is ready for you to check out the microservice that you created at the http://localhost:9080/mongo/[^] URL. 
+If you see `The application guide-mongodb-intro updated in 1.023 seconds.` in the console, then it is ready for you to check out the microservice that you created at the http://localhost:9080/mongo/[^] URL. 
 
 // =================================================================================================
 // Testing the service
@@ -469,11 +467,7 @@ If you see `The defaultServer server is ready to run a smarter planet. The defau
 
 == Testing the service
 
-You can test this microservice manually by starting a server and sending HTTP requests to http://localhost:9080/mongo/api/crew/[^] or by using the web interface at the http://localhost:9080/mongo/[^] URL. Automated tests are a much better
-approach because they trigger a failure if a change introduces a bug. The JUnit and the JAX-RS Client
-API provide a simple environment to test the microservice.
-
-You can write tests to call the microservice server directly.
+You will create integrated tests to ensure the basic functionality of the `crew` service.
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -488,21 +482,6 @@ include::finish/src/test/java/it/io/openliberty/guides/application/CrewServiceIT
 ----
 
 The test methods are annotated with the [hotspot=test1 hotspot=test2 hotspot=test3 hotspot=test4 file=0]`@Test` annotation.
-
-pom.xml
-[source , xml, linenums,role="code_column hide_tags=copyright"]
-----
-include::finish/pom.xml[]
-----
-
-The test code needs to know some information about the microservice to make requests. The server port and the microservice context root are key, and are dictated by the server configuration. While this information can be hardcoded, it is better to specify it in a single place like the Maven [hotspot=defaultHttpPort hotspot=appContextRoot file=1]`pom.xml` file. Refer to the [hotspot file=1]`pom.xml` file to see how the microservice information such as the [hotspot=defaultHttpPort file=1]`http.port` and [hotspot=appContextRoot file=1]`default.app.context.root` elements are provided in the file.
-
-
-These Maven properties are then passed to the Java test program as the [hotspot=testsysprops file=1]`<systemPropertyVariables/>` element in the [hotspot file=1]`pom.xml` file.
-
-The [hotspot=Before file=0]`@BeforeAll` annotation is placed on a method that runs before any of the test cases. In this case, the method first creates a JAX-RS client, which will be used to make HTTP requests to the crew service. Then, it retrieves the port number and microservice context for the Open Liberty server to build a base URL string that is used throughout the tests. Lastly, it creates test data for the crew members.
-
-The [hotspot=After file=0]`@AfterAll` with [hotspot=teardown file=0]`teardown()` method simply closes the client instance.
 
 See the following descriptions of the test cases:
 
@@ -538,16 +517,12 @@ Results:
 Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-To see whether the tests detect a failure, add an assertion that you know fails, or change the existing
-[hotspot=assertEquals file=0]`assertEquals` method to expect `301` instead of `200`.
-
 [role='command']
 include::{common-includes}/devmode-quit.adoc[]
 
-
 == Great work! You're done!
 
-You developed a microservice in Open Liberty by using MongoDB, JAX-RS and JSON-B.
+You developed a microservice in Open Liberty by using MongoDB, CDI, MicroProfile Config, and JAX-RS.
 
 == Related Links
 
