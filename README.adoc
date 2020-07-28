@@ -8,7 +8,7 @@
 //
 :projectid: mongodb-intro
 :page-layout: guide-multipane
-:page-duration: 30 minutes
+:page-duration: 25 minutes
 :page-releasedate: 2019-12-12
 :page-essential: true
 :page-essential-order: 1
@@ -79,7 +79,7 @@ mongodb.conf
 include::assets/mongodb.conf[]
 ----
 
-The `mongodb.conf` file specifies the `MongoDB` configuration that the `MongoDB` daemon should use. A sample configuration file is provided which sets up the [hotspot=storage file=0]`storage`, [hotspot=systemLog file=0]`systemLog`, and [hotspot=net file=0]`net` options. For [hotspot=storage file=0]`storage`, it sets [hotspot=dbPath file=0]`dbPath` to `/home/mongodb/data` which defines where the `MongoDB` daemon should store its data. For [hotspot=systemLog file=0]`systemLog`, it sets [hotspot=destination file=0]`destination` to `file` and [hotspot=path file=0]`path` to `/home/mongodb/log/mongodb.log`. This defines that the `MongoDB` daemon will write its logs to a file located at `/home/mongodb/log/mongodb.log`. For [hotspot=net file=0]`net`, [hotspot=tls file=0]`tls` is configured such that its [hotspot=mode file=0]`mode` is `requireTLS` meaning that only TLS connections are allowed with the `MongoDB` daemon and [hotspot=certificateKeyFile file=0]`certificateKeyFile`, which is set to `/home/mongodb/certs/mongodb_tls.pem`, defines the location of the file which contains the certificate and private key. Additional configuration options can be found in the official https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website^].
+The `mongodb.conf` file specifies the `MongoDB` configuration that the `MongoDB` daemon should use. A sample configuration file is provided which sets up the [hotspot=storage file=0]`storage`, [hotspot=systemLog file=0]`systemLog`, and [hotspot=net file=0]`net` options for this application. Additional details and other configuration options can be found in the official https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website^].
 
 **The Dockerfile**
 
@@ -95,13 +95,11 @@ index.js
 include::assets/index.js[]
 ----
 
-The [hotspot=stageOne file=1]`first stage` of the Dockerfile uses the [hotspot=openLiberty file=1]`adoptopenjdk/openjdk8-openj9:ubi` image as the base image to create a [hotspot=selfSignedCert file=1]`self-signed certificate` and [hotspot=privateKey file=1]`private key` which are concatenated together to generate the [hotspot=catCerts file=0]`mongodb_tls.pem` file used for TLS. Then, it uses the Java [hotspot=keytool file=1]`keytool` to generate the truststore and adds the certificate file to the truststore.
+The [hotspot=stageOne file=1]`first stage` of the Dockerfile uses the [hotspot=openLiberty file=1]`adoptopenjdk/openjdk8-openj9:ubi` image as the base image to create a [hotspot=selfSignedCert file=1]`self-signed certificate` and [hotspot=privateKey file=1]`private key` which are concatenated together to generate the [hotspot=catCerts file=1]`mongodb_tls.pem` file used for TLS. Then, it uses the Java [hotspot=keytool file=1]`keytool` to generate the truststore and adds the certificate file to the truststore.
 
-The [hotspot=stageTwo file=1]`second stage` of the Dockerfile uses the [hotspot=mongo file=1]`mongo` image as the base image and creates the [hotspot=createDirectory file=1]`/home/mongodb` directory. Then, it copies over the generated files from the [hotspot=stageOne hotspot=copyCerts file=1]`first stage`. Additionally, it copies the [hotspot=copyConfig file=0]`mongodb.conf` configuration file and the [hotspot=copyJS file=1]`index.js` script from your host machine to the image. Then, the [hotspot=runMongod file=1]`mongod` command is called to start the `MongoDB` daemon as a [hotspot=fork file=1]`background process` using the [hotspot=config file=1]`mongodb.conf` configuration. The [hotspot=runScript file=1]`mongo` command creates and connects to the [hotspot=testdb file=1]`testdb` database over [hotspot=tls file=1]`TLS` and runs the [hotspot=script file=1]`index.js` script.
+The [hotspot=stageTwo file=1]`second stage` of the Dockerfile uses the [hotspot=mongo file=1]`mongo` image as the base image and copies over the generated files from the [hotspot=stageOne hotspot=copyCerts file=1]`first stage`. Additionally, it copies the [hotspot=copyConfig file=1]`mongodb.conf` configuration file and the [hotspot=copyJS file=1]`index.js` script from your host machine to the image. Then, it runs [hotspot=runMongod file=1]`mongod` to start the `MongoDB` daemon and runs [hotspot=runScript file=1]`mongo` to execute the [hotspot=script file=1]`index.js` script. This script creates a new [hotspot=createUser file=2]`user` and [hotspot=createCollection file=2]`collection` in the database. The `MongoDB` daemon is then [hotspot=shutdown file=1]`shutdown`. Lastly, the [hotspot=cmd file=1]`CMD` command is used to start the `MongoDB` daemon using the `mongodb.conf` configuration file when the image is run in a container.
 
-The [hotspot file=2]`index.js` script creates a new [hotspot=createUser file=2]`user` in the `testdb` database with a username of `sampleUser`, password of `openliberty`, and the role of https://docs.mongodb.com/manual/reference/built-in-roles/#readWrite[readWrite^]. It also creates a [hotspot=createCollection file=2]`Crew` collection in the `testdb` database.
-
-The `MongoDB` daemon is then [hotspot=shutdown file=1]`shutdown` and [hotspot=chown file=1]`chown` is called to change the ownership of the `/home/mongodb` directory to `mongodb`. Lastly, the [hotspot=cmd file=1]`CMD` command is used to start the `MongoDB` daemon using the `mongodb.conf` configuration file when the image is run in a container.
+For additional information about the `mongo` image, see https://hub.docker.com/_/mongo[mongo^].
 
 **Running MongoDB in a Docker container**
 
@@ -517,8 +515,18 @@ Results:
 Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ----
 
+== Tearing down the environment
+
 [role='command']
 include::{common-includes}/devmode-quit.adoc[]
+
+Then, execute the following commands to stop and remove the sample `mongo` image.
+
+[role='command']
+```
+docker stop mongo-sample
+docker rm mongo-sample
+```
 
 == Great work! You're done!
 
