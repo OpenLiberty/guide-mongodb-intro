@@ -284,11 +284,11 @@ public class CrewService {
         )
         @PathParam("id") String id) {
 
-        Document docId;
+        ObjectId oid;
 
         try {
             // tag::objectIdDelete[]
-            docId = new Document("_id", new ObjectId(id));
+            oid = new ObjectId(id);
             // end::objectIdDelete[]
         } catch (Exception e) {
             return Response
@@ -301,8 +301,12 @@ public class CrewService {
         MongoCollection<Document> crew = db.getCollection("Crew");
         // end::getCollectionDelete[]
 
+        // tag::queryDelete[]
+        Document query = new Document("_id", oid);
+        // end::queryDelete[]
+
         // tag::deleteOne[]
-        DeleteResult deleteResult = crew.deleteOne(docId);
+        DeleteResult deleteResult = crew.deleteOne(query);
         // end::deleteOne[]
         
         // tag::getDeletedCount[]
@@ -316,7 +320,7 @@ public class CrewService {
 
         return Response
             .status(Response.Status.OK)
-            .entity(docId.toJson())
+            .entity(query.toJson())
             .build();
     }
     // end::remove[]
