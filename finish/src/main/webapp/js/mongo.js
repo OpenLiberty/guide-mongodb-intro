@@ -9,28 +9,25 @@
 *     IBM Corporation - initial API and implementation
 *******************************************************************************/
 
-function addCrewMember() {
-    var crewMember = {};
-    crewMember.name = document.getElementById("crewMemberName").value;
-    var rank = document.getElementById("crewMemberRank");
-    crewMember.rank = rank.options[rank.selectedIndex].text;
-    crewMember.crewID = document.getElementById("crewMemberID").value;
+function addCrewMember(e) {
+    var userCreationForm = document.getElementById("userCreation");
 
-
+    var crewMember = {
+        name: userCreationForm.elements.crewMemberName.value,
+        crewID: userCreationForm.elements.crewMemberID.value,
+        rank: userCreationForm.elements.crewMemberRank.value
+    };
+    
     var request = new XMLHttpRequest();
 
-    request.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                refreshDocDisplay();
-            } else {
-                var i = 0;
-                var res = JSON.parse(this.response);
-                if (Array.isArray(res) == true) {
-                    for (m of res) {
-                        toast(m, i++);
-                    }
-                }
+    request.onload = function () {
+        if (this.status === 200) {
+            userCreationForm.reset();
+            refreshDocDisplay();
+        } else {
+            var i = 0;
+            for (m of JSON.parse(this.response)) {
+                toast(m, i++);
             }
         }
     }
@@ -38,54 +35,51 @@ function addCrewMember() {
     request.open("POST", "api/crew/", true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(crewMember));
+    
+    e.preventDefault();
 }
 
-function showUpdateForm(id, name, crewID, rank) {
-    if (document.getElementById("docID").value === id) {
+function toggleUpdateForm(entry) { 
+    if (document.getElementById("docID").value === entry._id.$oid) {
         clearUpdateForm();
         return;
     }
 
-    document.getElementById("userUpdate").classList.remove("hidden");
+    var userUpdateForm = document.getElementById("userUpdate");
 
-    document.getElementById("docID").value = id;
-    document.getElementById("updateCrewMemberName").value = name;
-    document.getElementById("updateCrewMemberID").value = crewID;
-    document.getElementById("updateCrewMemberRank").value = rank;
+    userUpdateForm.elements.docID.value = entry._id.$oid;
+    userUpdateForm.elements.updateCrewMemberName.value = entry.Name;
+    userUpdateForm.elements.updateCrewMemberID.value = entry.CrewID;
+    userUpdateForm.elements.updateCrewMemberRank.value = entry.Rank;
+    
+    userUpdateForm.classList.remove("hidden");
 }
 
 function clearUpdateForm() {
     document.getElementById("userUpdate").classList.add("hidden");
-
-    document.getElementById("docID").value = "";
-    document.getElementById("updateCrewMemberName").value = "";
-    document.getElementById("updateCrewMemberID").value = "";
-    document.getElementById("updateCrewMemberRank").value = "Captain";
+    document.getElementById("userUpdate").reset();
 }
 
-function updateCrewMember() {
-    var id = document.getElementById("docID").value;
-
-    var crewMember = {};
-    crewMember.name = document.getElementById("updateCrewMemberName").value;
-    var rank = document.getElementById("updateCrewMemberRank");
-    crewMember.rank = rank.options[rank.selectedIndex].text;
-    crewMember.crewID = document.getElementById("updateCrewMemberID").value;
+function updateCrewMember(e) {
+    var userUpdateForm = document.getElementById("userUpdate");
+    
+    var id = userUpdateForm.elements.docID.value;
+    var crewMember = {
+        name: userUpdateForm.elements.updateCrewMemberName.value,
+        crewID: userUpdateForm.elements.updateCrewMemberID.value,
+        rank: userUpdateForm.elements.updateCrewMemberRank.value
+    };
 
     var request = new XMLHttpRequest();
 
-    request.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                refreshDocDisplay();
-            } else {
-                var i = 0;
-                var res = JSON.parse(this.response);
-                if (Array.isArray(res) == true) {
-                    for (m of res) {
-                        toast(m, i++);
-                    }
-                }
+    request.onload = function () {
+        if (this.status === 200) {
+            clearUpdateForm();
+            refreshDocDisplay();
+        } else {
+            var i = 0;
+            for (m of JSON.parse(this.response)) {
+                toast(m, i++);
             }
         }
     }
@@ -94,15 +88,15 @@ function updateCrewMember() {
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(crewMember));
 
-    clearUpdateForm();
+    e.preventDefault();
 }
 
 function refreshDocDisplay() {
     var request = new XMLHttpRequest();
 
-    request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            clearDisplay()
+    request.onload = function () {
+        if (this.status === 200) {
+            clearDisplay();
             doc = JSON.parse(this.responseText);
 
             doc.forEach(addToDisplay);
@@ -112,7 +106,6 @@ function refreshDocDisplay() {
             } else {
                 document.getElementById("userDisplay").style.display = 'none';
                 document.getElementById("docDisplay").style.display = 'none';
-                clearUpdateForm();
             }
             document.getElementById("docText").innerHTML = JSON.stringify(doc, null, 2);
         }
@@ -131,7 +124,7 @@ function addToDisplay(entry) {
     var userDiv = document.createElement("div");
     userDiv.setAttribute("class", "user flexbox");
     userDiv.setAttribute("id", entry._id.$oid);
-    userDiv.setAttribute("onclick", "showUpdateForm('" + entry._id.$oid + "','" + entry.Name + "','" + entry.CrewID + "','" + entry.Rank + "')");
+    userDiv.onclick = function() { toggleUpdateForm(entry) };
     userDiv.innerHTML = userHtml;
     document.getElementById("userBoxes").appendChild(userDiv);
 }
@@ -146,8 +139,8 @@ function clearDisplay() {
 function remove(e, id) {
     var request = new XMLHttpRequest();
 
-    request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) { 
+    request.onload = function () {
+        if (this.status === 200) { 
             if (id === document.getElementById("docID").value) {
                 clearUpdateForm();
             }
