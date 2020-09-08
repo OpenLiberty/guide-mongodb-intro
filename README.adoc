@@ -19,7 +19,7 @@
 :page-permalink: /guides/{projectid}
 :repo-description: Visit the https://openliberty.io/guides/{projectid}.html[website] for the rendered version of the guide.
 :page-seo-title: Accessing MongoDB by using Contexts and Dependency Injection (CDI)
-:page-seo-description: A getting started tutorial with examples on how to access and persist data with MongoDB using Contexts and Dependency Injection (CDI) and MicroProfile Config.
+:page-seo-description: Learn how to access MongoDB by using Contexts and Dependency Injection (CDI), and configure MongoDB through MicroProfile Config.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 = Accessing MongoDB by using Contexts and Dependency Injection (CDI)
 
@@ -522,7 +522,7 @@ Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 [role='command']
 include::{common-includes}/devmode-quit.adoc[]
 
-Then, execute the following commands to stop and remove the `mongo-guide` container and to remove the `mongo-sample` and `mongo` images.
+Then, execute the following commands to stop and remove the `mongo-guide` container, and to remove the `mongo-sample` and `mongo` images.
 
 [role='command']
 ```
