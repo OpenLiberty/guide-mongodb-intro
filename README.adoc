@@ -12,7 +12,7 @@
 :page-releasedate: 2019-12-12
 :page-essential: true
 :page-essential-order: 1
-:page-description: Learn how to access and persist data with MongoDB using Contexts and Dependency Injection (CDI) and MicroProfile Config.
+:page-description: Learn how to access and persist data with MongoDB using Contexts, Dependency Injection (CDI) and MicroProfile Config.
 :guide-author: Open Liberty
 :page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE', 'MongoDB']
 :page-related-guides: ['cdi-intro', 'microprofile-config', 'rest-intro']
@@ -30,7 +30,7 @@ Learn how to access and persist data with `MongoDB` using Contexts and Dependenc
 
 == What you'll learn
 
-You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The microservice will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the service to manipulate the database.
+You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The microservice will respond to `POST`, `GET`, `PUT` and `DELETE` requests made to the service to manipulate the database.
 
 The crew members will be stored in `MongoDB` as documents in the following JSON-like format:
 
@@ -46,7 +46,7 @@ The crew members will be stored in `MongoDB` as documents in the following JSON-
 }
 ----
 
-This microservice connects to `MongoDB` using Transport Layer Security (TLS) and injects a `MongoDatabase` instance into the service through a CDI producer.  Additionally, MicroProfile Config is used to make configuring the `MongoDB` driver simple.
+This microservice connects to `MongoDB` using Transport Layer Security (TLS) and injects a `MongoDatabase` instance into the service through a CDI producer.  Additionally, MicroProfile Config is used to easily configure the `MongoDB` driver.
 
 For more information about CDI and MicroProfile Config, see https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices^] and https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^].
 
@@ -459,7 +459,7 @@ You will receive a response containing the object id of the deleted crew member.
 [role='command']
 include::{common-includes}/devmode-build.adoc[]
 
-If you see `The application guide-mongodb-intro updated in 1.023 seconds.` in the console, then it is ready for you to check out the microservice that you created at the http://localhost:9080/mongo/[^] URL. 
+If you see something similar to `The application guide-mongodb-intro updated in 1.023 seconds.` in the console, then it is ready for you to check out the microservice that you created at the http://localhost:9080/mongo/[^] URL. 
 
 // =================================================================================================
 // Testing the service
@@ -526,8 +526,10 @@ Then, execute the following commands to stop and remove the sample `mongo` image
 
 [role='command']
 ```
-docker stop mongo-sample
-docker rm mongo-sample
+docker stop mongo-guide
+docker rm mongo-guide
+docker rmi mongo-sample
+docker rmi mongo
 ```
 
 == Great work! You're done!
