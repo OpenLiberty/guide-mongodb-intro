@@ -534,7 +534,7 @@ docker rmi mongo
 
 == Great work! You're done!
 
-You developed a microservice in Open Liberty by using MongoDB, CDI, MicroProfile Config, and JAX-RS.
+You learned how to access MongoDB by using Contexts and Dependency Injection (CDI), and configure MongoDB through MicroProfile Config.
 
 == Related Links
 
