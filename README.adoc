@@ -12,25 +12,25 @@
 :page-releasedate: 2019-12-12
 :page-essential: true
 :page-essential-order: 1
-:page-description: Learn how to access and persist data with MongoDB using Contexts, Dependency Injection (CDI) and MicroProfile Config.
+:page-description: Learn how to access MongoDB by using Contexts and Dependency Injection (CDI), and configure MongoDB through MicroProfile Config.
 :guide-author: Open Liberty
 :page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE', 'MongoDB']
 :page-related-guides: ['cdi-intro', 'microprofile-config', 'rest-intro']
 :page-permalink: /guides/{projectid}
 :repo-description: Visit the https://openliberty.io/guides/{projectid}.html[website] for the rendered version of the guide.
-:page-seo-title: Building a microservice with MongoDB
+:page-seo-title: Accessing MongoDB by using Contexts and Dependency Injection (CDI)
 :page-seo-description: A getting started tutorial with examples on how to access and persist data with MongoDB using Contexts and Dependency Injection (CDI) and MicroProfile Config.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
-= Building a microservice with MongoDB
+= Accessing MongoDB by using Contexts and Dependency Injection (CDI)
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to access and persist data with `MongoDB` using Contexts and Dependency Injection (CDI) and MicroProfile Config.
+Learn how to access MongoDB by using Contexts and Dependency Injection (CDI), and configure MongoDB through MicroProfile Config.
 
 == What you'll learn
 
-You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The microservice will respond to `POST`, `GET`, `PUT` and `DELETE` requests made to the service to manipulate the database.
+You will learn how to build and test a simple microservice which manages the members of a crew using `MongoDB`. The microservice will respond to `POST`, `GET`, `PUT`, and `DELETE` requests made to the service to manipulate the database.
 
 The crew members will be stored in `MongoDB` as documents in the following JSON-like format:
 
@@ -522,7 +522,7 @@ Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 [role='command']
 include::{common-includes}/devmode-quit.adoc[]
 
-Then, execute the following commands to stop and remove the sample `mongo` image.
+Then, execute the following commands to stop and remove the `mongo-guide` container and to remove the `mongo-sample` and `mongo` images.
 
 [role='command']
 ```
