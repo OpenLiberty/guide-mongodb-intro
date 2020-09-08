@@ -19,7 +19,7 @@
 :page-permalink: /guides/{projectid}
 :repo-description: Visit the https://openliberty.io/guides/{projectid}.html[website] for the rendered version of the guide.
 :page-seo-title: Accessing MongoDB by using Contexts and Dependency Injection (CDI)
-:page-seo-description: Learn how to access MongoDB by using Contexts and Dependency Injection (CDI), and configure MongoDB through MicroProfile Config.
+:page-seo-description: A getting started tutorial with examples on how to access MongoDB with Open Liberty by using Contexts and Dependency Injection (CDI), and configure MongoDB through MicroProfile Config.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 = Accessing MongoDB by using Contexts and Dependency Injection (CDI)
 
