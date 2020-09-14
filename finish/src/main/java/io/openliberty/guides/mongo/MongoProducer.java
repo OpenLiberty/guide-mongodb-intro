@@ -66,15 +66,10 @@ public class MongoProducer {
         // end::decode[]
         // tag::createCredential[]
         MongoCredential creds = MongoCredential.createCredential(
-                // tag::username[]
+
                 user,
-                // end::username[]
-                // tag::dbName[]
                 dbName,
-                // end::dbName[]
-                // tag::password[]
                 password.toCharArray()
-                // end::password[]
         );
         // end::createCredential[]
 
