@@ -386,12 +386,12 @@ You will receive a reponse containing the JSON object of the updated member.
 [role="no_copy"]
 ```
 {
-  "_id": {
-    "$oid": "<<ID>>"
-  },
   "Name": "Member1",
   "Rank": "Captain",
-  "CrewID": "000001"
+  "CrewID": "000001",
+  "_id": {
+    "$oid": "<<ID>>"
+  }
 }
 ```
 
