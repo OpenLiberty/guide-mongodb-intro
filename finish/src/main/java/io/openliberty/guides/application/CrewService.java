@@ -153,13 +153,11 @@ public class CrewService {
             // tag::find[]
             FindIterable<Document> docs = crew.find();
             // end::find[]
-            // tag::iterate[]
             for (Document d : docs) {
                 if (!first) sb.append(",");
                 else first = false;
                 sb.append(d.toJson());
             }
-            // end::iterate[]
             sb.append("]");
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -211,9 +209,7 @@ public class CrewService {
         ObjectId oid;
 
         try {
-            // tag::objectIdUpdate[]
             oid = new ObjectId(id);
-            // end::objectIdUpdate[]
         } catch (Exception e) {
             return Response
                 .status(Response.Status.BAD_REQUEST)
@@ -283,9 +279,7 @@ public class CrewService {
         ObjectId oid;
 
         try {
-            // tag::objectIdDelete[]
             oid = new ObjectId(id);
-            // end::objectIdDelete[]
         } catch (Exception e) {
             return Response
                 .status(Response.Status.BAD_REQUEST)
