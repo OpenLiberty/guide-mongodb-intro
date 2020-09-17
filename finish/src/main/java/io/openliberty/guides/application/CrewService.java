@@ -98,7 +98,6 @@ public class CrewService {
     @Operation(summary = "Add a new crew member to the database.")
     // tag::add[]
     public Response add(CrewMember crewMember) {
-        // tag::violations1[]
         JsonArray violations = getViolations(crewMember);
 
         if (!violations.isEmpty()) {
@@ -107,7 +106,6 @@ public class CrewService {
                     .entity(violations.toString())
                     .build();
         }
-        // end::violations1[]
 
         // tag::getCollection[]
         MongoCollection<Document> crew = db.getCollection("Crew");
@@ -155,13 +153,11 @@ public class CrewService {
             // tag::find[]
             FindIterable<Document> docs = crew.find();
             // end::find[]
-            // tag::iterate[]
             for (Document d : docs) {
                 if (!first) sb.append(",");
                 else first = false;
                 sb.append(d.toJson());
             }
-            // end::iterate[]
             sb.append("]");
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -201,7 +197,6 @@ public class CrewService {
         )
         @PathParam("id") String id) {
 
-        // tag::violations2[]
         JsonArray violations = getViolations(crewMember);
         
         if (!violations.isEmpty()) {
@@ -210,14 +205,11 @@ public class CrewService {
                     .entity(violations.toString())
                     .build();
         }
-        // end::violations2[]
 
         ObjectId oid;
 
         try {
-            // tag::objectIdUpdate[]
             oid = new ObjectId(id);
-            // end::objectIdUpdate[]
         } catch (Exception e) {
             return Response
                 .status(Response.Status.BAD_REQUEST)
@@ -287,9 +279,7 @@ public class CrewService {
         ObjectId oid;
 
         try {
-            // tag::objectIdDelete[]
             oid = new ObjectId(id);
-            // end::objectIdDelete[]
         } catch (Exception e) {
             return Response
                 .status(Response.Status.BAD_REQUEST)
