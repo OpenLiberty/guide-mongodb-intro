@@ -21,7 +21,7 @@
 :page-seo-title: Persisting data with a document-oriented MongoDB database
 :page-seo-description: A getting started tutorial with examples on how to access and persist data to a document-oriented MongoDB database with Open Liberty by using Contexts and Dependency Injection (CDI), and configure MongoDB through MicroProfile Config.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
-= Persisting data with a document-oriented MongoDB database
+= Persisting data with MongoDB
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
@@ -163,7 +163,7 @@ include::{common-includes}/twyb-end.adoc[]
 // Configuring the Open Liberty Server
 // =================================================================================================
 
-== Configuring the Server
+== Configuring the server
 
 Navigate to the `start` directory to begin.
 
@@ -210,7 +210,7 @@ microprofile-config.properties
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-Properties such as the [hotspot=hostname file=0]`hostname`, [hotspot=port file=0]`port`, and [hotspot=dbname file=0]`database name` for the running `MongoDB` instance are set. Additionally, the user's [hotspot=mongoUser file=0]`username` and [hotspot=passEncoded file=0]`password` are set here. For added security, the password was encoded using `securityUtility`.
+Properties such as the [hotspot=hostname file=2]`hostname`, [hotspot=port file=2]`port`, and [hotspot=dbname file=2]`database name` for the running `MongoDB` instance are set. Additionally, the user's [hotspot=mongoUser file=2]`username` and [hotspot=passEncoded file=2]`password` are set here. For added security, the password was encoded using `securityUtility`.
 
 For reference on how the encoded password was generated, navigate to the `target/liberty/wlp/bin/` directory in a separate command-line session and run the following command:
 
@@ -301,8 +301,6 @@ include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[
 
 A [hotspot=beanValidator]`Validator` is used to validate the [hotspot=crewMember file=1]`CrewMember` using the [hotspot=getViolations]`getViolations()` method before inserting or updating the database by using the [hotspot=add]`add()` or [hotspot=update]`update()` method respectively.
 
-**Injecting the database**
-
 The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the [hotspot file=0]`CrewService` class.
 
 Visit the http://localhost:9080/openapi/ui/[^] URL to view the OpenAPI UI which provides API documentation and a client to test the API endpoints you will create.
@@ -342,7 +340,7 @@ The `\<<ID>>` is a unique identifier in the collection. Save this value for futu
 
 === Implementing Read operation
 
-The [hotspot=retrieve]`retrieve()` method handles the implementation of `READ`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionRead]`MongoDatabase.getCollection()`. The [hotspot=find]`MongoCollection.find()` method is invoked to retrieve a `FindIterable<TDocument>` generic using the `Document` type, an iterable for all the crew members documents in the collection. Each document is concatenated into a String array to be returned.
+The [hotspot=retrieve]`retrieve()` method handles the implementation of `READ`. Firstly the `Crew` collection is retrieved using [hotspot=getCollectionRead]`MongoDatabase.getCollection()`. The [hotspot=find]`MongoCollection.find()` method is invoked to retrieve a `FindIterable<TDocument>` generic using the `Document` type, which is iterable for all the crew members documents in the collection. Each document is concatenated into a String array to be returned.
 
 Test the `READ` operation from the OpenAPI UI at the `GET /api/crew` endpoint.
 
