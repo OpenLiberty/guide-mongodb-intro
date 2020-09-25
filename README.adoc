@@ -6,6 +6,7 @@
 // Contributors:
 //     IBM Corporation
 //
+
 :projectid: mongodb-intro
 :page-layout: guide-multipane
 :page-duration: 25 minutes
