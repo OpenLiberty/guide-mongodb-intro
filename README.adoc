@@ -9,7 +9,7 @@
 :projectid: mongodb-intro
 :page-layout: guide-multipane
 :page-duration: 25 minutes
-:page-releasedate: 2019-12-12
+:page-releasedate: 2020-10-12
 :page-essential: true
 :page-essential-order: 1
 :page-description: Learn how to persist data to a document-oriented MongoDB database for your microservices.
