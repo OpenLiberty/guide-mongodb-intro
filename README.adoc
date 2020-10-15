@@ -12,21 +12,21 @@
 :page-releasedate: 2020-10-12
 :page-essential: true
 :page-essential-order: 1
-:page-description: Learn how to persist data to a document-oriented MongoDB database for your microservices.
+:page-description: Learn how to persist data in Java microservices to MongoDB, a document-oriented database.
 :guide-author: Open Liberty
-:page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE', 'MongoDB']
+:page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE']
 :page-related-guides: ['cdi-intro', 'microprofile-config', 'rest-intro']
 :page-permalink: /guides/{projectid}
 :repo-description: Visit the https://openliberty.io/guides/{projectid}.html[website] for the rendered version of the guide.
-:page-seo-title: Persisting data with a document-oriented MongoDB database
-:page-seo-description: A getting started tutorial with examples on how to access and persist data to a document-oriented MongoDB database with Open Liberty by using Contexts and Dependency Injection (CDI), and configure MongoDB through MicroProfile Config.
+:page-seo-title: Persisting data in your Java microservices to MongoDB, a document-oriented database
+:page-seo-description: A getting started tutorial with examples on how to connect, access and persist data to MongoDB, a document-oriented database, in Java cloud-native applications using Contexts and Dependency Injection (CDI) and Eclipse MicroProfile Config with Open Liberty.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 = Persisting data with MongoDB
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to persist data to a document-oriented MongoDB database for your microservices.
+Learn how to persist data in your microservices to MongoDB, a document-oriented database.
 
 == What you'll learn
 
