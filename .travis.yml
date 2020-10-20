@@ -1,17 +1,17 @@
 language: java
+services:
+  - docker
 before_script:
   - unset _JAVA_OPTIONS # Prevents issues such as formatting the test outputs
-  - cd finish
-  - chmod +x ../scripts/travisTest.sh
+  - chmod +x scripts/travisTest.sh
+  - cd finish/
 script:
   - ../scripts/travisTest.sh
 after_script:
-- logsPath=$(find . -name "console.log" | sed "s/console.log//g");
-- build=$(grep "Open Liberty" $logsPath/console.log | cut -d" " -f5 | cut -d")" -f1 );
-- release=$( echo "$build" | cut -d'/' -f1); 
-- number=$(echo "$build" | cut -d'/' -f2); 
-- ol_jv=$(grep -i "version" $logsPath/console.log);
-- jv=$(printf '%s\n' "${ol_jv//$' on '/$'\n'}" | sed '2q;d'); 
+- logsPath=$(find . -name "messages.log" | sed "s/messages.log//g");
+- release=$(grep "Open Liberty" $logsPath/messages.log | cut -d" " -f5 | cut -d")" -f1 | cut -d'/' -f1);
+- number=$(grep "Open Liberty" $logsPath/messages.log | cut -d" " -f6 | cut -d"(" -f2 | cut -d")" -f1);
+- jv=$(grep -i "version" $logsPath/messages.log | head -1 | cut -d"=" -f2);
 - echo -e "\n"\
   "\033[1;34m Open Liberty release:\033[0m\033[1;36m $release \033[0m \n"\
   "\033[1;34m Open Liberty build number:\033[0m\033[1;36m $number \033[0m \n"\
