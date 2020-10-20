@@ -1,12 +1,12 @@
 language: java
 services:
-  - docker
+- docker
 before_script:
-  - unset _JAVA_OPTIONS # Prevents issues such as formatting the test outputs
-  - chmod +x scripts/travisTest.sh
-  - cd finish/
+- unset _JAVA_OPTIONS
+- chmod +x scripts/travisTest.sh
+- cd finish/
 script:
-  - ../scripts/travisTest.sh
+- ../scripts/travisTest.sh
 after_script:
 - logsPath=$(find . -name "messages.log" | sed "s/messages.log//g");
 - release=$(grep "Open Liberty" $logsPath/messages.log | cut -d" " -f5 | cut -d")" -f1 | cut -d'/' -f1);
