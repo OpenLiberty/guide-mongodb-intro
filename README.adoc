@@ -178,7 +178,7 @@ After you replace the `server.xml` file, Open Liberty automatically reloads its 
 
 The features that are required to create the CDI producer for `MongoDB` are `cdi-2.0`, `ssl-1.0`, `mpConfig-1.4`, and `passwordUtilities-1.0`, which are all specified in the [hotspot=featureManager file=0]`featureManager` element. The Secure Sockets Layer (SSL) context is configured in the [hotspot file=0]`server.xml` file so that the application can connect to `MongoDB` with TLS. The [hotspot=keyStore file=0]`keyStore` element is configured to point to the `truststore.p12` keystore file that was created in one of the earlier sections. The [hotspot=ssl file=0]`ssl` element is configured to use the `defaultKeyStore` as the keystore and `outboundTrustStore` as the truststore.
 
-=== Creating the configuration file
+=== Creating the MicroProfile Config file
 
 Using MicroProfile Config makes configuring the `MongoDB` driver simple because all of the configuration can be set in one place and injected into the CDI producer.
 
@@ -245,9 +245,9 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-This class contains a producer method for the `MongoClient`, a producer method for the `MongoDatabase` that uses the `MongoClient` producer method, and a dispose method for the `MongoClient`. Before you create the methods, the values in the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class.
+This class contains a [hotspot=createMongo file=0]`createMongo()` producer method for the `MongoClient`, a producer method for the `MongoDatabase` which depends on the `MongoClient`, and a dispose method for the `MongoClient`. Before you create the methods, the values in the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class.
 
-The [hotspot=createMongo file=0]`createMongo()` method returns an instance of `MongoClient`. In this method, the `username`, `database name`, and `decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created from the above and returned.
+The `createMongo()` method returns an instance of `MongoClient`. In this method, the `username`, `database name`, and `decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created from the above and returned.
 
 The [hotspot=createDB file=0]`createDB()` method returns an instance of `MongoDatabase`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance. The [hotspot=close file=0]`close()` method is a cleanup function for the `MongoClient` that closes the connection to the `MongoDB` instance.
 
@@ -279,7 +279,7 @@ include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[
 
 In this class, a [hotspot=beanValidator]`Validator` is used to validate a [hotspot=crewMember file=1]`CrewMember` before the database is updated. The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the CrewService class.
 
-Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI UI that provides API documentation and a client to test the API endpoints you'll create."
+Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI UI that provides API documentation and a client to test the API endpoints you'll create.
 
 === Implementing the create operation
 
