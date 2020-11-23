@@ -184,8 +184,7 @@ After you replace the `server.xml` file, Open Liberty automatically reloads its 
 
 The features that are required to create the CDI producer for `MongoDB` are `cdi-2.0`, `ssl-1.0`, `mpConfig-1.4`, and `passwordUtilities-1.0`, which are all specified in the [hotspot=featureManager file=0]`featureManager` element. The Secure Sockets Layer (SSL) context is configured in the [hotspot file=0]`server.xml` file so that the application can connect to `MongoDB` with TLS. The [hotspot=keyStore file=0]`keyStore` element is configured to point to the `truststore.p12` keystore file that was created in one of the earlier sections. The [hotspot=ssl file=0]`ssl` element is configured to use the `defaultKeyStore` as the keystore and `outboundTrustStore` as the truststore.
 
-[hotspot file=2]
-Using MicroProfile Config makes configuring the `MongoDB` driver simple because all of the configuration can be set in one place and injected into the CDI producer.
+Using [hotspot file=2]`MicroProfile Config` makes configuring the `MongoDB` driver simple because all of the configuration can be set in one place and injected into the CDI producer.
 
 [role="code_command hotspot", subs="quotes"]
 ----
