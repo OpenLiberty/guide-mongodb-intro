@@ -192,7 +192,7 @@ microprofile-config.properties
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-Properties such as the `hostname`, `port`, and `database name` for the running `MongoDB` instance are set in this file. Additionally, the user’s `username` and `password` are set here. For added security, the password was encoded by using the `securityUtility` encode command.
+Properties such as the [hotspot=mongo.hostname file=2]`hostname`, `port`, and `database name` for the running `MongoDB` instance are set in this file. Additionally, the user’s `username` and `password` are set here. For added security, the password was encoded by using the `securityUtility` encode command.
 
 For reference on how the encoded password was generated, navigate to the `target/liberty/wlp/bin/` directory in a separate command-line session and run the following command:
 
