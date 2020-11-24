@@ -156,7 +156,7 @@ include::{common-includes}/devmode-start.adoc[]
 
 To create a CDI producer for `MongoDB` and connect over TLS, the Open Liberty server needs to be correctly configured.
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the server configuration file.#
 `src/main/liberty/config/server.xml`
@@ -174,7 +174,7 @@ The features that are required to create the CDI producer for `MongoDB` are `cdi
 
 Using MicroProfile Config makes configuring the `MongoDB` driver simple because all of the configuration can be set in one place and injected into the CDI producer.
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the configuration file.#
 `src/main/webapp/META-INF/microprofile-config.properties`
@@ -186,7 +186,7 @@ microprofile-config.properties
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-Properties such as the [hotspot=mongo.hostname file=1]`hostname`, `port`, and `database name` for the running `MongoDB` instance are set in this file. Additionally, the user’s `username` and `password` are set here. For added security, the password was encoded by using the `securityUtility` encode command.
+Properties such as the `hostname`, `port`, and `database name` for the running `MongoDB` instance are set in this file. Additionally, the user’s `username` and `password` are set here. For added security, the password was encoded by using the `securityUtility` encode command.
 
 For reference on how the encoded password was generated, navigate to the `target/liberty/wlp/bin/` directory in a separate command-line session and run the following command:
 
