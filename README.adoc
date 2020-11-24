@@ -235,7 +235,7 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-First, inject the values in the [hotspot file=1]`microprofile-config.properties` file into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class. Then, create the following methods for the `MongoClient`:
+The values from the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class. The `MongoProducer` class requires the following methods for the `MongoClient`:
 
 The [hotspot=createMongo file=0]`createMongo()` producer method returns an instance of `MongoClient`. In this method, the `username`, `database name`, and `decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created from the above and returned.
 
