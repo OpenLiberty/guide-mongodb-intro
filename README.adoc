@@ -235,13 +235,13 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-This class contains a `createMongo()` producer method for the `MongoClient`, a `createDB()` producer method for the `MongoDatabase` which depends on the `MongoClient`, and a `close()` dispose method for the `MongoClient`. Before you create the methods, the values in the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class.
+First, inject the values in the [hotspot file=1]`microprofile-config.properties` file into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class. Then, create the following methods for the `MongoClient`:
 
-The [hotspot=createMongo file=0]`createMongo()` method returns an instance of `MongoClient`. In this method, the `username`, `database name`, and `decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created from the above and returned.
+The [hotspot=createMongo file=0]`createMongo()` producer method returns an instance of `MongoClient`. In this method, the `username`, `database name`, and `decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created from the above and returned.
 
-The [hotspot=createDB file=0]`createDB()` method returns an instance of `MongoDatabase`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance.
+The [hotspot=createDB file=0]`createDB()` producer method returns an instance of `MongoDatabase` that depends on the `MongoClient`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance.
 
-The [hotspot=close file=0]`close()` method is a cleanup function for the `MongoClient` that closes the connection to the `MongoDB` instance.
+The [hotspot=close file=0]`close()` dispose method is a cleanup function for the `MongoClient` that closes the connection to the `MongoDB` instance.
 
 // =================================================================================================
 // Implementing CRUD operations
