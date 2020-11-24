@@ -168,12 +168,6 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-pom.xml
-[source,xml,linenums,role="code_column hide_tags=copyright"]
-----
-include::finish/pom.xml[]
-----
-
 After you replace the `server.xml` file, Open Liberty automatically reloads its configuration. 
 
 The features that are required to create the CDI producer for `MongoDB` are `cdi-2.0`, `ssl-1.0`, `mpConfig-1.4`, and `passwordUtilities-1.0`, which are all specified in the [hotspot=featureManager file=0]`featureManager` element. The Secure Sockets Layer (SSL) context is configured in the [hotspot file=0]`server.xml` file so that the application can connect to `MongoDB` with TLS. The [hotspot=keyStore file=0]`keyStore` element is configured to point to the `truststore.p12` keystore file that was created in one of the earlier sections. The [hotspot=ssl file=0]`ssl` element is configured to use the `defaultKeyStore` as the keystore and `outboundTrustStore` as the truststore.
@@ -192,7 +186,7 @@ microprofile-config.properties
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-Properties such as the [hotspot=mongo.hostname file=2]`hostname`, `port`, and `database name` for the running `MongoDB` instance are set in this file. Additionally, the user’s `username` and `password` are set here. For added security, the password was encoded by using the `securityUtility` encode command.
+Properties such as the [hotspot=mongo.hostname file=1]`hostname`, `port`, and `database name` for the running `MongoDB` instance are set in this file. Additionally, the user’s `username` and `password` are set here. For added security, the password was encoded by using the `securityUtility` encode command.
 
 For reference on how the encoded password was generated, navigate to the `target/liberty/wlp/bin/` directory in a separate command-line session and run the following command:
 
