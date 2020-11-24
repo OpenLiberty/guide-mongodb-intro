@@ -156,7 +156,7 @@ include::{common-includes}/devmode-start.adoc[]
 
 To create a CDI producer for `MongoDB` and connect over TLS, the Open Liberty server needs to be correctly configured.
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Replace the server configuration file.#
 `src/main/liberty/config/server.xml`
@@ -168,21 +168,13 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-pom.xml
-[source,xml,linenums,role="code_column hide_tags=copyright"]
-----
-include::finish/pom.xml[]
-----
-
 After you replace the `server.xml` file, Open Liberty automatically reloads its configuration. 
 
 The features that are required to create the CDI producer for `MongoDB` are `cdi-2.0`, `ssl-1.0`, `mpConfig-1.4`, and `passwordUtilities-1.0`, which are all specified in the [hotspot=featureManager file=0]`featureManager` element. The Secure Sockets Layer (SSL) context is configured in the [hotspot file=0]`server.xml` file so that the application can connect to `MongoDB` with TLS. The [hotspot=keyStore file=0]`keyStore` element is configured to point to the `truststore.p12` keystore file that was created in one of the earlier sections. The [hotspot=ssl file=0]`ssl` element is configured to use the `defaultKeyStore` as the keystore and `outboundTrustStore` as the truststore.
 
-=== Creating the MicroProfile Config file
-
 Using MicroProfile Config makes configuring the `MongoDB` driver simple because all of the configuration can be set in one place and injected into the CDI producer.
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the configuration file.#
 `src/main/webapp/META-INF/microprofile-config.properties`
@@ -198,12 +190,10 @@ Properties such as the `hostname`, `port`, and `database name` for the running `
 
 For reference on how the encoded password was generated, navigate to the `target/liberty/wlp/bin/` directory in a separate command-line session and run the following command:
 
---
 [role='command']
 ```
 ./securityUtility encode openliberty --encoding=aes
 ```
---
 
 This generates an Advanced Encryption Standard (AES) encoding of the password `openliberty`.
 
@@ -245,11 +235,13 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-This class contains a [hotspot=createMongo file=0]`createMongo()` producer method for the `MongoClient`, a producer method for the `MongoDatabase` which depends on the `MongoClient`, and a dispose method for the `MongoClient`. Before you create the methods, the values in the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class.
+The values from the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class. The `MongoProducer` class requires the following methods for the `MongoClient`:
 
-The `createMongo()` method returns an instance of `MongoClient`. In this method, the `username`, `database name`, and `decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created from the above and returned.
+The [hotspot=createMongo file=0]`createMongo()` producer method returns an instance of `MongoClient`. In this method, the `username`, `database name`, and `decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created from the above and returned.
 
-The [hotspot=createDB file=0]`createDB()` method returns an instance of `MongoDatabase`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance. The [hotspot=close file=0]`close()` method is a cleanup function for the `MongoClient` that closes the connection to the `MongoDB` instance.
+The [hotspot=createDB file=0]`createDB()` producer method returns an instance of `MongoDatabase` that depends on the `MongoClient`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance.
+
+The [hotspot=close file=0]`close()` dispose method is a cleanup function for the `MongoClient` that closes the connection to the `MongoDB` instance.
 
 // =================================================================================================
 // Implementing CRUD operations
