@@ -184,7 +184,7 @@ microprofile-config.properties
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-Using MicroProfile Config makes configuring the `MongoDB` driver simple because all of the configuration can be set in one place and injected into the CDI producer.
+Using MicroProfile Config makes configuring the `MongoDB` driver simple because all of the configuration can be set in one place and injected into the CDI producer. [hotspot file=2]
 
 [role="code_command hotspot", subs="quotes"]
 ----
