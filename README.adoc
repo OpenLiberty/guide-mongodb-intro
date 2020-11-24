@@ -239,7 +239,9 @@ This class contains a `createMongo()` producer method for the `MongoClient`, a `
 
 The [hotspot=createMongo file=0]`createMongo()` method returns an instance of `MongoClient`. In this method, the `username`, `database name`, and `decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created from the above and returned.
 
-The [hotspot=createDB file=0]`createDB()` method returns an instance of `MongoDatabase`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance. The [hotspot=close file=0]`close()` method is a cleanup function for the `MongoClient` that closes the connection to the `MongoDB` instance.
+The [hotspot=createDB file=0]`createDB()` method returns an instance of `MongoDatabase`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance.
+
+The [hotspot=close file=0]`close()` method is a cleanup function for the `MongoClient` that closes the connection to the `MongoDB` instance.
 
 // =================================================================================================
 // Implementing CRUD operations
