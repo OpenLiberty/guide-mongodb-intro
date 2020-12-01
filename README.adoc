@@ -249,7 +249,7 @@ The [hotspot=close file=0]`close()` dispose method is a cleanup function for the
 
 == Performing CRUD operations
 
-You are going to implement the basic `CRUD` operations, which are `create`, `read`, `update`, and `delete`. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these `CRUD` operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client^] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result^] Javadoc. For more information about creating a RESTful service with JAX-RS, JSON-B, and Open Liberty, see the https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce^] guide.
+You are going to implement the basic `CRUD` operations, which are create, read, update, and delete. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these `CRUD` operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client^] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result^] Javadoc. For more information about creating a RESTful service with JAX-RS, JSON-B, and Open Liberty, see the https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce^] guide.
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -277,7 +277,7 @@ Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI UI that pr
 
 The [hotspot=add]`add()` method handles the implementation of the create operation. An instance of `MongoCollection` is retrieved with the [hotspot=getCollection]`MongoDatabase.getCollection()` method. The `Document` type parameter specifies that the `Document` type is used to store data in the `MongoCollection`. Each crew member is converted into a [hotspot=crewMemberCreation]`Document`, and the [hotspot=insertOne]`MongoCollection.insertOne()` method inserts a new crew member `document`.
 
-From the OpenAPI UI, test the `create` operation at the `POST /api/crew` endpoint by using the following code as the request body:
+From the OpenAPI UI, test the create operation at the `POST /api/crew` endpoint by using the following code as the request body:
 
 [role='command']
 ```
@@ -309,7 +309,7 @@ The `\<<ID>>` that you receive is a unique identifier in the collection. Save th
 
 The [hotspot=retrieve]`retrieve()` method handles the implementation of the read operation. The `Crew` collection is retrieved with the [hotspot=getCollectionRead]`MongoDatabase.getCollection()` method. Then, the [hotspot=find]`MongoCollection.find()` method retrieves a `FindIterable` object. This object is iterable for all the crew members documents in the collection, so each crew member document is concatenated into a String array and returned.
 
-From the OpenAPI UI, test the `read` operation at the `GET /api/crew` endpoint. This request gets all crew member documents from the collection.
+From the OpenAPI UI, test the read operation at the `GET /api/crew` endpoint. This request gets all crew member documents from the collection.
 
 You will receive a response that contains an array of all the members in your crew. The response might include crew members that were created in the **Try what you’ll build** section:
 [role="no_copy"]
@@ -330,7 +330,7 @@ You will receive a response that contains an array of all the members in your cr
 
 The [hotspot=update]`update()` method handles the implementation of the update operation. After `Crew` collection is retrieved, a document is created with the specified object id to query the collection. Next, a new crew member [hotspot=crewMemberUpdate]`Document` is created with the updated configuration. The [hotspot=replaceOne]`MongoCollection.replaceOne()` method is called with the query and new crew member document, which updates all matching queries with the new document. Because the object id is unique in the collection, only one document is updated. `The MongoCollection.replaceOne()` method also returns an UpdateResult, which determines how many documents matched the query. If the match count is zero, then the object id doesn't exist.
 
-From the OpenAPI UI, test the `update` operation at the `PUT /api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the `create` operation. Use the following code as the request body:
+From the OpenAPI UI, test the `update` operation at the `PUT /api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. Use the following code as the request body:
 [role='command']
 ```
 {
@@ -360,7 +360,7 @@ You will receive a response that contains the JSON object of the updated crew me
 
 The [hotspot=remove]`remove()` method handles the implementation of the delete operation. After the `Crew` collection is retrieved, a [hotspot=queryDelete]`document` is created with the specified object id to query the collection. Because the object id is unique in the collection, only one document is deleted. After the document is deleted, the [hotspot=deleteOne]`MongoCollection.deleteOne()` method returns a `DeleteResult`, which determines how many documents were deleted. If the deleted count is zero, then the object id doesn't exist.
 
-From the OpenAPI UI, test the `delete` operation at the `DELETE/api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the `create` operation. This request removes the document that contains the specified crew member object id from the collection.
+From the OpenAPI UI, test the delete operation at the `DELETE/api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. This request removes the document that contains the specified crew member object id from the collection.
 
 You will receive a response that contains the object id of the deleted crew member, as shown in the following example:
 
