@@ -457,7 +457,7 @@ docker rmi mongo-sample
 docker rmi mongo
 ```
 
-== Nice work! Where to next?
+== Great work! You're done!
 
 You learned how to access MongoDB by using Contexts and Dependency Injection (CDI), and configure MongoDB with MicroProfile Config.
 
