@@ -330,7 +330,7 @@ You will receive a response that contains an array of all the members in your cr
 
 The [hotspot=update]`update()` method handles the implementation of the update operation. After `Crew` collection is retrieved, a document is created with the specified object id to query the collection. Next, a new crew member [hotspot=crewMemberUpdate]`Document` is created with the updated configuration. The [hotspot=replaceOne]`MongoCollection.replaceOne()` method is called with the query and new crew member document, which updates all matching queries with the new document. Because the object id is unique in the collection, only one document is updated. `The MongoCollection.replaceOne()` method also returns an UpdateResult, which determines how many documents matched the query. If the match count is zero, then the object id doesn't exist.
 
-From the OpenAPI UI, test the `update` operation at the `PUT /api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. Use the following code as the request body:
+From the OpenAPI UI, test the update operation at the `PUT /api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. Use the following code as the request body:
 [role='command']
 ```
 {
