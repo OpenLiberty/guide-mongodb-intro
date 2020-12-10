@@ -189,7 +189,7 @@ The features that are required to create the CDI producer for MongoDB are https:
 
 MicroProfile Config makes configuring the MongoDB driver simple because all of the configuration can be set in one place and injected into the CDI producer.
 
-[role="code_command hotspot file=1", subs="quotes"]
+[role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the configuration file.#
 `src/main/webapp/META-INF/microprofile-config.properties`
@@ -205,7 +205,7 @@ Values such as the hostname, port, and database name for the running MongoDB ins
 
 To create a CDI producer for MongoDB and connect over TLS, the Open Liberty server needs to be correctly configured.
 
-[role="code_command hotspot file=0", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the server configuration file.#
 `src/main/liberty/config/server.xml`
