@@ -450,7 +450,7 @@ docker rmi mongo
 
 == Great work! You're done!
 
-Nice work! You configured MongoDB with MicroProfile Config and accessed MongoDB by using Contexts and Dependency Injection (CDI).
+You configured MongoDB with MicroProfile Config and accessed MongoDB by using Contexts and Dependency Injection (CDI).
 
 == Related Links
 
