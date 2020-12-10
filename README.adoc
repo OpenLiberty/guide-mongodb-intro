@@ -144,15 +144,46 @@ http://localhost:9080/mongo/[^] URL.
 include::{common-includes}/twyb-end.adoc[]
 
 // =================================================================================================
-// Configuring the Open Liberty Server
+// Constructing CRUD operations
 // =================================================================================================
 
-== Defining the MongoDB information
+== Constructing create, retrieve, update, and delete operations
 
 Navigate to the `start` directory to begin.
 
 [role='command']
 include::{common-includes}/devmode-start.adoc[]
+
+You are going to implement the basic create, retrieve, update, and delete (CRUD) operations. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client^] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result^] Javadoc. For more information about creating a RESTful service with JAX-RS, JSON-B, and Open Liberty, see the guide on https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce^].
+
+[role="code_command hotspot", subs="quotes"]
+----
+#Create the `CrewService` class.#
+`src/main/java/io/openliberty/guides/application/CrewService.java`
+----
+
+CrewService.java
+[source, Java, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/src/main/java/io/openliberty/guides/application/CrewService.java[]
+----
+
+CrewMember.java
+[source, Java, linenums, role="code_column hide_tags=copyright"]
+----
+include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[]
+----
+
+In this class, a [hotspot=beanValidator]`Validator` is used to validate a [hotspot=crewMember file=1]`CrewMember` before the database is updated. The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the CrewService class.
+
+Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create.
+
+
+// =================================================================================================
+// Defining the MongoDB information
+// =================================================================================================
+
+== Defining the MongoDB information
 
 To create a CDI producer for MongoDB and connect over TLS, the Open Liberty server needs to be correctly configured.
 
@@ -189,7 +220,7 @@ include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 Values such as the hostname, port, and database name for the running MongoDB instance are set in this file. The user’s username and password are also set here. For added security, the password was encoded by using the https://openliberty.io/docs/latest/reference/command/securityUtility-encode.html[securityUtility encode command].
 
 // =================================================================================================
-// Creating a CDI Producer for Mongo
+// Using a CDI producer for MongoDB
 // =================================================================================================
 
 == Using a CDI producer for MongoDB
@@ -233,36 +264,6 @@ The values from the [hotspot file=1]`microprofile-config.properties` file are in
 * The [hotspot=createDB file=0]`createDB()` producer method returns an instance of `MongoDatabase` that depends on the `MongoClient`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance.
 
 * The [hotspot=close file=0]`close()` method is a clean-up function for the `MongoClient` that closes the connection to the `MongoDatabase` instance.
-
-// =================================================================================================
-// Implementing CRUD operations
-// =================================================================================================
-
-== Constructing create, retrieve, update, and delete operations
-
-You are going to implement the basic create, retrieve, update, and delete (CRUD) operations. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client^] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result^] Javadoc. For more information about creating a RESTful service with JAX-RS, JSON-B, and Open Liberty, see the guide on https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce^].
-
-[role="code_command hotspot", subs="quotes"]
-----
-#Create the `CrewService` class.#
-`src/main/java/io/openliberty/guides/application/CrewService.java`
-----
-
-CrewService.java
-[source, Java, linenums, role="code_column hide_tags=copyright"]
-----
-include::finish/src/main/java/io/openliberty/guides/application/CrewService.java[]
-----
-
-CrewMember.java
-[source, Java, linenums, role="code_column hide_tags=copyright"]
-----
-include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[]
-----
-
-In this class, a [hotspot=beanValidator]`Validator` is used to validate a [hotspot=crewMember file=1]`CrewMember` before the database is updated. The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the CrewService class.
-
-Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create.
 
 === Implementing the Create operation
 
