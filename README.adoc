@@ -46,9 +46,9 @@ The crew members will be stored in MongoDB as documents in the following JSON fo
 }
 ----
 
-This microservice connects to MongoDB by using Transport Layer Security (TLS) and injects a `MongoDatabase` instance into the service through Contexts and Dependency Injection (CDI) producer. Additionally, MicroProfile Config is used to easily configure the MongoDB driver.
+This microservice connects to MongoDB by using Transport Layer Security (TLS) and injects a `MongoDatabase` instance into the service with a Contexts and Dependency Injection (CDI) producer. Additionally, MicroProfile Config is used to easily configure the MongoDB driver.
 
-For more information about CDI and MicroProfile Config, see https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices^] and https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^].
+For more information about CDI and MicroProfile Config, see the guides on https://openliberty.io/guides/cdi-intro.html[Injecting dependencies into microservices^] and https://openliberty.io/guides/microprofile-config-intro.html[Separating configuration from code in microservices^].
 
 // =================================================================================================
 // Additional Prerequisites
@@ -73,7 +73,7 @@ include::{common-includes}/gitclone.adoc[]
 
 This guide uses Docker to run an instance of MongoDB. A multi-stage Dockerfile is provided for you. This Dockerfile uses the `mongo` image as the base image of the final stage and gathers the required configuration files. The resulting `mongo` image runs in a Docker container, and you must set up a new database for the microservice. Lastly, the truststore that's generated in the Docker image is copied from the container and placed into the Open Liberty server.
 
-You can find more details and configuration options on the https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website^]. For more information about the mongo image, see https://hub.docker.com/_/mongo[mongo^] in Docker Hub.
+You can find more details and configuration options on the https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website^]. For more information about the `mongo` image, see https://hub.docker.com/_/mongo[mongo^] in Docker Hub.
 
 **Running MongoDB in a Docker container**
 
@@ -137,7 +137,7 @@ docker cp \
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
-Check out the service at the
+You can now check out the service by going to the
 http://localhost:9080/mongo/[^] URL.
 
 [role='command']
@@ -147,7 +147,7 @@ include::{common-includes}/twyb-end.adoc[]
 // Configuring the Open Liberty Server
 // =================================================================================================
 
-== Configuring the server
+== Defining the MongoDB information
 
 Navigate to the `start` directory to begin.
 
@@ -158,7 +158,7 @@ To create a CDI producer for MongoDB and connect over TLS, the Open Liberty serv
 
 [role="code_command hotspot file=0", subs="quotes"]
 ----
-#Replace the server configuration file.#
+#Create the server configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -168,11 +168,11 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-After you replace the `server.xml` file, Open Liberty automatically reloads its configuration.
+After you create the `server.xml` file, the Open Liberty configuration is automatically reloaded.
 
-The features that are required to create the CDI producer for MongoDB are `cdi-2.0`, `ssl-1.0`, `mpConfig-1.4`, and `passwordUtilities-1.0`, which are all specified in the [hotspot=featureManager file=0]`featureManager` element. The Secure Sockets Layer (SSL) context is configured in the [hotspot file=0]`server.xml` file so that the application can connect to MongoDB with TLS. The [hotspot=keyStore file=0]`keyStore` element is configured to point to the `truststore.p12` keystore file that was created in one of the earlier sections. The [hotspot=ssl file=0]`ssl` element is configured to use the `defaultKeyStore` as the keystore and `outboundTrustStore` as the truststore.
+The features that are required to create the CDI producer for MongoDB are https://openliberty.io/docs/latest/reference/feature/cdi-2.0.html[Contexts and Dependency Injection] (`cdi-2.0`), https://openliberty.io/docs/latest/reference/feature/ssl-1.0.html[Secure Socket Layer] (`ssl-1.0`), https://openliberty.io/docs/latest/reference/feature/mpConfig-1.4.html[MicroProfile Config] (`mpConfig-1.4`), and https://openliberty.io/docs/latest/reference/feature/passwordUtilities-1.0.html[Password Utilities] (`passwordUtilities-1.0`). These features are specified in the [hotspot=featureManager file=0]`featureManager` element. The Secure Socket Layer (SSL) context is configured in the `server.xml` file so that the application can connect to MongoDB with TLS. The [hotspot=keyStore file=0]`keyStore` element points to the `truststore.p12` keystore file that was created in one of the previous sections. The [hotspot=ssl file=0]`ssl` element specifies the `defaultKeyStore` as the keystore and `outboundTrustStore` as the truststore.
 
-Using MicroProfile Config makes configuring the MongoDB driver simple because all of the configuration can be set in one place and injected into the CDI producer.
+MicroProfile Config makes configuring the MongoDB driver simple because all of the configuration can be set in one place and injected into the CDI producer.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
@@ -186,16 +186,7 @@ microprofile-config.properties
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-Properties such as the `hostname`, `port`, and `database name` for the running MongoDB instance are set in this file. Additionally, the user’s `username` and `password` are set here. For added security, the password was encoded by using the `securityUtility` encode command.
-
-For reference on how the encoded password was generated, navigate to the `target/liberty/wlp/bin/` directory in a separate command-line session and run the following command:
-
-[role='command']
-```
-./securityUtility encode openliberty --encoding=aes
-```
-
-This generates an Advanced Encryption Standard (AES) encoding of the password `openliberty`.
+Values such as the hostname, port, and database name for the running MongoDB instance are set in this file. The user’s username and password are also set here. For added security, the password was encoded by using the https://openliberty.io/docs/latest/reference/command/securityUtility-encode.html[securityUtility encode command].
 
 // =================================================================================================
 // Creating a CDI Producer for Mongo
@@ -237,23 +228,23 @@ include::finish/src/main/liberty/config/server.xml[]
 
 The values from the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class. The `MongoProducer` class requires the following methods for the `MongoClient`:
 
-The [hotspot=createMongo file=0]`createMongo()` producer method returns an instance of `MongoClient`. In this method, the `username`, `database name`, and `decoded password` are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` is used to get the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created from the above and returned.
+* The [hotspot=createMongo file=0]`createMongo()` producer method returns an instance of `MongoClient`. In this method, the username, database name, and decoded password are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` gets the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created.
 
-The [hotspot=createDB file=0]`createDB()` producer method returns an instance of `MongoDatabase` that depends on the `MongoClient`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance.
+* The [hotspot=createDB file=0]`createDB()` producer method returns an instance of `MongoDatabase` that depends on the `MongoClient`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance.
 
-The [hotspot=close file=0]`close()` dispose method is a cleanup function for the `MongoClient` that closes the connection to the MongoDB instance.
+* The [hotspot=close file=0]`close()` method is a clean-up function for the `MongoClient` that closes the connection to the `MongoDatabase` instance.
 
 // =================================================================================================
 // Implementing CRUD operations
 // =================================================================================================
 
-== Performing CRUD operations
+== Constructing create, retrieve, update, and delete operations
 
-You are going to implement the basic `CRUD` operations, which are create, read, update, and delete. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these `CRUD` operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client^] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result^] Javadoc. For more information about creating a RESTful service with JAX-RS, JSON-B, and Open Liberty, see the https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce^] guide.
+You are going to implement the basic create, retrieve, update, and delete (CRUD) operations. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client^] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result^] Javadoc. For more information about creating a RESTful service with JAX-RS, JSON-B, and Open Liberty, see the guide on https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce^].
 
 [role="code_command hotspot", subs="quotes"]
 ----
-#Replace the `CrewService` class.#
+#Create the `CrewService` class.#
 `src/main/java/io/openliberty/guides/application/CrewService.java`
 ----
 
@@ -271,11 +262,11 @@ include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[
 
 In this class, a [hotspot=beanValidator]`Validator` is used to validate a [hotspot=crewMember file=1]`CrewMember` before the database is updated. The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the CrewService class.
 
-Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI UI that provides API documentation and a client to test the API endpoints you'll create.
+Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create.
 
-=== Implementing the create operation
+=== Implementing the Create operation
 
-The [hotspot=add]`add()` method handles the implementation of the create operation. An instance of `MongoCollection` is retrieved with the [hotspot=getCollection]`MongoDatabase.getCollection()` method. The `Document` type parameter specifies that the `Document` type is used to store data in the `MongoCollection`. Each crew member is converted into a [hotspot=crewMemberCreation]`Document`, and the [hotspot=insertOne]`MongoCollection.insertOne()` method inserts a new crew member `document`.
+The [hotspot=add]`add()` method handles the implementation of the create operation. An instance of `MongoCollection` is retrieved with the [hotspot=getCollection]`MongoDatabase.getCollection()` method. The `Document` type parameter specifies that the `Document` type is used to store data in the `MongoCollection`. Each crew member is converted into a [hotspot=crewMemberCreation]`Document`, and the [hotspot=insertOne]`MongoCollection.insertOne()` method inserts a new crew member document.
 
 From the OpenAPI UI, test the create operation at the `POST /api/crew` endpoint by using the following code as the request body:
 
@@ -290,7 +281,7 @@ From the OpenAPI UI, test the create operation at the `POST /api/crew` endpoint 
 
 This request creates a new document in the `Crew` collection with a name of `Member1`, rank of `Officer`, and crew ID of `000001`.
 
-You will receive a response that contains the JSON object of the new crew member, as shown in the following example:
+You'll receive a response that contains the JSON object of the new crew member, as shown in the following example:
 [role="no_copy"]
 ```
 {
@@ -305,13 +296,13 @@ You will receive a response that contains the JSON object of the new crew member
 
 The `\<<ID>>` that you receive is a unique identifier in the collection. Save this value for future commands.
 
-=== Implementing the read operation
+=== Implementing the Retrieve operation
 
-The [hotspot=retrieve]`retrieve()` method handles the implementation of the read operation. The `Crew` collection is retrieved with the [hotspot=getCollectionRead]`MongoDatabase.getCollection()` method. Then, the [hotspot=find]`MongoCollection.find()` method retrieves a `FindIterable` object. This object is iterable for all the crew members documents in the collection, so each crew member document is concatenated into a String array and returned.
+The [hotspot=retrieve]`retrieve()` method handles the implementation of the retrieve operation. The `Crew` collection is retrieved with the [hotspot=getCollectionRead]`MongoDatabase.getCollection()` method. Then, the [hotspot=find]`MongoCollection.find()` method retrieves a `FindIterable` object. This object is iterable for all the crew members documents in the collection, so each crew member document is concatenated into a String array and returned.
 
 From the OpenAPI UI, test the read operation at the `GET /api/crew` endpoint. This request gets all crew member documents from the collection.
 
-You will receive a response that contains an array of all the members in your crew. The response might include crew members that were created in the **Try what you’ll build** section:
+You'll receive a response that contains an array of all the members in your crew. The response might include crew members that were created in the **Try what you’ll build** section of this guide:
 [role="no_copy"]
 ```
 [
@@ -326,9 +317,9 @@ You will receive a response that contains an array of all the members in your cr
 ]
 ```
 
-=== Implementing the update operation
+=== Implementing the Update operation
 
-The [hotspot=update]`update()` method handles the implementation of the update operation. After `Crew` collection is retrieved, a document is created with the specified object `id` to query the collection. Next, a new crew member [hotspot=crewMemberUpdate]`Document` is created with the updated configuration. The [hotspot=replaceOne]`MongoCollection.replaceOne()` method is called with the query and new crew member document, which updates all matching queries with the new document. Because the object `id` is unique in the collection, only one document is updated. `The MongoCollection.replaceOne()` method also returns an UpdateResult, which determines how many documents matched the query. If the match count is zero, then the object `id` doesn't exist.
+The [hotspot=update]`update()` method handles the implementation of the update operation. After the `Crew` collection is retrieved, a document is created with the specified object `id` and is used to query the collection. Next, a new crew member [hotspot=crewMemberUpdate]`Document` is created with the updated configuration. The [hotspot=replaceOne]`MongoCollection.replaceOne()` method is called with the query and new crew member document. This method updates all of the matching queries with the new document. Because the object `id` is unique in the `Crew` collection, only one document is updated. `The MongoCollection.replaceOne()` method also returns an `UpdateResult` instance, which determines how many documents matched the query. If there are zero matches, then the object `id` doesn't exist.
 
 From the OpenAPI UI, test the update operation at the `PUT /api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. Use the following code as the request body:
 [role='command']
@@ -340,9 +331,9 @@ From the OpenAPI UI, test the update operation at the `PUT /api/crew/{id}` endpo
 }
 ```
 
-This request updates the rank of the crew member that you created from Officer to Captain.
+This request updates the rank of the crew member that you created from `Officer` to `Captain`.
 
-You will receive a response that contains the JSON object of the updated crew member, as shown in the following example:
+You'll receive a response that contains the JSON object of the updated crew member, as shown in the following example:
 
 [role="no_copy"]
 ```
@@ -356,13 +347,13 @@ You will receive a response that contains the JSON object of the updated crew me
 }
 ```
 
-=== Implementing the delete operation
+=== Implementing the Delete operation
 
-The [hotspot=remove]`remove()` method handles the implementation of the delete operation. After the `Crew` collection is retrieved, a [hotspot=queryDelete]`document` is created with the specified object `id` to query the collection. Because the object `id` is unique in the collection, only one document is deleted. After the document is deleted, the [hotspot=deleteOne]`MongoCollection.deleteOne()` method returns a `DeleteResult`, which determines how many documents were deleted. If the deleted count is zero, then the object `id` doesn't exist.
+The [hotspot=remove]`remove()` method handles the implementation of the delete operation. After the `Crew` collection is retrieved, a [hotspot=queryDelete]`Document` is created with the specified object `id` and is used to query the collection. Because the object `id` is unique in the `Crew` collection, only one document is deleted. After the document is deleted, the [hotspot=deleteOne]`MongoCollection.deleteOne()` method returns a `DeleteResult` instance, which determines how many documents were deleted. If zero documents were deleted, then the object `id` doesn't exist.
 
 From the OpenAPI UI, test the delete operation at the `DELETE/api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. This request removes the document that contains the specified crew member object `id` from the collection.
 
-You will receive a response that contains the object `id` of the deleted crew member, as shown in the following example:
+You'll receive a response that contains the object `id` of the deleted crew member, as shown in the following example:
 
 [role="no_copy"]
 ```
@@ -392,7 +383,7 @@ The application guide-mongodb-intro updated in 1.023 seconds.
 
 == Testing the application
 
-Next, you'll create integrated tests to ensure that the basic operations that you implemented function correctly.
+Next, you'll create integrated tests to ensure that the basic operations you implemented function correctly.
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -459,7 +450,7 @@ docker rmi mongo
 
 == Great work! You're done!
 
-You learned how to access MongoDB by using Contexts and Dependency Injection (CDI), and configure MongoDB with MicroProfile Config.
+You configured MongoDB with MicroProfile Config and accessed MongoDB by using Contexts and Dependency Injection (CDI).
 
 == Related Links
 
