@@ -225,19 +225,19 @@ In this class, a [hotspot=beanValidator]`Validator` is used to validate a [hotsp
 
 Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create.
 
-**Implementing the Create operation**
+=== Implementing the Create operation
 
 The [hotspot=add]`add()` method handles the implementation of the create operation. An instance of `MongoCollection` is retrieved with the [hotspot=getCollection]`MongoDatabase.getCollection()` method. The `Document` type parameter specifies that the `Document` type is used to store data in the `MongoCollection`. Each crew member is converted into a [hotspot=crewMemberCreation]`Document`, and the [hotspot=insertOne]`MongoCollection.insertOne()` method inserts a new crew member document.
 
-**Implementing the Retrieve operation**
+=== Implementing the Retrieve operation
 
 The [hotspot=retrieve]`retrieve()` method handles the implementation of the retrieve operation. The `Crew` collection is retrieved with the [hotspot=getCollectionRead]`MongoDatabase.getCollection()` method. Then, the [hotspot=find]`MongoCollection.find()` method retrieves a `FindIterable` object. This object is iterable for all the crew members documents in the collection, so each crew member document is concatenated into a String array and returned.
 
-**Implementing the Update operation**
+=== Implementing the Update operation
 
 The [hotspot=update]`update()` method handles the implementation of the update operation. After the `Crew` collection is retrieved, a document is created with the specified object `id` and is used to query the collection. Next, a new crew member [hotspot=crewMemberUpdate]`Document` is created with the updated configuration. The [hotspot=replaceOne]`MongoCollection.replaceOne()` method is called with the query and new crew member document. This method updates all of the matching queries with the new document. Because the object `id` is unique in the `Crew` collection, only one document is updated. `The MongoCollection.replaceOne()` method also returns an `UpdateResult` instance, which determines how many documents matched the query. If there are zero matches, then the object `id` doesn't exist.
 
-**Implementing the Delete operation**
+=== Implementing the Delete operation
 
 The [hotspot=remove]`remove()` method handles the implementation of the delete operation. After the `Crew` collection is retrieved, a [hotspot=queryDelete]`Document` is created with the specified object `id` and is used to query the collection. Because the object `id` is unique in the `Crew` collection, only one document is deleted. After the document is deleted, the [hotspot=deleteOne]`MongoCollection.deleteOne()` method returns a `DeleteResult` instance, which determines how many documents were deleted. If zero documents were deleted, then the object `id` doesn't exist.
 
@@ -286,8 +286,6 @@ After you create the `server.xml` file, the Open Liberty configuration is automa
 // Running the application
 // ==================================================================================
 
-== Running the application
-
 [role='command']
 include::{common-includes}/devmode-build.adoc[]
 
@@ -297,7 +295,7 @@ You can check out the microservice that you created by going to the http://local
 The application guide-mongodb-intro updated in 1.023 seconds.
 ```
 
-=== Trying the Create operation
+**Trying the Create operation**
 
 From the OpenAPI UI, test the create operation at the `POST /api/crew` endpoint by using the following code as the request body:
 
@@ -327,7 +325,7 @@ You'll receive a response that contains the JSON object of the new crew member, 
 
 The `\<<ID>>` that you receive is a unique identifier in the collection. Save this value for future commands.
 
-=== Trying the Retrieve operation
+**Trying the Retrieve operation**
 
 From the OpenAPI UI, test the read operation at the `GET /api/crew` endpoint. This request gets all crew member documents from the collection.
 
@@ -346,7 +344,7 @@ You'll receive a response that contains an array of all the members in your crew
 ]
 ```
 
-=== Trying the Update operation
+**Trying the Update operation**
 
 From the OpenAPI UI, test the update operation at the `PUT /api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. Use the following code as the request body:
 [role='command']
@@ -374,7 +372,7 @@ You'll receive a response that contains the JSON object of the updated crew memb
 }
 ```
 
-=== Trying the Delete operation
+**Trying the Delete operation**
 
 From the OpenAPI UI, test the delete operation at the `DELETE/api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. This request removes the document that contains the specified crew member object `id` from the collection.
 
