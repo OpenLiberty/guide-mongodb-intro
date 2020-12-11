@@ -223,7 +223,6 @@ include::finish/src/main/java/io/openliberty/guides/application/CrewMember.java[
 
 In this class, a [hotspot=beanValidator]`Validator` is used to validate a [hotspot=crewMember file=1]`CrewMember` before the database is updated. The CDI producer is used to inject a [hotspot=dbInjection]`MongoDatabase` into the CrewService class.
 
-Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create.
 
 **Implementing the Create operation** +
 The [hotspot=add]`add()` method handles the implementation of the create operation. An instance of `MongoCollection` is retrieved with the [hotspot=getCollection]`MongoDatabase.getCollection()` method. The `Document` type parameter specifies that the `Document` type is used to store data in the `MongoCollection`. Each crew member is converted into a [hotspot=crewMemberCreation]`Document`, and the [hotspot=insertOne]`MongoCollection.insertOne()` method inserts a new crew member document.
@@ -285,7 +284,9 @@ After you replace the `server.xml` file, the Open Liberty configuration is autom
 [role='command']
 include::{common-includes}/devmode-build.adoc[]
 
-You can check out the microservice that you created by going to the http://localhost:9080/mongo/[^] URL after you see a message similar to the following example:
+Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user interface (UI) 
+that provides API documentation and a client to test the API endpoints that you create 
+after you see a message similar to the following example:
 
 [source,role="no_copy"]
 ----
@@ -384,6 +385,7 @@ You'll receive a response that contains the object `id` of the deleted crew memb
 }
 ```
 
+Now, you can check out the microservice that you created by going to the http://localhost:9080/mongo/[^] URL.
 
 // =================================================================================================
 // Testing the service
