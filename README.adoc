@@ -196,12 +196,12 @@ The values from the [hotspot file=1]`microprofile-config.properties` file are in
 
 
 // =================================================================================================
-// Implementing the Create, Retrieve, Update, and Delete APIs
+// Implementing the Create, Retrieve, Update, and Delete operations
 // =================================================================================================
 
-== Implementing the Create, Retrieve, Update, and Delete APIs
+== Implementing the Create, Retrieve, Update, and Delete operations
 
-You are going to implement the basic create, retrieve, update, and delete (CRUD) APIs in the `CrewService` class. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client^] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result^] Javadoc. For more information about creating a RESTful service with JAX-RS, JSON-B, and Open Liberty, see the guide on https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce^].
+You are going to implement the basic create, retrieve, update, and delete (CRUD) operations in the `CrewService` class. The [hotspot=mongoImports1]`com.mongodb.client` and [hotspot=mongoImports2]`com.mongodb.client.result` packages are used to help implement these operations for the microservice. For more information about these packages, see the https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/package-summary.html[com.mongodb.client^] and https://mongodb.github.io/mongo-java-driver/3.12/javadoc/com/mongodb/client/result/package-summary.html[com.mongodb.client.result^] Javadoc. For more information about creating a RESTful service with JAX-RS, JSON-B, and Open Liberty, see the guide on https://openliberty.io/guides/rest-intro.html[Creating a RESTful web serivce^].
 
 [role="code_command hotspot", subs="quotes"]
 ----
