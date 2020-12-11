@@ -147,7 +147,7 @@ include::{common-includes}/twyb-end.adoc[]
 // Constructing CRUD operations
 // =================================================================================================
 
-== Implementing the CRUD APIs
+== Implementing the Create, Retrieve, Update, and Delete APIs
 
 Navigate to the `start` directory to begin.
 
@@ -222,7 +222,7 @@ After you create the `server.xml` file, the Open Liberty configuration is automa
 // Using a CDI producer for MongoDB
 // =================================================================================================
 
-== Using a CDI producer for MongoDB
+== Providing a MongoDatabase
 
 With a CDI producer, you can easily provide a `MongoDatabase` to your microservice.
 
