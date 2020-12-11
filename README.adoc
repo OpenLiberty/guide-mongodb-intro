@@ -294,7 +294,7 @@ CWWKZ0001I: Application guide-mongodb-intro started in 5.715 seconds.
 ----
 
 
-**Trying the Create operation** +
+**Try the Create operation** +
 From the OpenAPI UI, test the create operation at the `POST /api/crew` endpoint by using the following code as the request body:
 
 [role='command']
@@ -324,7 +324,7 @@ You'll receive a response that contains the JSON object of the new crew member, 
 The `\<<ID>>` that you receive is a unique identifier in the collection. Save this value for future commands.
 
 
-**Trying the Retrieve operation** +
+**Try the Retrieve operation** +
 From the OpenAPI UI, test the read operation at the `GET /api/crew` endpoint. This request gets all crew member documents from the collection.
 
 You'll receive a response that contains an array of all the members in your crew. The response might include crew members that were created in the **Try what you’ll build** section of this guide:
@@ -343,7 +343,7 @@ You'll receive a response that contains an array of all the members in your crew
 ```
 
 
-**Trying the Update operation** +
+**Try the Update operation** +
 From the OpenAPI UI, test the update operation at the `PUT /api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. Use the following code as the request body:
 [role='command']
 ```
@@ -371,7 +371,7 @@ You'll receive a response that contains the JSON object of the updated crew memb
 ```
 
 
-**Trying the Delete operation** +
+**Try the Delete operation** +
 From the OpenAPI UI, test the delete operation at the `DELETE/api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. This request removes the document that contains the specified crew member object `id` from the collection.
 
 You'll receive a response that contains the object `id` of the deleted crew member, as shown in the following example:
