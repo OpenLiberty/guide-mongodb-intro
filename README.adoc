@@ -236,7 +236,7 @@ The [hotspot=retrieve]`retrieve()` method handles the implementation of the retr
 
 **Implementing the Update operation**
 
-The [hotspot=update]`update()` method handles the implementation of the update operation. After the `Crew` collection is retrieved, a document is created with the specified object `id` and is used to query the collection. Next, a new crew member [hotspot=crewMemberUpdate]`Document` is created with the updated configuration. The [hotspot=replaceOne]`MongoCollection.replaceOne()` method is called with the query and new crew member document. This method updates all of the matching queries with the new document. Because the object `id` is unique in the `Crew` collection, only one document is updated. `The MongoCollection.replaceOne()` method also returns an `UpdateResult` instance, which determines how many documents matched the query. If there are zero matches, then the object `id` doesn't exist.
+The [hotspot=update]`update()` method handles the implementation of the update operation. After the `Crew` collection is retrieved, a document is created with the specified object `id` and is used to query the collection. Next, a new crew member [hotspot=crewMemberUpdate]`Document` is created with the updated configuration. The [hotspot=replaceOne]`MongoCollection.replaceOne()` method is called with the query and new crew member document. This method updates all of the matching queries with the new document. Because the object `id` is unique in the `Crew` collection, only one document is updated. The `MongoCollection.replaceOne()` method also returns an `UpdateResult` instance, which determines how many documents matched the query. If there are zero matches, then the object `id` doesn't exist.
 
 
 **Implementing the Delete operation**
@@ -404,7 +404,7 @@ Now, you can check out the microservice that you created by going to the http://
 
 == Testing the application
 
-Next, you'll create integrated tests to ensure that the basic operations you implemented function correctly.
+Next, you'll create integration tests to ensure that the basic operations you implemented function correctly.
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -471,7 +471,7 @@ docker rmi mongo
 
 == Great work! You're done!
 
-You configured MongoDB with MicroProfile Config and accessed MongoDB by using Contexts and Dependency Injection (CDI).
+You've successfully accessed and persisted data to a MongoDB database from a Java microservice using Contexts and Dependency Injection (CDI) and MicroProfile Config with Open Liberty.
 
 == Related Links
 
