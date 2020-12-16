@@ -64,8 +64,6 @@ This guide uses Docker to run an instance of MongoDB. A multi-stage Dockerfile i
 
 You can find more details and configuration options on the https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website^]. For more information about the `mongo` image, see https://hub.docker.com/_/mongo[mongo^] in Docker Hub.
 
-**Running MongoDB in a Docker container**
-
 Run the following commands to use the Dockerfile to build the image, run the image in a Docker container, and map port `27017` from the container to your host machine:
 
 [role='command']
