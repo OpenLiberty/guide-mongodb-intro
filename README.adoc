@@ -12,21 +12,21 @@
 :page-releasedate: 2020-12-16
 :page-essential: true
 :page-essential-order: 1
-:page-description: Learn how to persist data in Java microservices to MongoDB, a document-oriented database.
+:page-description: Learn how to persist data in Java microservices to MongoDB, a document-oriented NoSQL database.
 :guide-author: Open Liberty
 :page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE']
 :page-related-guides: ['cdi-intro', 'microprofile-config', 'rest-intro']
 :page-permalink: /guides/{projectid}
 :repo-description: Visit the https://openliberty.io/guides/{projectid}.html[website] for the rendered version of the guide.
-:page-seo-title: Persisting data in your Java microservices to MongoDB, a document-oriented database
-:page-seo-description: A getting started tutorial with examples on how to connect, access and persist data to MongoDB, a document-oriented database, in Java cloud-native applications using Contexts and Dependency Injection (CDI) and Eclipse MicroProfile Config with Open Liberty.
+:page-seo-title: Persisting data in your Java microservices to MongoDB, a document-oriented NoSQL database
+:page-seo-description: A getting started tutorial with examples on how to connect, access and persist data to MongoDB, a document-oriented NoSQL database, in Java cloud-native applications using Contexts and Dependency Injection (CDI) and Eclipse MicroProfile Config with Open Liberty.
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 = Persisting data with MongoDB
 
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to persist data in your microservices to MongoDB, a document-oriented database.
+Learn how to persist data in your microservices to MongoDB, a document-oriented NoSQL database.
 
 == What you'll learn
 
@@ -58,18 +58,7 @@ For more information about CDI and MicroProfile Config, see the guides on https:
 
 You will use Docker to run an instance of MongoDB for a fast installation and setup. Install Docker by following the instructions in the official https://docs.docker.com/engine/installation[Docker documentation^], and start your Docker environment.
 
-// =================================================================================================
-// Getting Started
-// =================================================================================================
-
-[role='command']
-include::{common-includes}/gitclone.adoc[]
-
-// =================================================================================================
-// Setting up MongoDB
-// =================================================================================================
-
-== Setting up MongoDB
+=== Setting up MongoDB
 
 This guide uses Docker to run an instance of MongoDB. A multi-stage Dockerfile is provided for you. This Dockerfile uses the `mongo` image as the base image of the final stage and gathers the required configuration files. The resulting `mongo` image runs in a Docker container, and you must set up a new database for the microservice. Lastly, the truststore that's generated in the Docker image is copied from the container and placed into the Open Liberty server.
 
@@ -85,7 +74,14 @@ docker build -t mongo-sample -f assets/Dockerfile .
 docker run --name mongo-guide -p 27017:27017 -d mongo-sample
 ```
 
-**Adding the truststore to the Open Liberty server**
+// =================================================================================================
+// Getting Started
+// =================================================================================================
+
+[role='command']
+include::{common-includes}/gitclone.adoc[]
+
+=== Adding the truststore to the Open Liberty server
 
 The truststore that's created in the container needs to be added to the Open Liberty server so that the server can trust the certificate that MongoDB presents when they connect. Run the following command to copy the `truststore.p12` file from the container to the `start` and `finish` directories:
 
@@ -245,10 +241,10 @@ The [hotspot=remove]`remove()` method handles the implementation of the delete o
 
 
 // =================================================================================================
-// Defining the MongoDB information
+// Configuring the MongoDB driver and the server
 // =================================================================================================
 
-== Defining the MongoDB information
+== Configuring the MongoDB driver and the server
 
 MicroProfile Config makes configuring the MongoDB driver simple because all of the configuration can be set in one place and injected into the CDI producer.
 
