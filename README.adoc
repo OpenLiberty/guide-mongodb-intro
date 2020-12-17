@@ -9,7 +9,7 @@
 :projectid: mongodb-intro
 :page-layout: guide-multipane
 :page-duration: 25 minutes
-:page-releasedate: 2020-12-16
+:page-releasedate: 2020-12-17
 :page-essential: true
 :page-essential-order: 1
 :page-description: Learn how to persist data in Java microservices to MongoDB, a document-oriented NoSQL database.
