@@ -20,10 +20,10 @@
   src: url("../fonts/BunueloCleanPro-SemiBold.otf");
 }
 
-body{
-  font-family:Asap;
+body {
+  font-family: Asap;
   font-size: 16px;
-  color:#24243b;
+  color: #24243b;
   background-color: white;
   margin: 0px;
 }
@@ -32,14 +32,14 @@ section {
   padding-top: 55px;
   padding-left: 8%;
   padding-right: 8%;
-  letter-spacing:0;
-  text-align:left;
+  letter-spacing: 0;
+  text-align: left;
 }
 
 .line {
   margin-right: 200px;
   height: 1px;
-  background-color: #C8D3D3;
+  background-color: #c8d3d3;
 }
 
 .headerImage {
@@ -54,28 +54,32 @@ p {
   line-height: 22px;
   margin-top: 0px;
 }
+
 h1 {
   font-family:BunueloSemiBold;
   font-size: 40px;
   font-weight: 400;
-  letter-spacing:0;
-  text-align:left;
+  letter-spacing: 0;
+  text-align: left;
 }
+
 h2 {
   font-size: 24px;
   font-weight: 400;
 }
+
 h4 {
   margin: 0;
 }
+
 a {
   text-decoration: none;
 }
 
 #appIntro {
-  background-image:linear-gradient(#141427 0%, #2c2e50 100%);
+  background-image: linear-gradient(#141427 0%, #2c2e50 100%);
   background-repeat: no-repeat;
-  padding-bottom: .5em;
+  padding-bottom: 0.5em;
 }
 
 #titleSection {
@@ -83,28 +87,28 @@ a {
 }
 
 #appTitle {
-  font-family:BunueloLight;
-  font-size:55px;
+  font-family: BunueloLight;
+  font-size: 55px;
 }
 
 button {
-  border-radius:100px;
-  height:44px;
-  color:#24253a;
-  text-align:center;
+  border-radius: 100px;
+  height: 44px;
+  color: #24253a;
+  text-align: center;
   font-family: Asap;
   cursor: pointer;
   border: none;
   font-weight: 500;
-  font-size:16px;
-  background-color:#abd155;
-  transition: background-color .2s;
+  font-size: 16px;
+  background-color: #abd155;
+  transition: background-color 0.2s;
   margin-top: 25px;
   margin-bottom: 25px;
 }
 
 button:hover {
-  background-color: #C7EE63;
+  background-color: #c7ee63;
 }
 
 .bodyFooter {
@@ -114,7 +118,7 @@ button:hover {
   background-position: top 20px right 110px;
   margin-bottom: 40px;
   margin-top: 50px;
-  color: #3F4659;
+  color: #3f4659;
 }
 
 .bodyFooterLink {
@@ -157,12 +161,12 @@ button:hover {
 }
 
 .vFlexContainer {
-  display:         flex;
+  display: flex;
   flex-direction: column;
 }
 
 .hFlexContainer {
-  display:         flex;
+  display: flex;
   flex-direction: row;
 }
 
@@ -182,7 +186,7 @@ button:hover {
 #userCreation, #userUpdate {
   background-color: white;
   margin: 0.5em;
-  padding: .5em;
+  padding: 0.5em;
   border-radius: 7pt;
   width: 13em;
   height: 23em;
@@ -192,7 +196,7 @@ button:hover {
 #docDisplay, #userDisplay {
   background-color: white;
   margin: 0.5em;
-  padding: .5em;
+  padding: 0.5em;
   border-radius: 7pt;
   max-height: 23em;
   overflow: auto;
@@ -204,7 +208,7 @@ button:hover {
 }
 
 .inputLine {
-  margin: .75em 0;
+  margin: 0.75em 0;
 }
 
 #userBoxes {
@@ -218,8 +222,8 @@ button:hover {
 
 .user {
   background-color: rgb(184, 184, 184);
-  margin: .5em;
-  padding: .25em;
+  margin: 0.5em;
+  padding: 0.25em;
   border-radius: 7pt;
 }
 
