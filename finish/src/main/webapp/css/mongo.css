@@ -25,7 +25,7 @@ body {
   font-size: 16px;
   color: #24243b;
   background-color: white;
-  margin: 0px;
+  margin: 0;
 }
 
 section {
@@ -52,11 +52,11 @@ section {
 
 p {
   line-height: 22px;
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 h1 {
-  font-family:BunueloSemiBold;
+  font-family: BunueloSemiBold;
   font-size: 40px;
   font-weight: 400;
   letter-spacing: 0;
@@ -126,7 +126,7 @@ button:hover {
   font-weight: 300;
   font-size: 14px;
   letter-spacing: 0;
-  border-bottom: solid 1px #C8D3D3;
+  border-bottom: solid 1px #c8d3d3;
   margin-top: 30px;
   margin-right: 130px;
   padding-bottom: 5px;
@@ -137,7 +137,7 @@ button:hover {
 .bodyFooterLink > a {
   text-decoration: none;
   padding: 10px;
-  color: #5E6B8D;
+  color: #5e6b8d;
 }
 
 .deleteButton {
@@ -178,12 +178,13 @@ button:hover {
   align-self: center;
 }
 
-.textBox  {
+.textBox {
   font-size: 10pt;
   text-indent: 2pt;
 }
 
-#userCreation, #userUpdate {
+#userCreation,
+#userUpdate {
   background-color: white;
   margin: 0.5em;
   padding: 0.5em;
@@ -193,7 +194,8 @@ button:hover {
   justify-content: space-between;
 }
 
-#docDisplay, #userDisplay {
+#docDisplay,
+#userDisplay {
   background-color: white;
   margin: 0.5em;
   padding: 0.5em;
@@ -204,7 +206,7 @@ button:hover {
   flex: 0 1 auto;
   max-width: 30%;
   border: 1px solid transparent;
-  padding-right: 20px; /*Scroll bar space*/
+  padding-right: 20px; /* Scroll bar space */
 }
 
 .inputLine {
@@ -216,7 +218,7 @@ button:hover {
   justify-content: space-evenly;
 }
 
-#usersContainer{
+#usersContainer {
   flex-wrap: wrap;
 }
 

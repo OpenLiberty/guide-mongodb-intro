@@ -23,9 +23,9 @@
 body {
   font-family: Asap;
   font-size: 16px;
-  color:#24243b;
+  color: #24243b;
   background-color: white;
-  margin: 0px;
+  margin: 0;
 }
 
 section {
@@ -52,14 +52,14 @@ section {
 
 p {
   line-height: 22px;
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 h1 {
   font-family: BunueloSemiBold;
   font-size: 40px;
   font-weight: 400;
-  letter-spacing:0;
+  letter-spacing: 0;
   text-align: left;
 }
 
@@ -178,12 +178,13 @@ button:hover {
   align-self: center;
 }
 
-.textBox  {
+.textBox {
   font-size: 10pt;
   text-indent: 2pt;
 }
 
-#userCreation, #userUpdate {
+#userCreation,
+#userUpdate {
   background-color: white;
   margin: 0.5em;
   padding: 0.5em;
@@ -193,7 +194,8 @@ button:hover {
   justify-content: space-between;
 }
 
-#docDisplay, #userDisplay {
+#docDisplay,
+#userDisplay {
   background-color: white;
   margin: 0.5em;
   padding: 0.5em;
