@@ -149,13 +149,13 @@ button:hover {
   text-align: left;
 }
 
-#footer_text {
+#footerText {
     margin-top: 4px;
     margin-bottom: 4px;
     font-size: 16px;
 }
 
-#footer_copyright {
+#footerCopyright {
   font-size: 11px;
 }
 
