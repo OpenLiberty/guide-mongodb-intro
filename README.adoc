@@ -147,8 +147,19 @@ docker cp \
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
+// Static guide instruction
+ifndef::cloud-hosted[]
 You can now check out the service by going to the
 http://localhost:9080/mongo/[^] URL.
+endif::[]
+
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+Select **Launch Application** from the menu of the IDE, 
+type in **9080** to specify the port number for the microservice, and click the **OK** button. 
+You can now check out the service by going to the **`https://accountname-9080.theiadocker-4.proxy.cognitiveclass.ai/mongo/[^]`** URL, 
+where **accountname** is your account name.
+endif::[]
 
 [role='command']
 include::{common-includes}/twyb-end.adoc[]
@@ -345,9 +356,19 @@ After you replace the `server.xml` file, the Open Liberty configuration is autom
 [role='command']
 include::{common-includes}/devmode-build.adoc[]
 
+// Static guide instruction
+ifndef::cloud-hosted[]
 Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user interface (UI) 
 that provides API documentation and a client to test the API endpoints that you create 
 after you see a message similar to the following example:
+endif::[]
+
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+Go to the **`https://accountname-9080.theiadocker-4.proxy.cognitiveclass.ai/openapi/ui/[^]`** URL where **accountname** is your account name,
+to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create 
+after you see a message similar to the following example:
+endif::[]
 
 [source,role="no_copy"]
 ----
@@ -455,8 +476,16 @@ You'll receive a response that contains the object `id` of the deleted crew memb
   }
 }
 ```
-
+// Static guide instruction
+ifndef::cloud-hosted[]
 Now, you can check out the microservice that you created by going to the http://localhost:9080/mongo/[^] URL.
+endif::[]
+
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+Now, you can check out the microservice that you created by going to the **`https://accountname-9080.theiadocker-4.proxy.cognitiveclass.ai/mongo/[^]`** URL, 
+where **accountname** is your account name.
+endif::[]
 
 // =================================================================================================
 // Testing the service
