@@ -96,8 +96,12 @@ docker run --name mongo-guide -p 27017:27017 -d mongo-sample
 
 **Adding the truststore to the Open Liberty server**
 
-The truststore that's created in the container needs to be added to the Open Liberty server so that the server can trust the certificate that MongoDB presents when they connect.
+The truststore that's created in the container needs to be added to the Open Liberty server
+so that the server can trust the certificate that MongoDB presents when they connect.
 Run the following command to copy the `truststore.p12` file from the container to the `start` and `finish` directories:
+
+// Static guide instruction
+ifndef::cloud-hosted[]
 
 include::{common-includes}/os-tabs.adoc[]
 
@@ -137,6 +141,17 @@ docker cp \
   finish/src/main/liberty/config/resources/security
 ```
 --
+
+endif::[]
+
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+```
+docker cp mongo-guide:/home/mongodb/certs/truststore.p12 start/src/main/liberty/config/resources/security
+docker cp mongo-guide:/home/mongodb/certs/truststore.p12 finish/src/main/liberty/config/resources/security
+```
+{: codeblock}
+endif::[]
 
 // =================================================================================================
 // Try what you'll build
