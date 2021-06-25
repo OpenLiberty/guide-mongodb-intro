@@ -14,7 +14,7 @@
 :page-essential-order: 1
 :page-description: Learn how to persist data in Java microservices to MongoDB, a document-oriented NoSQL database.
 :guide-author: Open Liberty
-:page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE']
+:page-tags: ['MicroProfile', 'Jakarta EE']
 :page-related-guides: ['cdi-intro', 'microprofile-config', 'rest-intro']
 :page-permalink: /guides/{projectid}
 :repo-description: Visit the https://openliberty.io/guides/{projectid}.html[website] for the rendered version of the guide.
@@ -103,8 +103,7 @@ docker cp ^
   finish/src/main/liberty/config/resources/security
 ```
 --
-
-[.tab_content.mac_section]
+[.tab_content.linux_section]
 --
 [role='command']
 ```
@@ -116,8 +115,7 @@ docker cp \
   finish/src/main/liberty/config/resources/security
 ```
 --
-
-[.tab_content.linux_section]
+[.tab_content.mac_section]
 --
 [role='command']
 ```
