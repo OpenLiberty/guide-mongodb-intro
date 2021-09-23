@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk8-openj9:ubi as staging
+FROM adoptopenjdk/openjdk8-openj9:ubi-jre as staging
 
 # Define the variables for the OpenSSL subject.
 ARG COUNTRY=CA
