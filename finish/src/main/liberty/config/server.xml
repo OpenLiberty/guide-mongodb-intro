@@ -13,6 +13,7 @@
         <!-- tag::passwordUtilFeature[] -->
         <feature>passwordUtilities-1.0</feature>
         <!-- end::passwordUtilFeature[] -->
+        <feature>jca-1.7</feature>
         <feature>beanValidation-2.0</feature>	   
         <feature>jaxrs-2.1</feature>
         <feature>mpOpenAPI-2.0</feature>
