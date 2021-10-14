@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk8-openj9:ubi as staging
+FROM ibmsemeruruntime/open-8-jdk:ubi-jdk-latest as staging
 
 # Define the variables for the OpenSSL subject.
 ARG COUNTRY=CA
@@ -21,7 +21,7 @@ RUN cat /tmp/private.key /tmp/cert.pem > /tmp/mongodb_tls.pem
 RUN keytool -import -trustcacerts -keystore /tmp/truststore.p12 \
     -storepass mongodb -storetype PKCS12 -alias mongo -file /tmp/cert.pem -noprompt
 
-FROM mongo
+FROM mongo:latest
 
 # Create the directories.
 RUN mkdir /home/mongodb
