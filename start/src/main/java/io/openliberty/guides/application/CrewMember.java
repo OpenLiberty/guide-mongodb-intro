@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright (c) 2020 IBM Corporation and others.
+* Copyright (c) 2020, 2022 IBM Corporation and others.
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License v1.0
 * which accompanies this distribution, and is available at
@@ -10,8 +10,8 @@
 *******************************************************************************/
 package io.openliberty.guides.application;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 
 public class CrewMember {
@@ -23,7 +23,7 @@ public class CrewMember {
 	private String rank;
 
 	@Pattern(regexp = "^\\d+$", message = "ID Number must be a non-negative integer!")
-	private String crewID; 
+	private String crewID;
 
 	public String getName() {
 		return name;

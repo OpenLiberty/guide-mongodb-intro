@@ -1,6 +1,6 @@
 //tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2020 IBM Corporation and others.
+ * Copyright (c) 2020, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,13 +14,12 @@ package it.io.openliberty.guides.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import javax.json.*;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
+import jakarta.json.*;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.Response;
 
-import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.jupiter.api.*;
 
 import java.io.StringReader;
@@ -37,7 +36,6 @@ public class CrewServiceIT {
     @BeforeAll
     public static void setup() {
         client = ClientBuilder.newClient();
-        client.register(JsrJsonpProvider.class);
 
         String port = System.getProperty("app.http.port");
         String context = System.getProperty("app.context.root");
@@ -143,7 +141,7 @@ public class CrewServiceIT {
         assertEquals(testIDs.size(), testMemberCount,
                 "Incorrect number of testing members.");
 
-        System.out.println("      === Done. There are " + crew.size() 
+        System.out.println("      === Done. There are " + crew.size()
                 + " crew members. ===");
 
         response.close();
@@ -156,7 +154,7 @@ public class CrewServiceIT {
     // end::test4[]
     @Order(4)
     public void testDeleteCrewMember() {
-        System.out.println("   === Removing " + testIDs.size() 
+        System.out.println("   === Removing " + testIDs.size()
                 + " crew members from the database. ===");
 
         for (String id : testIDs) {
