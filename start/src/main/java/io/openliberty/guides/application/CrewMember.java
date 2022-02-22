@@ -30,27 +30,27 @@ public class CrewMember {
     private String crewID;
 
     public String getName() {
-	    return name;
-	}
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getRank() {
-		return rank;
-	}
+    public String getRank() {
+        return rank;
+    }
 
-	public void setRank(String rank) {
-		this.rank = rank;
-	}
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
 
-	public String getCrewID() {
-		return crewID;
-	}
+    public String getCrewID() {
+        return crewID;
+    }
 
-	public void setCrewID(String crewID) {
-		this.crewID = crewID;
-	}
+    public void setCrewID(String crewID) {
+        this.crewID = crewID;
+    }
 
 }
