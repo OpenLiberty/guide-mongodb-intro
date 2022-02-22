@@ -22,11 +22,11 @@ public class CrewMember {
     private String name;
 
     @Pattern(regexp = "(Captain|Officer|Engineer)",
-	                    message = "Crew member must be one of the listed ranks!")
+                        message = "Crew member must be one of the listed ranks!")
     private String rank;
 
     @Pattern(regexp = "^\\d+$",
-	        message = "ID Number must be a non-negative integer!")
+            message = "ID Number must be a non-negative integer!")
     private String crewID;
 
     public String getName() {

@@ -1,4 +1,4 @@
-//tag::copyright[]
+// tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2020, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
@@ -14,16 +14,27 @@ package it.io.openliberty.guides.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import jakarta.json.*;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.Response;
-
-import org.junit.jupiter.api.*;
-
 import java.io.StringReader;
 import java.util.ArrayList;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.client.Entity;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CrewServiceIT {
