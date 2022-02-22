@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
 package io.openliberty.guides.application;
@@ -154,8 +154,11 @@ public class CrewService {
             FindIterable<Document> docs = crew.find();
             // end::find[]
             for (Document d : docs) {
-                if (!first) sb.append(",");
-                else first = false;
+                if (!first) {
+                    sb.append(",");
+                } else {
+                    first = false;
+                }
                 sb.append(d.toJson());
             }
             sb.append("]");

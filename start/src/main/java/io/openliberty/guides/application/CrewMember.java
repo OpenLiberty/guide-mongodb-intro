@@ -1,13 +1,15 @@
+// tag::copyright[]
 /*******************************************************************************
-* Copyright (c) 2020, 2022 IBM Corporation and others.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*     IBM Corporation - initial API and implementation
-*******************************************************************************/
+ * Copyright (c) 2020, 2022 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - Initial implementation
+ *******************************************************************************/
+// end::copyright[]
 package io.openliberty.guides.application;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -16,17 +18,19 @@ import jakarta.validation.constraints.Pattern;
 
 public class CrewMember {
 
-	@NotEmpty(message = "All crew members must have a name!")
-	private String name;
+    @NotEmpty(message = "All crew members must have a name!")
+    private String name;
 
-	@Pattern(regexp = "(Captain|Officer|Engineer)", message = "Crew member must be one of the listed ranks!")
-	private String rank;
+    @Pattern(regexp = "(Captain|Officer|Engineer)",
+	                    message = "Crew member must be one of the listed ranks!")
+    private String rank;
 
-	@Pattern(regexp = "^\\d+$", message = "ID Number must be a non-negative integer!")
-	private String crewID;
+    @Pattern(regexp = "^\\d+$",
+	        message = "ID Number must be a non-negative integer!")
+    private String crewID;
 
-	public String getName() {
-		return name;
+    public String getName() {
+	    return name;
 	}
 
 	public void setName(String name) {
@@ -41,7 +45,7 @@ public class CrewMember {
 		this.rank = rank;
 	}
 
-	public String getCrewID(){
+	public String getCrewID() {
 		return crewID;
 	}
 
