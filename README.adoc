@@ -1,4 +1,4 @@
-//  Copyright (c) 2020, 2021 IBM Corporation and others.
+//  Copyright (c) 2020, 2022 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -135,8 +135,7 @@ docker cp \
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
-You can now check out the service by going to the
-http://localhost:9080/mongo/[^] URL.
+You can now check out the service by going to the http://localhost:9080/mongo/[^] URL.
 
 [role='command']
 include::{common-includes}/twyb-end.adoc[]
@@ -289,9 +288,7 @@ After you replace the `server.xml` file, the Open Liberty configuration is autom
 [role='command']
 include::{common-includes}/devmode-build.adoc[]
 
-Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user interface (UI) 
-that provides API documentation and a client to test the API endpoints that you create 
-after you see a message similar to the following example:
+Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create after you see a message similar to the following example:
 
 [source,role="no_copy"]
 ----

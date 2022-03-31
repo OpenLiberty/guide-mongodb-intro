@@ -1,13 +1,13 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2020 IBM Corporation and others.
+ * Copyright (c) 2020, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
 package io.openliberty.guides.application;
@@ -16,24 +16,24 @@ import java.util.Set;
 
 import java.io.StringWriter;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.Json;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.Produces;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.Json;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
-import javax.validation.Validator;
-import javax.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+import jakarta.validation.ConstraintViolation;
 
 import com.mongodb.client.FindIterable;
 // tag::bsonDocument[]
@@ -121,7 +121,7 @@ public class CrewService {
         // tag::insertOne[]
         crew.insertOne(newCrewMember);
         // end::insertOne[]
-        
+
         return Response
             .status(Response.Status.OK)
             .entity(newCrewMember.toJson())
@@ -154,8 +154,11 @@ public class CrewService {
             FindIterable<Document> docs = crew.find();
             // end::find[]
             for (Document d : docs) {
-                if (!first) sb.append(",");
-                else first = false;
+                if (!first) {
+                    sb.append(",");
+                } else {
+                    first = false;
+                }
                 sb.append(d.toJson());
             }
             sb.append("]");
@@ -198,7 +201,7 @@ public class CrewService {
         @PathParam("id") String id) {
 
         JsonArray violations = getViolations(crewMember);
-        
+
         if (!violations.isEmpty()) {
             return Response
                     .status(Response.Status.BAD_REQUEST)
@@ -298,7 +301,7 @@ public class CrewService {
         // tag::deleteOne[]
         DeleteResult deleteResult = crew.deleteOne(query);
         // end::deleteOne[]
-        
+
         // tag::getDeletedCount[]
         if (deleteResult.getDeletedCount() == 0) {
         // end::getDeletedCount[]
