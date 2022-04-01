@@ -1,21 +1,21 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2020 IBM Corporation and others.
+ * Copyright (c) 2020, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     IBM Corporation - initial API and implementation
+ *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
 package io.openliberty.guides.mongo;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Disposes;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Disposes;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
 import javax.net.ssl.SSLContext;
 
 import com.ibm.websphere.ssl.JSSEHelper;
@@ -84,7 +84,7 @@ public class MongoProducer {
 
         // tag::mongoClient[]
         return new MongoClient(
-                // tag::serverAddress[] 
+                // tag::serverAddress[]
                 new ServerAddress(hostname, port),
                 // end::serverAddress[]
                 // tag::creds[]
