@@ -275,7 +275,7 @@ microprofile-config.properties
 include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 ----
 
-Values such as the hostname, port, and database name for the running MongoDB instance are set in this file. The user’s username and password are also set here. For added security, the password was encoded by using the https://openliberty.io/docs/latest/reference/command/securityUtility-encode.html[securityUtility encode command].
+Values such as the hostname, port, and database name for the running MongoDB instance are set in this file. The user’s username and password are also set here. For added security, the password was encoded by using the https://openliberty.io/docs/latest/reference/command/securityUtility-encode.html[securityUtility encode command^].
 
 To create a CDI producer for MongoDB and connect over TLS, the Open Liberty server needs to be correctly configured.
 
@@ -307,9 +307,7 @@ Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user inter
 endif::[]
 
 ifdef::cloud-hosted[]
-Click the following button to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create after you see a message similar to the following example:
-
-::startApplication{port="9080" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
+Wait until you see a message similar to the following example:
 endif::[]
 
 [source,role="no_copy"]
@@ -317,6 +315,11 @@ endif::[]
 CWWKZ0001I: Application guide-mongodb-intro started in 5.715 seconds.
 ----
 
+ifdef::cloud-hosted[]
+Click the following button to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create:
+
+::startApplication{port="9080" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
+endif::[]
 
 **Try the Create operation**
 
