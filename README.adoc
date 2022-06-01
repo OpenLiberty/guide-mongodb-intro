@@ -135,7 +135,15 @@ docker cp \
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
 
+ifndef::cloud-hosted[]
 You can now check out the service by going to the http://localhost:9080/mongo/[^] URL.
+endif::[]
+
+ifdef::cloud-hosted[]
+You can now check out the service by clicking the following button:
+
+::startApplication{port="9080" display="external" name="Launch application" route="/mongo"}
+endif::[]
 
 [role='command']
 include::{common-includes}/twyb-end.adoc[]
@@ -147,6 +155,12 @@ include::{common-includes}/twyb-end.adoc[]
 == Providing a MongoDatabase
 
 Navigate to the `start` directory to begin.
+
+ifdef::cloud-hosted[]
+```bash
+cd /home/project/guide-mongodb-intro/start
+```
+endif::[]
 
 [role='command']
 include::{common-includes}/devmode-lmp33-start.adoc[]
@@ -277,7 +291,7 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-The features that are required to create the CDI producer for MongoDB are https://openliberty.io/docs/latest/reference/feature/cdi-2.0.html[Contexts and Dependency Injection] (`cdi-2.0`), https://openliberty.io/docs/latest/reference/feature/ssl-1.0.html[Secure Socket Layer] (`ssl-1.0`), https://openliberty.io/docs/latest/reference/feature/mpConfig-1.4.html[MicroProfile Config] (`mpConfig-1.4`), and https://openliberty.io/docs/latest/reference/feature/passwordUtilities-1.0.html[Password Utilities] (`passwordUtilities-1.0`). These features are specified in the [hotspot=featureManager file=1]`featureManager` element. The Secure Socket Layer (SSL) context is configured in the `server.xml` file so that the application can connect to MongoDB with TLS. The [hotspot=keyStore file=1]`keyStore` element points to the `truststore.p12` keystore file that was created in one of the previous sections. The [hotspot=ssl file=1]`ssl` element specifies the `defaultKeyStore` as the keystore and `outboundTrustStore` as the truststore.
+The features that are required to create the CDI producer for MongoDB are https://openliberty.io/docs/latest/reference/feature/cdi-2.0.html[Contexts and Dependency Injection^] (`cdi-2.0`), https://openliberty.io/docs/latest/reference/feature/ssl-1.0.html[Secure Socket Layer^] (`ssl-1.0`), https://openliberty.io/docs/latest/reference/feature/mpConfig-1.4.html[MicroProfile Config^] (`mpConfig-1.4`), and https://openliberty.io/docs/latest/reference/feature/passwordUtilities-1.0.html[Password Utilities^] (`passwordUtilities-1.0`). These features are specified in the [hotspot=featureManager file=1]`featureManager` element. The Secure Socket Layer (SSL) context is configured in the `server.xml` file so that the application can connect to MongoDB with TLS. The [hotspot=keyStore file=1]`keyStore` element points to the `truststore.p12` keystore file that was created in one of the previous sections. The [hotspot=ssl file=1]`ssl` element specifies the `defaultKeyStore` as the keystore and `outboundTrustStore` as the truststore.
 
 After you replace the `server.xml` file, the Open Liberty configuration is automatically reloaded.
 
@@ -288,7 +302,15 @@ After you replace the `server.xml` file, the Open Liberty configuration is autom
 [role='command']
 include::{common-includes}/devmode-build.adoc[]
 
+ifndef::cloud-hosted[]
 Go to the http://localhost:9080/openapi/ui/[^] URL to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create after you see a message similar to the following example:
+endif::[]
+
+ifdef::cloud-hosted[]
+Click the following button to see the OpenAPI user interface (UI) that provides API documentation and a client to test the API endpoints that you create after you see a message similar to the following example:
+
+::startApplication{port="9080" display="external" name="Visit OpenAPI UI" route="/openapi/ui"}
+endif::[]
 
 [source,role="no_copy"]
 ----
@@ -324,8 +346,14 @@ You'll receive a response that contains the JSON object of the new crew member, 
 }
 ```
 
-The `\<<ID>>` that you receive is a unique identifier in the collection. Save this value for future commands.
 
+ifndef::cloud-hosted[]
+The `\<<ID>>` that you receive is a unique identifier in the collection. Save this value for future commands.
+endif::[]
+
+ifdef::cloud-hosted[]
+The ***\<\<ID\>\>*** that you receive is a unique identifier in the collection. Save this value for future commands.
+endif::[]
 
 **Try the Retrieve operation**
 
@@ -349,7 +377,14 @@ You'll receive a response that contains an array of all the members in your crew
 
 **Try the Update operation**
 
+ifndef::cloud-hosted[]
 From the OpenAPI UI, test the update operation at the `PUT /api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. Use the following code as the request body:
+endif::[]
+
+ifdef::cloud-hosted[]
+From the OpenAPI UI, test the update operation at the ***PUT /api/crew/{id}*** endpoint, where the ***{id}*** parameter is the ***\<\<ID\>\>*** that you saved from the create operation. Use the following code as the request body:
+endif::[]
+
 [role='command']
 ```
 {
@@ -378,7 +413,13 @@ You'll receive a response that contains the JSON object of the updated crew memb
 
 **Try the Delete operation**
 
+ifndef::cloud-hosted[]
 From the OpenAPI UI, test the delete operation at the `DELETE/api/crew/{id}` endpoint, where the `{id}` parameter is the `\<<ID>>` that you saved from the create operation. This request removes the document that contains the specified crew member object `id` from the collection.
+endif::[]
+
+ifdef::cloud-hosted[]
+From the OpenAPI UI, test the delete operation at the ***DELETE/api/crew/{id}*** endpoint, where the ***{id}*** parameter is the ***\<\<ID\>\>*** that you saved from the create operation. This request removes the document that contains the specified crew member object ***id*** from the collection.
+endif::[]
 
 You'll receive a response that contains the object `id` of the deleted crew member, as shown in the following example:
 
@@ -391,7 +432,16 @@ You'll receive a response that contains the object `id` of the deleted crew memb
 }
 ```
 
+ifndef::cloud-hosted[]
 Now, you can check out the microservice that you created by going to the http://localhost:9080/mongo/[^] URL.
+endif::[]
+
+ifdef::cloud-hosted[]
+Now, you can check out the microservice that you created by clicking the following button:
+
+::startApplication{port="9080" display="external" name="Launch application" route="/mongo"}
+endif::[]
+
 
 // =================================================================================================
 // Testing the service
