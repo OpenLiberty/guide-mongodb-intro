@@ -42,7 +42,7 @@ COPY assets/index.js /home/mongodb
 RUN mongod \
         --fork \
         --config /home/mongodb/mongodb.conf \
-    && mongo \
+    && mongosh \
         testdb \
         -tls \
         --tlsCAFile /home/mongodb/certs/cert.pem \
