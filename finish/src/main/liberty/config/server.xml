@@ -2,16 +2,16 @@
     <!-- tag::featureManager[] -->
     <featureManager>
         <!-- tag::cdiFeature[] -->
-        <feature>cdi-4.0</feature>
+        <feature>cdi-2.0</feature>
         <!-- end::cdiFeature[] -->
         <!-- tag::sslFeature[] -->
         <feature>ssl-1.0</feature>
         <!-- end::sslFeature[] -->
         <!-- tag::mpConfigFeature[] -->
-        <feature>mpConfig-3.0</feature>
+        <feature>mpConfig-1.4</feature>
         <!-- end::mpConfigFeature[] -->
         <!-- tag::passwordUtilFeature[] -->
-        <feature>passwordUtilities-1.1</feature>
+        <feature>passwordUtilities-1.0</feature>
         <!-- end::passwordUtilFeature[] -->
         <feature>beanValidation-3.0</feature>	   
         <feature>restfulWS-3.1</feature>
