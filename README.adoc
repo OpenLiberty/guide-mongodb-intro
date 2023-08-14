@@ -71,7 +71,7 @@ include::{common-includes}/gitclone.adoc[]
 
 === Setting up MongoDB
 
-This guide uses Docker to run an instance of MongoDB. A multi-stage Dockerfile is provided for you. This Dockerfile uses the `mongo` image as the base image of the final stage and gathers the required configuration files. The resulting `mongo` image runs in a Docker container, and you must set up a new database for the microservice. Lastly, the truststore that's generated in the Docker image is copied from the container and placed into the Open Liberty server.
+This guide uses Docker to run an instance of MongoDB. A multi-stage Dockerfile is provided for you. This Dockerfile uses the `mongo` image as the base image of the final stage and gathers the required configuration files. The resulting `mongo` image runs in a Docker container, and you must set up a new database for the microservice. Lastly, the truststore that's generated in the Docker image is copied from the container and placed into the Open Liberty instance.
 
 You can find more details and configuration options on the https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website^]. For more information about the `mongo` image, see https://hub.docker.com/_/mongo[mongo^] in Docker Hub.
 
@@ -85,9 +85,9 @@ docker build -t mongo-sample -f assets/Dockerfile .
 docker run --name mongo-guide -p 27017:27017 -d mongo-sample
 ```
 
-**Adding the truststore to the Open Liberty server**
+**Adding the truststore to the Open Liberty instance**
 
-The truststore that's created in the container needs to be added to the Open Liberty server so that the server can trust the certificate that MongoDB presents when they connect. Run the following command to copy the `truststore.p12` file from the container to the `start` and `finish` directories:
+The truststore that's created in the container needs to be added to the Open Liberty instance so that the server can trust the certificate that MongoDB presents when they connect. Run the following command to copy the `truststore.p12` file from the container to the `start` and `finish` directories:
 
 include::{common-includes}/os-tabs.adoc[]
 
@@ -277,7 +277,7 @@ include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 
 Values such as the hostname, port, and database name for the running MongoDB instance are set in this file. The user’s username and password are also set here. For added security, the password was encoded by using the https://openliberty.io/docs/latest/reference/command/securityUtility-encode.html[securityUtility encode command^].
 
-To create a CDI producer for MongoDB and connect over TLS, the Open Liberty server needs to be correctly configured.
+To create a CDI producer for MongoDB and connect over TLS, the Open Liberty instance needs to be correctly configured.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
