@@ -281,7 +281,7 @@ To create a CDI producer for MongoDB and connect over TLS, the Open Liberty need
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
-#Replace the Liberty server.xml configuration file.#
+#Replace the Liberty `server.xml` configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
