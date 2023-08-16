@@ -71,7 +71,7 @@ include::{common-includes}/gitclone.adoc[]
 
 === Setting up MongoDB
 
-This guide uses Docker to run an instance of MongoDB. A multi-stage Dockerfile is provided for you. This Dockerfile uses the `mongo` image as the base image of the final stage and gathers the required configuration files. The resulting `mongo` image runs in a Docker container, and you must set up a new database for the microservice. Lastly, the truststore that's generated in the Docker image is copied from the container and placed into the Open Liberty server.
+This guide uses Docker to run an instance of MongoDB. A multi-stage Dockerfile is provided for you. This Dockerfile uses the `mongo` image as the base image of the final stage and gathers the required configuration files. The resulting `mongo` image runs in a Docker container, and you must set up a new database for the microservice. Lastly, the truststore that's generated in the Docker image is copied from the container and placed into the Open Liberty configuration.
 
 You can find more details and configuration options on the https://docs.mongodb.com/manual/reference/configuration-options/[MongoDB website^]. For more information about the `mongo` image, see https://hub.docker.com/_/mongo[mongo^] in Docker Hub.
 
@@ -85,9 +85,9 @@ docker build -t mongo-sample -f assets/Dockerfile .
 docker run --name mongo-guide -p 27017:27017 -d mongo-sample
 ```
 
-**Adding the truststore to the Open Liberty server**
+**Adding the truststore to the Open Liberty configuration**
 
-The truststore that's created in the container needs to be added to the Open Liberty server so that the server can trust the certificate that MongoDB presents when they connect. Run the following command to copy the `truststore.p12` file from the container to the `start` and `finish` directories:
+The truststore that's created in the container needs to be added to the Open Liberty configuration so that the Liberty can trust the certificate that MongoDB presents when they connect. Run the following command to copy the `truststore.p12` file from the container to the `start` and `finish` directories:
 
 include::{common-includes}/os-tabs.adoc[]
 
@@ -199,7 +199,7 @@ include::finish/src/main/liberty/config/server.xml[]
 
 The values from the [hotspot file=1]`microprofile-config.properties` file are injected into the [hotspot=mongoProducerInjections file=0]`MongoProducer` class. The `MongoProducer` class requires the following methods for the `MongoClient`:
 
-* The [hotspot=createMongo file=0]`createMongo()` producer method returns an instance of `MongoClient`. In this method, the username, database name, and decoded password are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` gets the `SSLContext` from the `outboundSSLContext` in the `server.xml` file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created.
+* The [hotspot=createMongo file=0]`createMongo()` producer method returns an instance of `MongoClient`. In this method, the username, database name, and decoded password are passed into the [hotspot=createCredential file=0]`MongoCredential.createCredential()` method to get an instance of `MongoCredential`. The [hotspot=sslContext file=0]`JSSEHelper` gets the `SSLContext` from the `outboundSSLContext` in the `server.xml` configuration file. Then, a [hotspot=mongoClient file=0]`MongoClient` instance is created.
 
 * The [hotspot=createDB file=0]`createDB()` producer method returns an instance of `MongoDatabase` that depends on the `MongoClient`. This method injects the `MongoClient` in its parameters and passes the database name into the [hotspot=getDatabase file=0]`MongoClient.getDatabase()` method to get a `MongoDatabase` instance.
 
@@ -256,10 +256,10 @@ The [hotspot=remove]`remove()` method handles the implementation of the delete o
 
 
 // =================================================================================================
-// Configuring the MongoDB driver and the server
+// Configuring the MongoDB driver and the Liberty
 // =================================================================================================
 
-== Configuring the MongoDB driver and the server
+== Configuring the MongoDB driver and the Liberty
 
 MicroProfile Config makes configuring the MongoDB driver simple because all of the configuration can be set in one place and injected into the CDI producer.
 
@@ -277,11 +277,11 @@ include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
 
 Values such as the hostname, port, and database name for the running MongoDB instance are set in this file. The user’s username and password are also set here. For added security, the password was encoded by using the https://openliberty.io/docs/latest/reference/command/securityUtility-encode.html[securityUtility encode command^].
 
-To create a CDI producer for MongoDB and connect over TLS, the Open Liberty server needs to be correctly configured.
+To create a CDI producer for MongoDB and connect over TLS, the Open Liberty needs to be correctly configured.
 
 [role="code_command hotspot file=1", subs="quotes"]
 ----
-#Replace the server configuration file.#
+#Replace the Liberty `server.xml` configuration file.#
 `src/main/liberty/config/server.xml`
 ----
 
@@ -291,7 +291,7 @@ server.xml
 include::finish/src/main/liberty/config/server.xml[]
 ----
 
-The features that are required to create the CDI producer for MongoDB are https://openliberty.io/docs/latest/reference/feature/cdi-4.0.html[Contexts and Dependency Injection^] (`cdi-4.0`), https://openliberty.io/docs/latest/reference/feature/ssl-1.0.html[Secure Socket Layer^] (`ssl-1.0`), https://openliberty.io/docs/latest/reference/feature/mpConfig-3.0.html[MicroProfile Config^] (`mpConfig-3.0`), and https://openliberty.io/docs/latest/reference/feature/passwordUtilities-1.1.html[Password Utilities^] (`passwordUtilities-1.1`). These features are specified in the [hotspot=featureManager file=1]`featureManager` element. The Secure Socket Layer (SSL) context is configured in the `server.xml` file so that the application can connect to MongoDB with TLS. The [hotspot=keyStore file=1]`keyStore` element points to the `truststore.p12` keystore file that was created in one of the previous sections. The [hotspot=ssl file=1]`ssl` element specifies the `defaultKeyStore` as the keystore and `outboundTrustStore` as the truststore.
+The features that are required to create the CDI producer for MongoDB are https://openliberty.io/docs/latest/reference/feature/cdi-4.0.html[Contexts and Dependency Injection^] (`cdi-4.0`), https://openliberty.io/docs/latest/reference/feature/ssl-1.0.html[Secure Socket Layer^] (`ssl-1.0`), https://openliberty.io/docs/latest/reference/feature/mpConfig-3.0.html[MicroProfile Config^] (`mpConfig-3.0`), and https://openliberty.io/docs/latest/reference/feature/passwordUtilities-1.1.html[Password Utilities^] (`passwordUtilities-1.1`). These features are specified in the [hotspot=featureManager file=1]`featureManager` element. The Secure Socket Layer (SSL) context is configured in the `server.xml` configuration file so that the application can connect to MongoDB with TLS. The [hotspot=keyStore file=1]`keyStore` element points to the `truststore.p12` keystore file that was created in one of the previous sections. The [hotspot=ssl file=1]`ssl` element specifies the `defaultKeyStore` as the keystore and `outboundTrustStore` as the truststore.
 
 After you replace the `server.xml` file, the Open Liberty configuration is automatically reloaded.
 
