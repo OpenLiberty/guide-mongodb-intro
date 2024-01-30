@@ -69,8 +69,8 @@
         <!-- tag::mongoDriver[] -->
         <dependency>
             <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>3.12.13</version>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>4.11.1</version>
         </dependency>
         <!-- end::mongoDriver[] -->
         <!-- For tests -->
