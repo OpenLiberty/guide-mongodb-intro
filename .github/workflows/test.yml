@@ -60,9 +60,10 @@ jobs:
     - name: Post tests
       if: always()
       run: | 
-          logsPath=$(sudo find . -name "console.log");  
+          logsPath=$(sudo find . -name "console.log");
+          echo $logsPath
           sudo cat $logsPath | sudo grep Launching
-          sudo chmod -R 777 finish/target/liberty/wlp/usr/servers/defaultServer/logs/
+          sudo chmod -R 777 $logsPath/..
           
     - name: Archive server logs if failed
       if: failure()
