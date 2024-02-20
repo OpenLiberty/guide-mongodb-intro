@@ -12,10 +12,14 @@
 package io.openliberty.guides.mongo;
 
 import java.util.Arrays;
+import java.util.Collections;
+
+import javax.net.ssl.SSLContext;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.ibm.websphere.crypto.PasswordUtil;
+import com.ibm.websphere.ssl.JSSEHelper;
 import com.ibm.websphere.ssl.SSLException;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
@@ -23,6 +27,7 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.connection.SslSettings;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Disposes;
@@ -70,17 +75,26 @@ public class MongoProducer {
         );
         // end::createCredential[]
 
-        // tag::mongoClientSettings[]
-        MongoClientSettings settings = MongoClientSettings.builder()
-            .credential(creds)
-            .applyToSslSettings(builder -> builder.enabled(true))
-            .applyToClusterSettings(builder ->
-                builder.hosts(Arrays.asList(new ServerAddress(hostname, port))))
-            .build();
-        // end::mongoClientSettings[]
+        // tag::sslContext[]
+        SSLContext sslContext = JSSEHelper.getInstance().getSSLContext(
+                // tag::outboundSSLContext[]
+                "outboundSSLContext",
+                // end::outboundSSLContext[]
+                Collections.emptyMap(),
+                null
+        );
+        // end::sslContext[]
 
         // tag::mongoClient[]
-        return MongoClients.create(settings);
+        return MongoClients.create(MongoClientSettings.builder()
+                   .credential(creds)
+                   .applyToSslSettings(builder ->
+                       builder.enabled(true)
+                              .applySettings(
+                                  SslSettings.builder().context(sslContext).build()))
+                   .applyToClusterSettings(builder ->
+                       builder.hosts(Arrays.asList(new ServerAddress(hostname, port))))
+                   .build());
         // end::mongoClient[]
     }
     // end::createMongo[]
