@@ -61,13 +61,11 @@ jobs:
       if: always()
       run: | 
           logsPath=$(sudo find . -name "console.log");
-          echo $logsPath
           sudo cat $logsPath | sudo grep Launching
-          sudo chmod -R 777 $logsPath/..
           
     - name: Archive server logs if failed
       if: failure()
       uses: actions/upload-artifact@v2
       with:
         name: server-logs
-        path: finish/target/liberty/wlp/usr/servers/defaultServer/logs/
+        path: ./target/liberty/wlp/usr/servers/defaultServer/logs
