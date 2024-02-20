@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2020, 2022 IBM Corporation and others.
+ * Copyright (c) 2020, 2024 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -11,24 +11,23 @@
 // end::copyright[]
 package io.openliberty.guides.mongo;
 
+import java.util.Arrays;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import com.ibm.websphere.crypto.PasswordUtil;
+import com.ibm.websphere.ssl.SSLException;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Disposes;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
-import javax.net.ssl.SSLContext;
-
-import com.ibm.websphere.ssl.JSSEHelper;
-import com.ibm.websphere.ssl.SSLException;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
-import com.ibm.websphere.crypto.PasswordUtil;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoDatabase;
-
-import java.util.Collections;
 
 @ApplicationScoped
 public class MongoProducer {
@@ -71,31 +70,17 @@ public class MongoProducer {
         );
         // end::createCredential[]
 
-        // tag::sslContext[]
-        SSLContext sslContext = JSSEHelper.getInstance().getSSLContext(
-                // tag::outboundSSLContext[]
-                "outboundSSLContext",
-                // end::outboundSSLContext[]
-                Collections.emptyMap(),
-                null
-        );
-        // end::sslContext[]
+        // tag::mongoClientSettings[]
+        MongoClientSettings settings = MongoClientSettings.builder()
+            .credential(creds)
+            .applyToSslSettings(builder -> builder.enabled(true))
+            .applyToClusterSettings(builder -> 
+                builder.hosts(Arrays.asList(new ServerAddress(hostname, port))))
+            .build();
+        // end::mongoClientSettings[]
 
         // tag::mongoClient[]
-        return new MongoClient(
-                // tag::serverAddress[]
-                new ServerAddress(hostname, port),
-                // end::serverAddress[]
-                // tag::creds[]
-                creds,
-                // end::creds[]
-                // tag::optionsBuilder[]
-                new MongoClientOptions.Builder()
-                        .sslEnabled(true)
-                        .sslContext(sslContext)
-                        .build()
-                // end::optionsBuilder[]
-        );
+        return MongoClients.create(settings);
         // end::mongoClient[]
     }
     // end::createMongo[]
