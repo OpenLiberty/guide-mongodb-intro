@@ -74,7 +74,7 @@ public class MongoProducer {
         MongoClientSettings settings = MongoClientSettings.builder()
             .credential(creds)
             .applyToSslSettings(builder -> builder.enabled(true))
-            .applyToClusterSettings(builder -> 
+            .applyToClusterSettings(builder ->
                 builder.hosts(Arrays.asList(new ServerAddress(hostname, port))))
             .build();
         // end::mongoClientSettings[]
