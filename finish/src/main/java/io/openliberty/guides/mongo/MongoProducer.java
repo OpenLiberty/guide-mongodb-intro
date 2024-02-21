@@ -83,7 +83,7 @@ public class MongoProducer {
         );
         // end::sslContext[]
 
-        // tag::mongoClient[] 
+        // tag::mongoClient[]
         return MongoClients.create(MongoClientSettings.builder()
                    .applyConnectionString(
                        new ConnectionString("mongodb://" + hostname + ":" + port))
