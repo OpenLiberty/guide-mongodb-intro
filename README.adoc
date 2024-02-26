@@ -1,4 +1,4 @@
-//  Copyright (c) 2020, 2023 IBM Corporation and others.
+//  Copyright (c) 2020, 2024 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -14,7 +14,7 @@
 :page-essential-order: 1
 :page-description: Learn how to persist data in Java microservices to MongoDB, a document-oriented NoSQL database.
 :guide-author: Open Liberty
-:page-tags: ['MicroProfile', 'Jakarta EE']
+:page-tags: ['microprofile', 'jakarta-ee']
 :page-related-guides: ['cdi-intro', 'microprofile-config', 'rest-intro']
 :page-permalink: /guides/{projectid}
 :repo-description: Visit the https://openliberty.io/guides/{projectid}.html[website] for the rendered version of the guide.
@@ -514,7 +514,6 @@ Then, run the following commands to stop and remove the `mongo-guide` container 
 docker stop mongo-guide
 docker rm mongo-guide
 docker rmi mongo-sample
-docker rmi mongo
 ```
 
 == Great work! You're done!
