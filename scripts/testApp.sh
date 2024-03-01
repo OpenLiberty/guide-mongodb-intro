@@ -45,3 +45,8 @@ mvn -ntp -Dhttp.keepAlive=false \
 mvn -ntp liberty:start
 mvn -ntp failsafe:integration-test liberty:stop
 mvn -ntp failsafe:verify
+
+# Tear down
+docker stop mongo-guide
+docker rm mongo-guide
+docker rmi mongo-sample
