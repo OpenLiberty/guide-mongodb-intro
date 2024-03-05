@@ -21,7 +21,7 @@ RUN cat /tmp/private.key /tmp/cert.pem > /tmp/mongodb_tls.pem
 RUN keytool -import -trustcacerts -keystore /tmp/truststore.p12 \
     -storepass mongodb -storetype PKCS12 -alias mongo -file /tmp/cert.pem -noprompt
 
-FROM mongo:7.0.5
+FROM mongo:latest
 
 # Create the directories.
 RUN mkdir /home/mongodb
@@ -46,6 +46,7 @@ RUN mongod \
         testdb \
         -tls \
         --tlsCAFile /home/mongodb/certs/cert.pem \
+        --tlsCertificateKeyFile: /home/mongodb/certs/mongodb_tls.pem \
         --host localhost \
         /home/mongodb/index.js \
     && mongod --dbpath /home/mongodb/data --shutdown \
