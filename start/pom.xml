@@ -53,7 +53,7 @@
         <dependency>
             <groupId>com.ibm.websphere.appserver.api</groupId>
             <artifactId>com.ibm.websphere.appserver.api.passwordUtil</artifactId>
-            <version>1.0.84</version>
+            <version>1.0.86</version>
             <scope>provided</scope>
         </dependency>
         <!-- end::passwordUtilDependency[] -->
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>com.ibm.websphere.appserver.api</groupId>
             <artifactId>com.ibm.websphere.appserver.api.ssl</artifactId>
-            <version>1.6.84</version>
+            <version>1.6.86</version>
             <scope>provided</scope>
         </dependency>
         <!-- end::sslDependency[] -->
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.11.1</version>
+            <version>5.0.0</version>
         </dependency>
         <!-- end::mongoDriver[] -->
         <!-- For tests -->
@@ -95,7 +95,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.10.1</version>
+            <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -113,13 +113,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>3.4.0</version>
             </plugin>
             <!-- Enable liberty-maven plugin -->
             <plugin>
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
-                <version>3.10</version>
+                <version>3.10.1</version>
             </plugin>
             <!-- Plugin to run unit tests -->
             <plugin>
