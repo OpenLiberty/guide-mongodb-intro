@@ -182,7 +182,7 @@ include::finish/src/main/java/io/openliberty/guides/mongo/MongoProducer.java[]
 microprofile-config.properties
 [source, properties, linenums, role="code_column hide_tags=copyright"]
 ----
-include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
+include::finish/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 pom.xml
@@ -266,13 +266,13 @@ MicroProfile Config makes configuring the MongoDB driver simple because all of t
 [role="code_command hotspot file=0", subs="quotes"]
 ----
 #Create the configuration file.#
-`src/main/webapp/META-INF/microprofile-config.properties`
+`src/main/resources/META-INF/microprofile-config.properties`
 ----
 
 microprofile-config.properties
 [source, properties, linenums, role="code_column hide_tags=copyright"]
 ----
-include::finish/src/main/webapp/META-INF/microprofile-config.properties[]
+include::finish/src/main/resources/META-INF/microprofile-config.properties[]
 ----
 
 Values such as the hostname, port, and database name for the running MongoDB instance are set in this file. The user’s username and password are also set here. For added security, the password was encoded by using the https://openliberty.io/docs/latest/reference/command/securityUtility-encode.html[securityUtility encode command^].
