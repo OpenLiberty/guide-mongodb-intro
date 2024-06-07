@@ -53,7 +53,7 @@
         <dependency>
             <groupId>com.ibm.websphere.appserver.api</groupId>
             <artifactId>com.ibm.websphere.appserver.api.passwordUtil</artifactId>
-            <version>1.0.88</version>
+            <version>1.0.89</version>
             <scope>provided</scope>
         </dependency>
         <!-- end::passwordUtilDependency[] -->
