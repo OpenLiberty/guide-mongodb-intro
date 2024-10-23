@@ -79,11 +79,21 @@ You can find more details and configuration options on the https://docs.mongodb.
 
 Run the following commands to use the Dockerfile to build the image, run the image in a Docker container, and map port `27017` from the container to your host machine:
 
+ifndef::cloud-hosted[]
 [role='command']
 ```
 docker build -t mongo-sample -f assets/Dockerfile .
 docker run --name mongo-guide -p 27017:27017 -d mongo-sample
 ```
+endif::[]
+
+ifdef::cloud-hosted[]
+```bash
+sed -i 's=latest=7.0.15-rc1=g' assets/Dockerfile
+docker build -t mongo-sample -f assets/Dockerfile .
+docker run --name mongo-guide -p 27017:27017 -d mongo-sample
+```
+endif::[]
 
 **Adding the truststore to the Open Liberty configuration**
 
