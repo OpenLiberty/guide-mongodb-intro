@@ -13,7 +13,7 @@
         <feature>mpConfig</feature>
         <!-- end::mpConfigFeature[] -->
         <!-- tag::passwordUtilFeature[] -->
-        <feature>passwordUtilities</feature>
+        <feature>passwordUtilities-1.1</feature>
         <!-- end::passwordUtilFeature[] -->
         <feature>beanValidation</feature>
         <feature>restfulWS</feature>
