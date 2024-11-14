@@ -15,7 +15,7 @@
         <!-- tag::passwordUtilFeature[] -->
         <feature>passwordUtilities</feature>
         <!-- end::passwordUtilFeature[] -->
-        <feature>beanValidation</feature>	   
+        <feature>beanValidation</feature>
         <feature>restfulWS</feature>
         <feature>jsonb</feature>
         <feature>mpOpenAPI</feature>
