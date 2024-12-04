@@ -1,4 +1,4 @@
-FROM ibmsemeruruntime/open-8-jdk:ubi-jdk as staging
+FROM icr.io/appcafe/ibm-semeru-runtimes:open-11-jdk-ubi as staging
 
 # Define the variables for the OpenSSL subject.
 ARG COUNTRY=CA
@@ -42,10 +42,11 @@ COPY assets/index.js /home/mongodb
 RUN mongod \
         --fork \
         --config /home/mongodb/mongodb.conf \
-    && mongo \
+    && mongosh \
         testdb \
         -tls \
         --tlsCAFile /home/mongodb/certs/cert.pem \
+        --tlsCertificateKeyFile: /home/mongodb/certs/mongodb_tls.pem \
         --host localhost \
         /home/mongodb/index.js \
     && mongod --dbpath /home/mongodb/data --shutdown \

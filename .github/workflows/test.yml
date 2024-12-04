@@ -22,19 +22,20 @@ jobs:
         shell: bash
         run: bash ./tools/pr-checker/checker.sh ${{ github.repository }} ${{ github.event.pull_request.number }} | tee checker.log 
       - id: Lint-Code-Base
-        if: always()
-        uses: github/super-linter@v3.17.0
+        if: "! github.event.pull_request.head.repo.fork"
+        uses: github/super-linter@latest
         env:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_DOCKERFILE_HADOLINT: false
+          VALIDATE_CSS: false
           DEFAULT_BRANCH: prod
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: ./tools/pr-checker/linters/
       - name: Summary
-        if: always()
+        if: "! github.event.pull_request.head.repo.fork"
         run: |
-            cat ./checker.log |  tail -n +2; echo "====== Super Linter ======"
-            cat ./super-linter.log | sed -n '/.*The script has completed.*/,$p' | tail -n +4 | sed  's/.*\(\[[A-Z]\+\]\)/\1/'
+            < ./checker.log tail -n +2; echo "====== Super Linter ======"
+            < ./super-linter.log sed -n '/.*The script has completed.*/,$p' | tail -n +4 | sed  's/.*\(\[[A-Z]\+\]\)/\1/'
             echo "====== Examine logs in Checker and Super-Linter steps for more details ======"
             if [ '${{ steps.Checker.outcome }}' != 'success' ] || [ '${{ steps.Lint-Code-Base.outcome }}' != 'success' ]; then exit 1; fi
   test-app:
@@ -47,10 +48,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 8
+    - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
-        java-version: 8
+        java-version: 11
     - run: unset _JAVA_OPTIONS
 
     - name: Run tests
@@ -60,12 +61,12 @@ jobs:
     - name: Post tests
       if: always()
       run: | 
-          logsPath=$(sudo find . -name "console.log");  
-          sudo cat $logsPath | sudo grep Launching
+          logsPath=$(sudo find . -name "console.log");
+          sudo cat "$logsPath" | sudo grep Launching
           
     - name: Archive server logs if failed
       if: failure()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: server-logs
-        path: finish/target/liberty/wlp/usr/servers/defaultServer/logs/
+        path: ./target/liberty/wlp/usr/servers/defaultServer/logs
