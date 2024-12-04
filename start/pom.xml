@@ -61,7 +61,7 @@
         <dependency>
             <groupId>com.ibm.websphere.appserver.api</groupId>
             <artifactId>com.ibm.websphere.appserver.api.ssl</artifactId>
-            <version>1.7.94</version>
+            <version>1.7.95</version>
             <scope>provided</scope>
         </dependency>
         <!-- end::sslDependency[] -->
