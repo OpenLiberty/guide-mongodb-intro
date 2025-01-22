@@ -3,21 +3,21 @@
     <featureManager>
         <platform>jakartaee-10.0</platform>
         <platform>microprofile-7.0</platform>
+        <feature>beanValidation</feature>
         <!-- tag::cdiFeature[] -->
         <feature>cdi</feature>
         <!-- end::cdiFeature[] -->
+        <feature>jsonb</feature>
+        <!-- tag::passwordUtilFeature[] -->
+        <feature>passwordUtilities-1.1</feature>
+        <!-- end::passwordUtilFeature[] -->
+        <feature>restfulWS</feature>
         <!-- tag::sslFeature[] -->
         <feature>ssl-1.0</feature>
         <!-- end::sslFeature[] -->
         <!-- tag::mpConfigFeature[] -->
         <feature>mpConfig</feature>
         <!-- end::mpConfigFeature[] -->
-        <!-- tag::passwordUtilFeature[] -->
-        <feature>passwordUtilities-1.1</feature>
-        <!-- end::passwordUtilFeature[] -->
-        <feature>beanValidation</feature>
-        <feature>restfulWS</feature>
-        <feature>jsonb</feature>
         <feature>mpOpenAPI</feature>
     </featureManager>
     <!-- end::featureManager[] -->
