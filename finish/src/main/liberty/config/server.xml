@@ -1,22 +1,24 @@
 <server description="Sample Liberty server">
     <!-- tag::featureManager[] -->
     <featureManager>
+        <platform>jakartaee-10.0</platform>
+        <platform>microprofile-7.0</platform>
+        <feature>beanValidation</feature>
         <!-- tag::cdiFeature[] -->
-        <feature>cdi-4.0</feature>
+        <feature>cdi</feature>
         <!-- end::cdiFeature[] -->
+        <feature>jsonb</feature>
+        <!-- tag::passwordUtilFeature[] -->
+        <feature>passwordUtilities-1.1</feature>
+        <!-- end::passwordUtilFeature[] -->
+        <feature>restfulWS</feature>
         <!-- tag::sslFeature[] -->
         <feature>ssl-1.0</feature>
         <!-- end::sslFeature[] -->
         <!-- tag::mpConfigFeature[] -->
-        <feature>mpConfig-3.1</feature>
+        <feature>mpConfig</feature>
         <!-- end::mpConfigFeature[] -->
-        <!-- tag::passwordUtilFeature[] -->
-        <feature>passwordUtilities-1.1</feature>
-        <!-- end::passwordUtilFeature[] -->
-        <feature>beanValidation-3.0</feature>	   
-        <feature>restfulWS-3.1</feature>
-        <feature>jsonb-3.0</feature>
-        <feature>mpOpenAPI-3.1</feature>
+        <feature>mpOpenAPI</feature>
     </featureManager>
     <!-- end::featureManager[] -->
 
