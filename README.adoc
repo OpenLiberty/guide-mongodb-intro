@@ -331,7 +331,9 @@ endif::[]
 
 From the OpenAPI UI, test the create operation at the `POST /api/crew` endpoint by using the following code as the request body:
 
+ifndef::cloud-hosted[]
 [role='command']
+endif::[]
 ```
 {
   "name": "Member1",
@@ -394,7 +396,9 @@ ifdef::cloud-hosted[]
 From the OpenAPI UI, test the update operation at the ***PUT /api/crew/{id}*** endpoint, where the ***{id}*** parameter is the ***\<\<ID\>\>*** that you saved from the create operation. Use the following code as the request body:
 endif::[]
 
+ifndef::cloud-hosted[]
 [role='command']
+endif::[]
 ```
 {
   "name": "Member1",
