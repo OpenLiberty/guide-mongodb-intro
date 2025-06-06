@@ -139,7 +139,7 @@ docker cp \
 // =================================================================================================
 
 [role='command']
-include::{common-includes}/twyb-intro.adoc[]
+include::{common-includes}/twyb-intro-mvnw.adoc[]
 
 ifndef::cloud-hosted[]
 You can now check out the service by going to the http://localhost:9080/mongo/[^] URL.
@@ -152,7 +152,7 @@ You can now check out the service by clicking the following button:
 endif::[]
 
 [role='command']
-include::{common-includes}/twyb-end.adoc[]
+include::{common-includes}/twyb-end-mvnw.adoc[]
 
 // =================================================================================================
 // Providing a MongoDatabase
@@ -169,7 +169,7 @@ cd /home/project/guide-mongodb-intro/start
 endif::[]
 
 [role='command']
-include::{common-includes}/devmode-lmp33-start.adoc[]
+include::{common-includes}/devmode-mvnw-start.adoc[]
 
 With a CDI producer, you can easily provide a `MongoDatabase` to your microservice.
 
