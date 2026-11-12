@@ -1,4 +1,4 @@
-FROM icr.io/appcafe/ibm-semeru-runtimes:open-11-jdk-ubi AS staging
+FROM icr.io/appcafe/ibm-semeru-runtimes:open-25-jdk-ubi AS staging
 
 # Define the variables for the OpenSSL subject.
 ARG COUNTRY=CA

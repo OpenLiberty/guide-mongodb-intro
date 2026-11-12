@@ -101,17 +101,17 @@ public class CrewServiceIT {
     // end::test2[]
     @Order(2)
     public void testUpdateCrewMember() {
-        System.out.println("   === Updating crew member with id " + testIDs.get(0)
+        System.out.println("   === Updating crew member with id " + testIDs.getFirst()
                 + ". ===");
 
-        JsonObject oldMember = (JsonObject) testData.get(0);
+        JsonObject oldMember = (JsonObject) testData.getFirst();
 
         JsonObjectBuilder newMember = Json.createObjectBuilder();
         newMember.add("name", oldMember.get("name"));
         newMember.add("crewID", oldMember.get("crewID"));
         newMember.add("rank", "Officer");
 
-        String url = rootURL + "/api/crew/" + testIDs.get(0);
+        String url = rootURL + "/api/crew/" + testIDs.getFirst();
         Response response = client.target(url).request()
                 .put(Entity.json(newMember.build()));
 
